@@ -1,0 +1,37 @@
+= Asciidoctor
+:source-highlighter: codreray
+
+== The environment
+
+This container provides:
+
+* Asciidoctor v1.5.0
+* Aciidoctor-diagram with Graphiz integration so you can use plantuml and graphiz diagrams
+* Asciidoctor-pdf (including source highlihting)
+
+== How to use it
+Just run
+[source, bash]
+----
+docker run -it -v <your directory>:/documents/  gscheibel/asciidoctor
+----
+
+It will be directly mapped with */documents* of the container.
+
+Once started you just have to create Asciidoc files (in the directory mentionned above) and run Asciidoctor commands like:
+
+* To run asciidoctor(-pdf) a simple file
++
+[source,bash]
+----
+asciidoctor myDoc.adoc
+asciidoctor-pdf myDoc.adoc
+----
+
+* To run asciidoctor(-pdf) with file contaning graphs
++
+[source, bash]
+----
+asciidoctor -r asciidoctor-diagram myDocWithDiagram.adoc
+asciidoctor-pdf -r asciidoctor-diagram myDocWithDiagram.adoc
+----
