@@ -1,37 +1,43 @@
-= Asciidoctor
-:source-highlighter: codreray
+= Asciidoctor Docker Container
+:source-highlighter: coderay
 
 == The environment
 
-This container provides:
+This Docker container provides:
 
-* Asciidoctor v1.5.0
-* Aciidoctor-diagram with Graphiz integration so you can use plantuml and graphiz diagrams
-* Asciidoctor-pdf (including source highlihting)
+* Asciidoctor 1.5.0
+* Aciidoctor Diagram with Graphviz integration so you can use plantuml and graphiz diagrams
+* Asciidoctor PDF (alpha)
+* Asciidoctor EPUB3 (alpha)
+* Source highlighting using CodeRay or Pygments
 
 == How to use it
-Just run
-[source, bash]
+
+Just run:
+
+[source,bash]
 ----
-docker run -it -v <your directory>:/documents/  gscheibel/asciidoctor
+docker run -it -v <your directory>:/documents/ gscheibel/asciidoctor
 ----
 
-It will be directly mapped with */documents* of the container.
+It will be directly mapped with [path]_/documents_ of the container.
 
-Once started you just have to create Asciidoc files (in the directory mentionned above) and run Asciidoctor commands like:
+Once started, you just have to create AsciiDoc files (in the directory mentioned above) and run Asciidoctor commands like:
 
-* To run asciidoctor(-pdf) a simple file
+* To run Asciidoctor on a basic AsciiDoc file:
 +
 [source,bash]
 ----
-asciidoctor myDoc.adoc
-asciidoctor-pdf myDoc.adoc
+asciidoctor sample.adoc
+asciidoctor-pdf sample.adoc
+asciidoctor-epub3 sample.adoc
 ----
 
-* To run asciidoctor(-pdf) with file contaning graphs
+* To run AsciiDoc on an AsciiDoc file that contains diagrams:
 +
-[source, bash]
+[source,bash]
 ----
-asciidoctor -r asciidoctor-diagram myDocWithDiagram.adoc
-asciidoctor-pdf -r asciidoctor-diagram myDocWithDiagram.adoc
+asciidoctor -r asciidoctor-diagram sample-with-diagram.adoc
+asciidoctor-pdf -r asciidoctor-diagram sample-with-diagram.adoc
+asciidoctor-epub3 -r asciidoctor-diagram sample-with-diagram.adoc
 ----
