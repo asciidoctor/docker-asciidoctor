@@ -9,6 +9,7 @@ RUN yum install -y make gcc ruby ruby-devel rubygems graphviz libxslt-devel libx
     gem install asciidoctor asciidoctor-diagram && \
     gem install --no-ri --no-rdoc nokogiri -- --use-system-libraries && \
     gem install --no-ri --no-rdoc asciidoctor-epub3 --version 1.5.0.alpha.2 && \
+    gem install --no-ri --no-rdoc epubcheck kindlegen && \
     gem install --no-ri --no-rdoc asciidoctor-pdf --version 1.5.0.alpha.5 && \
     gem install coderay pygments.rb && \
     mkdir /documents
