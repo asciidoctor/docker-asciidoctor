@@ -3,8 +3,9 @@ MAINTAINER Guillaume Scheibel <guillaume.scheibel@gmail.com>
 
 RUN yum install -y tar make gcc ruby ruby-devel rubygems graphviz rubygem-nokogiri asciidoctor
 RUN (curl -s -k -L -C - -b "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u20-b26/jdk-8u20-linux-x64.tar.gz | tar xfz -)
+RUN mkdir /fopub && curl -L https://api.github.com/repos/asciidoctor/asciidoctor-fopub/tarball | tar xzf - -C /fopub/ --strip-components=1
 ENV JAVA_HOME /jdk1.8.0_20
-ENV PATH $PATH:$JAVA_HOME/bin
+ENV PATH $PATH:$JAVA_HOME/bin:/fopub/bin
 ENV BACKENDS /asciidoctor-backends
 
 RUN gem install --no-ri --no-rdoc asciidoctor-diagram && \
