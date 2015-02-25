@@ -10,6 +10,7 @@ This Docker container provides:
 * Asciidoctor PDF (alpha)
 * Asciidoctor EPUB3 (alpha)
 * Source highlighting using CodeRay or Pygments
+* Asciidoctor-fopub
 
 == How to use it
 
@@ -40,4 +41,12 @@ asciidoctor-epub3 sample.adoc
 asciidoctor -r asciidoctor-diagram sample-with-diagram.adoc
 asciidoctor-pdf -r asciidoctor-diagram sample-with-diagram.adoc
 asciidoctor-epub3 -r asciidoctor-diagram sample-with-diagram.adoc
+----
+
+* To use fopub, you first need to generate the docbook file then use fopub:
++
+[source, bash]
+----
+asciidoctor -b docbook sample.adoc
+fopub sample.xml
 ----
