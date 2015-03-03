@@ -19,7 +19,7 @@ Just run:
 
 [source,bash]
 ----
-docker run -it -v <your directory>:/documents/ gscheibel/asciidoctor
+docker run -it -v <your directory>:/documents/ asciidoctor/docker-asciidoctor
 ----
 
 It will be directly mapped with [path]_/documents_ of the container.
