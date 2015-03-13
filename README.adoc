@@ -12,6 +12,7 @@ This Docker container provides:
 * Source highlighting using CodeRay or Pygments
 * Asciidoctor backends
 * Asciidoctor-fopub
+* Asciidoctor-confluence
 
 == How to use it
 
@@ -58,4 +59,11 @@ asciidoctor -T $BACKENDS/slim/dzslides myFile.adoc
 ----
 asciidoctor -b docbook sample.adoc
 fopub sample.xml
+----
+
+* To use asciidoctor-confluence
++
+[source, bash]
+----
+asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
 ----
