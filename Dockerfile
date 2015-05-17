@@ -19,6 +19,14 @@ RUN gem install --no-ri --no-rdoc asciidoctor-diagram && \
     mkdir $BACKENDS && \
     (curl -LkSs https://api.github.com/repos/asciidoctor/asciidoctor-backends/tarball | tar xfz - -C $BACKENDS --strip-components=1)
 
+# Install blockdiag, seqdiag, actdiag and nwdiag diagram tools
+RUN yum install -y wget python-devel zlib-devel
+RUN wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -O - | python
+RUN easy_install "blockdiag[pdf]"
+RUN easy_install seqdiag
+RUN easy_install actdiag
+RUN easy_install nwdiag
+
 WORKDIR /documents
 VOLUME /documents
 
