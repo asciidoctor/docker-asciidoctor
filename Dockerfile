@@ -8,8 +8,6 @@ ENV JAVA_HOME /jdk1.8.0_20
 ENV PATH $PATH:$JAVA_HOME/bin:/fopub/bin
 ENV BACKENDS /asciidoctor-backends
 
-COPY gvm/config /root/.gvm/etc/
-
 RUN yum install -y tar \
     make \
     gcc \
@@ -46,6 +44,7 @@ RUN yum install -y tar \
   && easy_install actdiag \
   && easy_install nwdiag \
   && (curl -s get.gvmtool.net | bash) \
+  && echo "gvm_auto_answer=true" | tee -a /root/.gvm/etc/config \
   && /bin/bash -c "source /root/.gvm/bin/gvm-init.sh" \
   && /bin/bash -c -l gvm install lazybones
 
