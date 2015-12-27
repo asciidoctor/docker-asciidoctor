@@ -5,7 +5,7 @@
 
 This Docker container provides:
 
-* Asciidoctor 1.5.2
+* Asciidoctor 1.5.3
 * Aciidoctor Diagram with Graphviz integration so you can use plantuml and graphiz diagrams
 * Asciidoctor PDF (alpha)
 * Asciidoctor EPUB3 (alpha)
@@ -13,6 +13,7 @@ This Docker container provides:
 * Asciidoctor backends
 * Asciidoctor-fopub
 * Asciidoctor-confluence
+* Lazybones (for Asciidoctor-revealjs)
 
 == How to use it
 
