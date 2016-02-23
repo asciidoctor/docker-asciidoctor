@@ -1,0 +1,10 @@
+= A basic ePub written in ASCIIDoc with diagrams=
+Damien DUPORTAL
+:doctype: book
+:lang: en
+:doctitle: A basic ePub written in ASCIIDoc
+:publisher: dduportal
+:imagesdir: images
+
+
+include::simple-diag.adoc[]

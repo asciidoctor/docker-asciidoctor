@@ -34,6 +34,30 @@ docker_run_asciidoc_test() {
 @test "A simple (but adapted) asciidoc source can be converted to ePub" {
   docker_run_asciidoc_test asciidoctor-epub3 -D /out /documents/simple-epub.adoc
 
-  cat "${TMP_RENDERING_DIR}/simple-epub.epub" | strings | grep 'mimetypeapplication/epub'
+  cat "${TMP_RENDERING_DIR}/simple-epub.epub" | strings \
+    | grep 'mimetypeapplication/epub'
+
+}
+
+@test "A simple asciidoc with different diagrams can be converted to HTML" {
+  docker_run_asciidoc_test asciidoctor -D /out -r asciidoctor-diagram \
+    /documents/simple-diag.adoc
+
+  grep html "${TMP_RENDERING_DIR}/simple-diag.html"
+}
+
+# @test "A simple asciidoc source can be converted to PDF" {
+#   docker_run_asciidoc_test asciidoctor-pdf -D /out -r asciidoctor-diagram \
+#     /documents/simple-diag.adoc
+#
+#   cat "${TMP_RENDERING_DIR}/simple-diag.pdf" | strings | grep %PDF
+# }
+
+@test "A simple (but adapted) asciidoc source can be converted to ePub" {
+  docker_run_asciidoc_test asciidoctor-epub3 -D /out -r asciidoctor-diagram \
+    /documents/simple-diag-epub.adoc
+
+  cat "${TMP_RENDERING_DIR}/simple-diag-epub.epub" | strings \
+    | grep 'mimetypeapplication/epub'
 
 }

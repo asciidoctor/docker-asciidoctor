@@ -1,0 +1,60 @@
+= Testing docker-Asciidoctor
+
+The goal here is to test diagram generation :
+
+== A diaa diagram
+
+etvoila :
+
+[ditaa]
+....
+                   +-------------+
+                   | Asciidoctor |-------+
+                   |   diagram   |       |
+                   +-------------+       | PNG out
+                       ^                 |
+                       | ditaa in        |
+                       |                 v
+ +--------+   +--------+----+    /---------------\
+ |        | --+ Asciidoctor +--> |               |
+ |  Text  |   +-------------+    |   Beautiful   |
+ |Document|   |   !magic!   |    |    Output     |
+ |     {d}|   |             |    |               |
+ +---+----+   +-------------+    \---------------/
+     :                                   ^
+     |          Lots of work             |
+     +-----------------------------------+
+....
+
+== A Graphviz one
+
+Hop :
+
+[graphviz]
+....
+graph {
+		a -- b;
+		b -- c;
+		a -- c;
+		d -- c;
+		e -- c;
+		e -- a;
+	}
+....
+
+
+== A PlantUML Diagram in SVG (combo !)
+
+tadam :
+
+[plantuml, diagram-classes, svg]
+....
+class BlockProcessor
+class DiagramBlock
+class DitaaBlock
+class PlantUmlBlock
+
+BlockProcessor <|-- DiagramBlock
+DiagramBlock <|-- DitaaBlock
+DiagramBlock <|-- PlantUmlBlock
+....
