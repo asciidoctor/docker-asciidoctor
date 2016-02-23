@@ -1,0 +1,15 @@
+= Testing docker-Asciidoctor
+Doc Writer <doc@example.com>
+
+A sample and simple test about
+https://github.com/asciidoctor/docker-asciidoctor[Docker image for asciidoctor]
+
+
+== First Section
+
+We will test :
+* Asciidoc -> HTML
+* Asciidoc -> PDF
+
+[source,ruby]
+puts "Test is working !"
