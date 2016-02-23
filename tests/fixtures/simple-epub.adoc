@@ -1,9 +1,10 @@
-= LA GRANDE DÉFAITE 1870-1871 =
-Alain Gouttman
+= A basic ePub written in ASCIIDoc =
+Damien DUPORTAL
 :doctype: book
-:lang: fr
-:doctitle: La Grande Défaite 1879-1871
-:publisher: Perrin
+:lang: en
+:doctitle: A basic ePub written in ASCIIDoc
+:publisher: dduportal
 :imagesdir: images
-:front-cover-image: image:La_grande_defaite.jpg[Front Cover,1050,1600]
-:epub3-stylesdir: styles
+
+
+include::simple.adoc[]
