@@ -4,6 +4,8 @@ BASE_DIR="${BATS_TEST_DIRNAME}/../.."
 FIXTURE_DIR="${BASE_DIR}/tests/fixtures"
 TMP_RENDERING_DIR="${BASE_DIR}/.tmp-render"
 
+: ${DOCKER_IMAGE_NAME:='asciidoctor/docker-asciidoctor:latest'}
+
 ## Those function are executed before/after each test case
 setup() {
   mkdir -p "${TMP_RENDERING_DIR}" >&2
@@ -15,7 +17,7 @@ teardown() {
 ## Utility function to launch a container with premounting fixtures for tests
 docker_run_asciidoc_test() {
   docker run -it -v "${FIXTURE_DIR}":/documents -v "${TMP_RENDERING_DIR}":/out \
-      docker-asciidoctor ${*}
+      "${DOCKER_IMAGE_NAME}" ${*}
 }
 
 ## Those are the tests
