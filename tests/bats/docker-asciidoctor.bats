@@ -73,3 +73,12 @@ docker_run_asciidoc_test() {
   grep 'dzslides' "${TMP_RENDERING_DIR}/slides.html"
 
 }
+
+@test "Reusing the simple Adoc with docbook and fopub" {
+  docker_run_asciidoc_test asciidoctor -D /out -b docbook ./simple.adoc
+  grep '<?xml' "${TMP_RENDERING_DIR}/simple.xml"
+
+  docker_run_asciidoc_test fopub /out/simple.xml
+  cat "${TMP_RENDERING_DIR}/simple.pdf" | strings | grep %PDF
+
+}

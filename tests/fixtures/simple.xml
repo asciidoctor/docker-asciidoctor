@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>Testing docker-Asciidoctor</title>
+<date>2016-02-23</date>
+<author>
+<personname>
+<firstname>Doc</firstname>
+<surname>Writer</surname>
+</personname>
+<email>doc@example.com</email>
+</author>
+<authorinitials>DW</authorinitials>
+</info>
+<simpara>A sample and simple test about
+<link xl:href="https://github.com/asciidoctor/docker-asciidoctor">Docker image for asciidoctor</link></simpara>
+<section xml:id="_first_section">
+<title>First Section</title>
+<simpara>We will test :
+* Asciidoc &#8594; HTML
+* Asciidoc &#8594; PDF</simpara>
+<programlisting language="ruby" linenumbering="unnumbered">puts "Test is working !"</programlisting>
+</section>
+</article>
