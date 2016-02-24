@@ -1,0 +1,368 @@
+/*
+ Theme: Truffle
+ Fonts: ???
+
+ <link href="http://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+TODO:
+
+- slightly elevate .middle
+*/
+html, .view body {
+  background: #333 url(../../images/gray-noise.png) repeat;
+  /*
+  font-family: 'Comfortaa', sans-serif;
+  font-family: 'Sansita One', sans-serif;
+  */
+  font-family: 'Racing Sans One', sans-serif;
+  counter-reset: slideidx;
+}
+
+body, .view section {
+  /*background-color: white;*/
+}
+
+section {
+  background-color: white;
+  font-size: 2em;
+  color: #06263C;
+}
+
+.view head > title {
+  font-size: 2.5em;
+}
+
+.view section:after {
+  counter-increment: slideidx;
+  content: counter(slideidx, decimal-leading-zero);
+  position: absolute;
+  bottom: -80px;
+  right: 100px;
+  color: white;
+}
+
+.view head > title {
+  color: white;
+  text-align: center;
+  margin: 1em 0;
+}
+
+section {
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  text-rendering: optimizeLegibility;
+}
+
+section h1,
+section h2 {
+  text-align: center;
+  font-size: 2.75em;
+  line-height: 1;
+
+  /* Comfortaa */
+  /**
+  font-weight: bold;
+  /**/
+
+  /* Racing Sans One */
+  /**/
+  font-weight: normal;
+  /**/
+
+  /* vertical align CSS, see http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css */
+  position: relative;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+section.title h1 {
+  top: 40%;
+}
+
+section.title h1 strong {
+  font-weight: inherit;
+  color: #570000;
+}
+
+section h2 {
+  top: 50%;
+}
+
+section h2 em {
+  font-style: normal;
+  color: #570000;
+}
+
+section ul {
+  list-style: none;
+  font-size: 2em;
+  margin: 0.5em 0.5em 0.5em 1em;
+}
+
+section ul.scatter {
+  margin: 0.25em 1em;
+}
+
+section ul > li {
+  line-height: 1;
+  margin-bottom: 0.25em;
+}
+
+section ul.split > li,
+section ul.scatter > li {
+  margin-bottom: 0.5em;
+}
+
+section ul.split > li {
+  width: 50%;
+}
+
+section ul.split > li:nth-of-type(2n),
+section ul.scatter > li:nth-of-type(2n) {
+  float: right;
+}
+
+section ul.split > li:nth-of-type(2n - 1),
+section ul.scatter > li:nth-of-type(2n - 1) {
+  float: left;
+}
+
+section ul.scatter > li:nth-of-type(2n) {
+  clear: left;
+  text-align: right;
+}
+
+section ul.scatter > li:nth-of-type(2n - 1) {
+  clear: right;
+}
+
+section ul.middle {
+  margin: 0;
+}
+
+section li strong {
+  font-weight: normal;
+  color: #570000;
+}
+
+section.source {
+  padding: .75em 1em;
+}
+
+section.source h2 {
+  position: static;
+  top: 0;
+  -webkit-transform: none;
+  -moz-transform: none;
+  transform: none;
+  text-align: right;
+  font-size: 1.5em;
+}
+
+pre.literal,
+code {
+  font-family: "M+ 1mn", monospace;
+  font-size: 0.65em;
+}
+
+pre.literal,
+pre code {
+  color: #222;
+  line-height: 1.25;
+}
+
+pre code {
+  margin-top: 0.5em;
+  background-color: #F5F5F5;
+  border: 1px solid #DDD;
+  padding: 0.5em;
+}
+
+pre.literal {
+  margin-top: 0.75em;
+  padding: 0 0.5em;
+}
+
+blockquote:before {
+  content: open-quote;
+}
+
+blockquote:after {
+  content: close-quote;
+}
+
+/* Figures are displayed full-page, with the caption
+   on top of the image/video */
+figure {
+  background-color: black;
+}
+
+figcaption {
+  color: #222;
+  display: block;
+  background-color: #F5F5F5;
+  opacity: 0.75;
+  /*position: absolute;*/
+  bottom: 5%;
+  font-size: 1.5em;
+  width: 100%; 
+  padding: 0.25em 0.5em 0 0.5em;
+}
+
+*:not(figure) > img.canvas {
+  width: 100%;
+  height: 100%;
+}
+
+img.fit {
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  display: block;
+  /*
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  transform: translateY(-50%);
+  */
+}
+
+img.fill-y {
+  height: 100%;
+}
+
+img.fill-x {
+  width: 100%;
+}
+
+section.tweet {
+  background-color: #F5F5F5;
+}
+
+section.tweet > .twitter-tweet {
+  display: none;
+}
+
+section.tweet > .twitter-tweet-rendered {
+  margin: 0 auto !important;
+  -webkit-transform: translateY(50%);
+  -moz-transform: translateY(50%);
+  transform: translateY(50%);
+}
+
+div.title {
+  color: #222;
+  font-size: 0.75em;
+  margin-top: 0.5em;
+  margin-bottom: 0.25em;
+}
+
+.title + pre {
+  margin-top: 0;
+}
+
+.middle {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.eg, .ie {
+  font-size: 0.7em;
+  color: #bdbdbd;
+}
+
+section.ruby {
+  background-color: #E62D37;
+}
+
+footer {
+  color: #222;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #F5F5F5;
+  border-top: 1px solid #DDD;
+}
+
+.view section {
+  -moz-transition: none;
+  -webkit-transition: none;
+  -ms-transition: none;
+  transition: none;
+}
+
+.view section[aria-selected] {
+  border: 5px lightblue solid;
+}
+
+/* Incremental elements */
+.incremental:not([active]) > * {
+  left: 0;
+  opacity: 0;
+}
+
+/* Items already covered */
+.incremental > * {
+  opacity: 0.75;
+}
+
+/* Current item */
+.incremental > *[aria-selected] {
+  opacity: 1;
+}
+
+/* Items to be shown */
+.incremental > *[aria-selected] ~ * {
+  opacity: 0;
+}
+
+/* Items already covered */
+ul[class="incremental"] > * {
+  left: 10%;
+  position: relative;
+  -webkit-transition: left 450ms ease-in-out 0s;
+  -moz-transition: left 450ms ease-in-out 0s;
+  transition: left 450ms ease-in-out 0s;
+}
+
+/* Current item */
+ul[class="incremental"] > *[aria-selected] {
+  left: 0;
+}
+
+/* Items to be shown */
+ul[class="incremental"] > *[aria-selected] ~ * {
+  left: 0;
+}
+
+/* FIXME move me to the core stylesheet! */
+.view .incremental > * {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* The progressbar, at the bottom of the slides, show the global
+   progress of the presentation. */
+#progress-bar {
+  display: none;
+}

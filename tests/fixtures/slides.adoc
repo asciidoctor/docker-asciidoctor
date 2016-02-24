@@ -1,0 +1,32 @@
+= DZSlides Demo
+Your Name
+:backend: dzslides
+:dzslides-style: stormy
+:dzslides-transition: fade
+:dzslides-fonts: family=Yanone+Kaffeesatz:400,700,200,300&family=Cedarville+Cursive
+:dzslides-highlight: monokai
+:source-highlighter: highlightjs
+
+[.topic.intro]
+== Intro
+
+== !
+
+*Title*
+
+== !
+
+[.incremental]
+* dzslides
+* deckjs
+
+[.topic.source]
+== Source
+
+[source,ruby]
+--
+puts 'Hello, World!'
+--
+
+[.topic.ending]
+== Fin!

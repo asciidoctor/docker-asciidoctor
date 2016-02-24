@@ -1,0 +1,74 @@
+#!/usr/bin/env groovy
+
+/**
+ * slides2png plays a dzslides presentation using WebDriver, captures each
+ * slide to a PNG and generates a shell script to collate the PNGs together
+ * into a PDF using convert (from ImageMagick).
+ *
+ * The URL of the presentation is passed as the sole argument to the script.
+ * If the presentation is local, specify the absolute path prefixed with the
+ * file:// protocol.
+ *
+ * Make sure to set your screen resolution to the aspect ratio of the slides.
+ *
+ * @author Dan Allen
+ * @license ASLv2
+ */
+
+@Grapes([
+    @Grab("org.gebish:geb-core:0.9.0"),
+    @Grab("org.seleniumhq.selenium:selenium-support:2.32.0"),
+// Firefox is currently broken, won't see body as visible element
+//    @Grab("org.seleniumhq.selenium:selenium-firefox-driver:2.32.0")
+    @Grab("org.seleniumhq.selenium:selenium-chrome-driver:2.32.0")
+])
+import geb.Browser
+import org.openqa.selenium.Keys
+
+if (args.length == 0) {
+  println "Please specify the URL of the presentation"
+  return
+}
+
+def url = args[0]
+
+def reportsDir = '/tmp/geb-reports'
+if (args.length > 1) {
+  reportsDir = args[1]
+}
+
+userHome = System.getProperty("user.home")
+System.setProperty("webdriver.chrome.driver", "${userHome}/opt/chromedriver")
+
+Browser.drive {
+    config.reportsDir = new File(reportsDir)
+    cleanReportGroupDir()
+    go url
+ 
+    // could wait for body.loaded instead of this sleep
+    sleep 3000
+    def idx = 1
+    def body = $('body')
+    body << 'f'
+    sleep 1000
+    def script = null
+    def selected = null
+    while (idx == 1 || !selected.lastElement().equals($('[aria-selected=true]').lastElement())) {
+      selected = $('[aria-selected=true]').last()
+      report "slide_" + idx
+      if (script == null) {
+        script = new File(getReportGroupDir(), 'to_pdf.sh')
+        // the chopping may be browser, presentation or platform specific; investigation required
+        //script.append("#!/bin/sh\n\ncd `dirname \$0`\nconvert -gravity South -chop 0x6 -gravity North -chop 0x4")
+        // change resolution of monitor to get proper dimensions of slides
+        script.append("#!/bin/sh\n\ncd `dirname \$0`\nconvert")
+      }
+      script.append(' slide_' + idx + '.png')
+      body << Keys.PAGE_DOWN
+      idx++
+      sleep 500
+    }
+    script.append(' presentation.pdf')
+    script.executable = true
+    [script.absolutePath].execute().waitFor()
+}.quit()

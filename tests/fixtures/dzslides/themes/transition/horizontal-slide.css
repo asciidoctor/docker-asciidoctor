@@ -1,0 +1,21 @@
+/* Horizontal slide transition */
+section {
+  -moz-transition: left 500ms ease-in-out 0s;
+  -webkit-transition: left 500ms ease-in-out 0s;
+  -ms-transition: left 500ms ease-in-out 0s;
+  transition: left 500ms ease-in-out 0s;
+}
+/* Before */
+section {
+  left: -150%;
+  opacity: 1;
+}
+/* Current */
+section[aria-selected] {
+  left: 0;
+}
+/* After */
+section[aria-selected] ~ section {
+  left: 150%;
+  opacity: 1;
+}

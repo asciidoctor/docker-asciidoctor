@@ -1,0 +1,7 @@
+/* No transition */
+section {
+  -moz-transition: none;
+  -webkit-transition: none;
+  -ms-transition: none;
+  transition: none;
+}

@@ -1,0 +1,21 @@
+/* Vertical slide transition */
+section {
+  -moz-transition: top 500ms ease-in-out 0s;
+  -webkit-transition: top 500ms ease-in-out 0s;
+  -ms-transition: top 500ms ease-in-out 0s;
+  transition: top 500ms ease-in-out 0s;
+}
+/* Before */
+section {
+  top: -100%;
+  opacity: 1;
+}
+/* Current */
+section[aria-selected] {
+  top: 0;
+}
+/* After */
+section[aria-selected] ~ section {
+  top: 100%;
+  opacity: 1;
+}
