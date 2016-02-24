@@ -68,3 +68,36 @@ fopub sample.xml
 ----
 asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
 ----
+
+== How to build it / Contribute
+
+=== Requirements
+
+If you want to build and test this images, you will need :
+
+* bash
+* make
+* https://github.com/sstephenson/bats[Bats]
+* Of course, a Docker client connected a Docker Engine
+
+=== Quick start
+
+Juste call make from the root of the repository :
+[source, bash]
+----
+$ make
+----
+
+It will build the image and run tests against it.
+
+=== In-depth
+
+Make is just used to create a "workflow".
+Thus, the underlying building and testing frameworks can be changed easily
+without breaking all contributors habits.
+
+There are 3 make targets :
+
+* build : which goal is to create locally the Docker image
+* test : launch the test suite against the local image
+* all (default target) : Call the "build" AND "test" targets 
