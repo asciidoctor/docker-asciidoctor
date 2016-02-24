@@ -1,34 +1,32 @@
-FROM fedora
+FROM alpine:3.3
 
 MAINTAINER Guillaume Scheibel <guillaume.scheibel@gmail.com>
+MAINTAINER Damien DUPORTAL <damien.duportal@gmail.com>
 
-ENV JAVA_HOME /jdk1.8.0_20
-ENV PATH $PATH:$JAVA_HOME/bin:/fopub/bin
+ENV JAVA_HOME /usr/lib/jvm/default-jvm
+ENV PATH ${PATH}:${JAVA_HOME}/bin:/fopub/bin
 ENV BACKENDS /asciidoctor-backends
 ENV GVM_AUTO_ANSWER true
 ENV ASCIIDOCTOR_VERSION "1.5.4"
 
-RUN dnf install -y tar \
-    make \
-    gcc \
-    ruby \
-    ruby-devel \
-    rubygems \
+RUN apk --update add \
+    bash \
+    build-base \
+    curl \
     graphviz \
-    rubygem-nokogiri \
+    openjdk8 \
+    python \
+    python-dev \
+    py-pillow \
+    ruby \
+    ruby-dev \
+    ruby-nokogiri \
+    tar \
+    ttf-liberation \
     unzip \
-    findutils \
-    which \
-    wget \
-    python-devel \
-    zlib-devel \
-    libjpeg-devel \
-    redhat-rpm-config \
-    patch \
-  && dnf clean packages \
-  && (curl -s -k -L -C - -b "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u20-b26/jdk-8u20-linux-x64.tar.gz | tar xfz -) \
+    zlib \
   && mkdir /fopub \
-  && curl -L https://api.github.com/repos/asciidoctor/asciidoctor-fopub/tarball | tar xzf - -C /fopub/ --strip-components=1 \
+  && curl -L -s https://api.github.com/repos/asciidoctor/asciidoctor-fopub/tarball | tar xzf - -C /fopub/ --strip-components=1 \
   && touch empty.xml \
   && fopub empty.xml \
   && rm empty.xml \
@@ -42,7 +40,7 @@ RUN dnf install -y tar \
   && gem install --no-ri --no-rdoc haml tilt \
   && mkdir $BACKENDS \
   && (curl -LkSs https://api.github.com/repos/asciidoctor/asciidoctor-backends/tarball | tar xfz - -C $BACKENDS --strip-components=1) \
-  && wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -O - | python \
+  && curl -L -s https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py | python \
   && easy_install "blockdiag[pdf]" \
   && easy_install seqdiag \
   && easy_install actdiag \
@@ -50,7 +48,14 @@ RUN dnf install -y tar \
   && (curl -s get.sdkman.io | bash) \
   && /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh" \
   && /bin/bash -c "echo sdkman_auto_answer=true > ~/.sdkman/etc/config" \
-  && /bin/bash -c -l "sdk install lazybones"
+  && /bin/bash -c -l "sdk install lazybones" \
+  && apk del -r \
+    build-base \
+    curl \
+    python-dev \
+    ruby-dev \
+    unzip \
+  && rm -rf /var/cache/apk/*
 
 WORKDIR /documents
 VOLUME /documents
