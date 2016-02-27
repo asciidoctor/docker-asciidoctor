@@ -40,6 +40,7 @@ RUN apk --update add \
   && gem install --no-ri --no-rdoc haml tilt \
   && mkdir $BACKENDS \
   && (curl -LkSs https://api.github.com/repos/asciidoctor/asciidoctor-backends/tarball | tar xfz - -C $BACKENDS --strip-components=1) \
+  && (curl -LkSs https://api.github.com/repos/asciidoctor/asciidoctor-reveal.js/tarball | tar xfz - -C /asciidoctor-backends/slim/revealjs/ --strip-components=3) \
   && curl -L -s https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py | python \
   && easy_install "blockdiag[pdf]" \
   && easy_install seqdiag \
@@ -56,6 +57,9 @@ RUN apk --update add \
     ruby-dev \
     unzip \
   && rm -rf /var/cache/apk/*
+
+RUN rm /asciidoctor-backends/slim/revealjs/README.adoc
+RUN rm /asciidoctor-backends/slim/dzslides/README.adoc
 
 WORKDIR /documents
 VOLUME /documents
