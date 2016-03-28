@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:latest
 
 MAINTAINER Guillaume Scheibel <guillaume.scheibel@gmail.com>
 MAINTAINER Damien DUPORTAL <damien.duportal@gmail.com>
