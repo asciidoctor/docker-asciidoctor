@@ -29,9 +29,9 @@ RUN dnf install -y tar \
   && (curl -s -k -L -C - -b "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u20-b26/jdk-8u20-linux-x64.tar.gz | tar xfz -) \
   && mkdir /fopub \
   && curl -L https://api.github.com/repos/asciidoctor/asciidoctor-fopub/tarball | tar xzf - -C /fopub/ --strip-components=1 \
-  && touch empty.xml \
-  && fopub empty.xml \
-  && rm empty.xml \
+  && touch /tmp/empty.xml \
+  && fopub /tmp/empty.xml \
+  && rm /tmp/empty.xml \
   && gem install --no-ri --no-rdoc asciidoctor --version $ASCIIDOCTOR_VERSION \
   && gem install --no-ri --no-rdoc asciidoctor-diagram \
   && gem install --no-ri --no-rdoc asciidoctor-epub3 --version 1.5.0.alpha.6 \
