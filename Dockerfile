@@ -2,11 +2,11 @@ FROM fedora
 
 MAINTAINER Guillaume Scheibel <guillaume.scheibel@gmail.com>
 
-ENV JAVA_HOME /jdk1.8.0_20
+ENV JAVA_HOME /jdk1.8.0_112
 ENV PATH $PATH:$JAVA_HOME/bin:/fopub/bin
 ENV BACKENDS /asciidoctor-backends
 ENV GVM_AUTO_ANSWER true
-ENV ASCIIDOCTOR_VERSION "1.5.4"
+ENV ASCIIDOCTOR_VERSION "1.5.5"
 
 RUN dnf install -y tar \
     make \
@@ -26,12 +26,12 @@ RUN dnf install -y tar \
     redhat-rpm-config \
     patch \
   && dnf clean packages \
-  && (curl -s -k -L -C - -b "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u20-b26/jdk-8u20-linux-x64.tar.gz | tar xfz -) \
+  && (curl -s -k -L -C - -b "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz | tar xfz -) \
   && mkdir /fopub \
   && curl -L https://api.github.com/repos/asciidoctor/asciidoctor-fopub/tarball | tar xzf - -C /fopub/ --strip-components=1 \
-  && touch empty.xml \
-  && fopub empty.xml \
-  && rm empty.xml \
+  && touch /tmp/empty.xml \
+  && fopub /tmp/empty.xml \
+  && rm /tmp/empty.xml \
   && gem install --no-ri --no-rdoc asciidoctor --version $ASCIIDOCTOR_VERSION \
   && gem install --no-ri --no-rdoc asciidoctor-diagram \
   && gem install --no-ri --no-rdoc asciidoctor-epub3 --version 1.5.0.alpha.6 \
