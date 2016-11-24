@@ -25,6 +25,7 @@ RUN dnf install -y tar \
     libjpeg-devel \
     redhat-rpm-config \
     patch \
+    sudo \
   && dnf clean packages \
   && (curl -s -k -L -C - -b "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u20-b26/jdk-8u20-linux-x64.tar.gz | tar xfz -) \
   && mkdir /fopub \
