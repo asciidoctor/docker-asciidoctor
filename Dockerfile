@@ -1,19 +1,12 @@
-FROM fedora:latest
+FROM fedora
 
 MAINTAINER Guillaume Scheibel <guillaume.scheibel@gmail.com>
 
-# Set a useful default locale
-#RUN echo "export LANG=en_US.utf-8" > /opt/export_LANG.sh
-#ENV BASH_ENV=/opt/export_LANG.sh \
-#    ENV=/opt/export_LANG.sh \
-#    PROMPT_COMMAND="source /opt/export_LANG.sh"
-#ENV LANG en_US.UTF-8
-
-ENV JAVA_HOME /jdk1.8.0_20
+ENV JAVA_HOME /jdk1.8.0_112
 ENV PATH $PATH:$JAVA_HOME/bin:/fopub/bin
 ENV BACKENDS /asciidoctor-backends
 ENV GVM_AUTO_ANSWER true
-ENV ASCIIDOCTOR_VERSION "1.5.4"
+ENV ASCIIDOCTOR_VERSION "1.5.5"
 
 RUN dnf install -y tar \
     make \
@@ -33,20 +26,20 @@ RUN dnf install -y tar \
     redhat-rpm-config \
     patch \
   && dnf clean packages \
-  && (curl -s -k -L -C - -b "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u20-b26/jdk-8u20-linux-x64.tar.gz | tar xfz -) \
-# && mkdir /fopub \
-#  && curl -L https://api.github.com/repos/asciidoctor/asciidoctor-fopub/tarball | tar xzf - -C /fopub/ --strip-components=1 \
-#  && touch empty.xml \
-#  && fopub empty.xml \
-#  && rm empty.xml \
-  && gem install --no-document asciidoctor --version $ASCIIDOCTOR_VERSION \
-  && gem install --no-document asciidoctor-diagram \
-  && gem install --no-document asciidoctor-epub3 --version 1.5.0.alpha.6 \
-  && gem install --no-document asciidoctor-pdf --version 1.5.0.alpha.13 \
-  && gem install --no-document asciidoctor-confluence \
-  && gem install --no-document rouge coderay pygments.rb thread_safe epubcheck kindlegen \
-  && gem install --no-document slim \
-  && gem install --no-document haml tilt \
+  && (curl -s -k -L -C - -b "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz | tar xfz -) \
+  && mkdir /fopub \
+  && curl -L https://api.github.com/repos/asciidoctor/asciidoctor-fopub/tarball | tar xzf - -C /fopub/ --strip-components=1 \
+  && touch empty.xml \
+  && fopub empty.xml \
+  && rm empty.xml \
+  && gem install --no-ri --no-rdoc asciidoctor --version $ASCIIDOCTOR_VERSION \
+  && gem install --no-ri --no-rdoc asciidoctor-diagram \
+  && gem install --no-ri --no-rdoc asciidoctor-epub3 --version 1.5.0.alpha.6 \
+  && gem install --no-ri --no-rdoc asciidoctor-pdf --version 1.5.0.alpha.13 \
+  && gem install --no-ri --no-rdoc asciidoctor-confluence \
+  && gem install --no-ri --no-rdoc rouge coderay pygments.rb thread_safe epubcheck kindlegen \
+  && gem install --no-ri --no-rdoc slim \
+  && gem install --no-ri --no-rdoc haml tilt \
   && mkdir $BACKENDS \
   && (curl -LkSs https://api.github.com/repos/asciidoctor/asciidoctor-backends/tarball | tar xfz - -C $BACKENDS --strip-components=1) \
   && wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -O - | python \
