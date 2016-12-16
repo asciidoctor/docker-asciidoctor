@@ -40,9 +40,9 @@ RUN dnf install -y tar \
   && gem install --no-ri --no-rdoc rouge coderay pygments.rb thread_safe epubcheck kindlegen \
   && gem install --no-ri --no-rdoc slim \
   && gem install --no-ri --no-rdoc haml tilt \
+  && gem install --no-ri --no-rdoc asciidoctor-revealjs \
   && mkdir $BACKENDS \
   && (curl -LkSs https://api.github.com/repos/asciidoctor/asciidoctor-backends/tarball | tar xfz - -C $BACKENDS --strip-components=1) \
-  && (curl -LkSs https://github.com/asciidoctor/asciidoctor-reveal.js/archive/v1.0.1.tar.gz | tar xz -C $BACKENDS/slim/revealjs --strip-components 1) \
   && wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -O - | python \
   && easy_install "blockdiag[pdf]" \
   && easy_install seqdiag \
