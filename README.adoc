@@ -1,4 +1,6 @@
 = Asciidoctor Docker Container
+
+image:https://badges.gitter.im/asciidoctor/docker-asciidoctor.svg[link="https://gitter.im/asciidoctor/docker-asciidoctor?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"]
 :source-highlighter: coderay
 
 == The environment
