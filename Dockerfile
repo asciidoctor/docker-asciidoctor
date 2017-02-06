@@ -26,6 +26,7 @@ RUN dnf install -y tar \
     redhat-rpm-config \
     patch \
     sudo \
+    liberation-fonts \
   && dnf clean packages \
   && (curl -s -k -L -C - -b "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz | tar xfz -) \
   && mkdir /fopub \
