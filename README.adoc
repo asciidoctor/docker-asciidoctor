@@ -68,3 +68,10 @@ fopub sample.xml
 ----
 asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
 ----
+
+* Batch mode. You can use it in a "batch" mode 
++
+[source, bash]
+----
+docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
+----
