@@ -38,6 +38,12 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME}" which fopub
 }
 
+@test "fopub can be run on an empty xml" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME}" bash -c "touch /tmp/empty.xml \
+    && fopub /tmp/empty.xml \
+    && rm /tmp/empty.xml"
+}
+
 @test "asciidoctor-confluence is installed and in the path" {
   docker run -t --rm "${DOCKER_IMAGE_NAME}" which asciidoctor-confluence
 }
