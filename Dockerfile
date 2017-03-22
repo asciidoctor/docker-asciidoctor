@@ -42,6 +42,7 @@ RUN apk --update --no-cache add \
   && gem install --no-ri --no-rdoc rake \
   && gem install --no-ri --no-rdoc epubcheck --version 3.0.1 \
   && gem install --no-ri --no-rdoc kindlegen --version 3.0.1 \
+  && gem install prawn --version 2.1.0 \
   && gem install --no-ri --no-rdoc asciidoctor-pdf --version 1.5.0.alpha.14 \
   && gem install --no-ri --no-rdoc asciidoctor-confluence \
   && gem install --no-ri --no-rdoc rouge coderay pygments.rb thread_safe epubcheck kindlegen \
