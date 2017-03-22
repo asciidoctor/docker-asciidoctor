@@ -54,20 +54,18 @@ RUN apk --update --no-cache add \
   && easy_install 'blockdiag[pdf]' \
   && easy_install seqdiag \
   && easy_install actdiag \
-  && easy_install nwdiag
-
-RUN (curl -s get.sdkman.io | bash)
-
-RUN /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh" \
-  && /bin/bash -c "echo sdkman_auto_answer=true > ~/.sdkman/etc/config" \
-  && /bin/bash -c -l "sdk install lazybones"
-
-RUN apk del -r \
+  && easy_install nwdiag \
+  && (curl -s get.sdkman.io | bash) \
+  && bash -c "source /root/.sdkman/bin/sdkman-init.sh" \
+  && bash -c "echo sdkman_auto_answer=true > ~/.sdkman/etc/config" \
+  && bash -c -l "sdk install lazybones"
+  && apk del -r \
     build-base \
     curl \
     python-dev \
     ruby-dev \
     unzip \
+    zip \
   && rm -rf /var/cache/apk/*
 
 WORKDIR /documents
