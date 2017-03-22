@@ -8,5 +8,4 @@ install:
   - bash /tmp/bats/install.sh /usr/local
   - rm -rf /tmp/bats
 
-script:
-  - bats ./tests/*.bats
+script: bats ./tests/test_suite.bats
