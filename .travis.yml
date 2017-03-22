@@ -1,0 +1,6 @@
+sudo: required
+
+services:
+  - docker
+
+script: bats ./tests/test_suite.bats
