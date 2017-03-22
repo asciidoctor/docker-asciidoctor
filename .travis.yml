@@ -3,9 +3,4 @@ sudo: required
 services:
   - docker
 
-install:
-  - git clone https://github.com/sstephenson/bats.git /tmp/bats
-  - bash /tmp/bats/install.sh /usr/local
-  - rm -rf /tmp/bats
-
 script: bats ./tests/test_suite.bats
