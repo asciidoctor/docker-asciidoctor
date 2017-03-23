@@ -1,7 +1,6 @@
 FROM alpine:3.5
 
-LABEL MAINTAINER="Guillaume Scheibel <guillaume.scheibel@gmail.com>"
-LABEL MAINTAINER="Damien DUPORTAL <damien.duportal@gmail.com>"
+LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
   PATH=${PATH}:${JAVA_HOME}/bin:/fopub/bin \
@@ -10,7 +9,7 @@ ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
   ASCIIDOCTOR_VERSION="1.5.5"
 
 RUN apk --update --no-cache add \
-    asciidoctor \
+    asciidoctor="${ASCIIDOCTOR_VERSION}-r0" \
     bash \
     build-base \
     curl \
