@@ -38,8 +38,12 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME}" which pip
 }
 
-@test "sdkman is install (command sdk is in the path)" {
-  docker run -t --rm "${DOCKER_IMAGE_NAME}" which sdk
+@test "curl is installed and in the path" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME}" which curl
+}
+
+@test "sdkman is installed and reachable inside a bash process (profile to source)" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME}" bash -l -c "sdk -v"
 }
 
 @test "fopub is installed and in the path" {

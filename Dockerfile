@@ -53,7 +53,6 @@ RUN apk --update --no-cache add \
   && bash -c "echo sdkman_auto_answer=true > ~/.sdkman/etc/config" \
   && apk del -r \
     build-base \
-    curl \
     jpeg-dev \
     python2-dev \
     unzip \
