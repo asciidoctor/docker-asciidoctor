@@ -3,7 +3,6 @@ FROM alpine:3.5
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
-  PATH=${PATH}:${JAVA_HOME}/bin:/fopub/bin \
   ASCIIDOCTOR_VERSION="1.5.5"
 
 RUN apk --update --no-cache add \
@@ -15,7 +14,6 @@ RUN apk --update --no-cache add \
     graphviz \
     jpeg \
     jpeg-dev \
-    openjdk8 \
     patch \
     python2 \
     python2-dev \
@@ -30,8 +28,6 @@ RUN apk --update --no-cache add \
     wget \
     zip \
     zlib-dev \
-  && mkdir /fopub \
-  && curl -L -s https://api.github.com/repos/asciidoctor/asciidoctor-fopub/tarball | tar xzf - -C /fopub/ --strip-components=1 \
   && gem install --no-ri --no-rdoc asciidoctor-diagram \
   && gem install --no-ri --no-rdoc asciidoctor-epub3 --version 1.5.0.alpha.6 \
   && gem install --no-ri --no-rdoc asciidoctor-revealjs \
