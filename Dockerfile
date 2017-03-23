@@ -19,8 +19,8 @@ RUN apk --update --no-cache add \
     jpeg-dev \
     openjdk8 \
     patch \
-    python \
-    python-dev \
+    python2 \
+    python2-dev \
     py-pillow \
     py-setuptools \
     ruby \
@@ -61,7 +61,7 @@ RUN apk --update --no-cache add \
     build-base \
     curl \
     jpeg-dev \
-    python-dev \
+    python2-dev \
     unzip \
     zip \
     zlib-dev \
