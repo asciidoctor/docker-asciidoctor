@@ -4,7 +4,6 @@ LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUP
 
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
   PATH=${PATH}:${JAVA_HOME}/bin:/fopub/bin \
-  BACKENDS=/asciidoctor-backends \
   GVM_AUTO_ANSWER=true \
   ASCIIDOCTOR_VERSION="1.5.5"
 
@@ -45,8 +44,6 @@ RUN apk --update --no-cache add \
   && gem install --no-ri --no-rdoc asciidoctor-confluence \
   && gem install --no-ri --no-rdoc rouge coderay pygments.rb thread_safe \
   && gem install --no-ri --no-rdoc slim haml tilt \
-  && mkdir "${BACKENDS}" \
-  && (curl -LkSs https://api.github.com/repos/asciidoctor/asciidoctor-backends/tarball | tar xfz - -C "${BACKENDS}" --strip-components=1) \
   && pip install --no-cache-dir --upgrade pip \
   && pip install --no-cache-dir 'blockdiag[pdf]' \
   && pip install --no-cache-dir seqdiag \
