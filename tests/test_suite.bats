@@ -34,6 +34,10 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME}" which asciidoctor-epub3
 }
 
+@test "pip (python) is installed and in the path" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME}" which pip
+}
+
 @test "fopub is installed and in the path" {
   docker run -t --rm "${DOCKER_IMAGE_NAME}" which fopub
 }

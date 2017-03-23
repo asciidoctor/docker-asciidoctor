@@ -14,6 +14,7 @@ RUN apk --update --no-cache add \
     bash \
     build-base \
     curl \
+    ca-certificates \
     graphviz \
     jpeg \
     jpeg-dev \
@@ -21,8 +22,7 @@ RUN apk --update --no-cache add \
     patch \
     python2 \
     python2-dev \
-    py-pillow \
-    py-setuptools \
+    py-pip \
     ruby \
     ruby-dev \
     tar \
@@ -48,11 +48,11 @@ RUN apk --update --no-cache add \
   && gem install --no-ri --no-rdoc slim haml tilt \
   && mkdir "${BACKENDS}" \
   && (curl -LkSs https://api.github.com/repos/asciidoctor/asciidoctor-backends/tarball | tar xfz - -C "${BACKENDS}" --strip-components=1) \
-  && ln -s /usr/bin/easy_install-2.7 /usr/local/bin/easy_install \
-  && easy_install 'blockdiag[pdf]' \
-  && easy_install seqdiag \
-  && easy_install actdiag \
-  && easy_install nwdiag \
+  && pip install --no-cache-dir --upgrade pip \
+  && pip install --no-cache-dir 'blockdiag[pdf]' \
+  && pip install --no-cache-dir seqdiag \
+  && pip install --no-cache-dir actdiag \
+  && pip install --no-cache-dir nwdiag \
   && (curl -s get.sdkman.io | bash) \
   && bash -c "source /root/.sdkman/bin/sdkman-init.sh" \
   && bash -c "echo sdkman_auto_answer=true > ~/.sdkman/etc/config" \
