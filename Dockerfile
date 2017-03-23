@@ -4,7 +4,6 @@ LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUP
 
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
   PATH=${PATH}:${JAVA_HOME}/bin:/fopub/bin \
-  GVM_AUTO_ANSWER=true \
   ASCIIDOCTOR_VERSION="1.5.5"
 
 RUN apk --update --no-cache add \
@@ -52,7 +51,6 @@ RUN apk --update --no-cache add \
   && (curl -s get.sdkman.io | bash) \
   && bash -c "source /root/.sdkman/bin/sdkman-init.sh" \
   && bash -c "echo sdkman_auto_answer=true > ~/.sdkman/etc/config" \
-  && bash -c -l "sdk install lazybones" \
   && apk del -r \
     build-base \
     curl \

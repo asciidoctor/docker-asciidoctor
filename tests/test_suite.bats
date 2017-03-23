@@ -38,6 +38,10 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME}" which pip
 }
 
+@test "sdkman is install (command sdk is in the path)" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME}" which sdk
+}
+
 @test "fopub is installed and in the path" {
   docker run -t --rm "${DOCKER_IMAGE_NAME}" which fopub
 }
