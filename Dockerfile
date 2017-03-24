@@ -44,9 +44,6 @@ RUN apk --update --no-cache add \
   && pip install --no-cache-dir seqdiag \
   && pip install --no-cache-dir actdiag \
   && pip install --no-cache-dir nwdiag \
-  && (curl -s get.sdkman.io | bash) \
-  && bash -c "source /root/.sdkman/bin/sdkman-init.sh" \
-  && bash -c "echo sdkman_auto_answer=true > ~/.sdkman/etc/config" \
   && apk del -r \
     build-base \
     jpeg-dev \
