@@ -50,7 +50,8 @@ teardown() {
   docker run -t --rm \
     -v "${BATS_TEST_DIRNAME}":/documents/ \
     "${DOCKER_IMAGE_NAME}" \
-      asciidoctor -D /documents/tmp /documents/fixtures/basic-example.adoc
+      asciidoctor -D /documents/tmp -r asciidoctor-mathematical \
+      /documents/fixtures/basic-example.adoc
   grep '<html' ${TMP_GENERATION_DIR}/*html
 }
 
@@ -58,5 +59,6 @@ teardown() {
   docker run -t --rm \
     -v "${BATS_TEST_DIRNAME}":/documents/ \
     "${DOCKER_IMAGE_NAME}" \
-      asciidoctor-pdf -D /documents/tmp /documents/fixtures/basic-example.adoc
+      asciidoctor-pdf -D /documents/tmp -r asciidoctor-mathematical \
+      /documents/fixtures/basic-example.adoc
 }

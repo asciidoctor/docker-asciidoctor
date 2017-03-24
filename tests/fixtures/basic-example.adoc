@@ -29,3 +29,14 @@ Prawn::Document.generate 'example.pdf' do
   text 'Hello, World!'
 end
 ----
+
+== Mathematics
+
+Even asciidoctor-mathematical is supported:
+
+:stem: asciimath
+
+[stem]
+++++
+sqrt(4) = 2
+++++
