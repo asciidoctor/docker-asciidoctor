@@ -35,7 +35,10 @@ RUN apk --update --no-cache add \
     which \
     wget \
     zip zlib-dev \
-  && apk --repository 'https://alpine.geeknet.cz/packages/v3.5/backports' --no-cache add lasem \
+  && apk --repository 'https://alpine.geeknet.cz/packages/v3.5/backports' --no-cache add \
+    lasem \
+    ruby-mathematical \
+    ruby-pygments \
   && ln -s /usr/lib/liblasem-0.4.so.4 /usr/lib/liblasem.so \
   && gem install --no-ri --no-rdoc prawn --version 2.1.0 \
   && gem install --no-ri --no-rdoc asciidoctor-epub3 --version 1.5.0.alpha.6 \
@@ -46,7 +49,7 @@ RUN apk --update --no-cache add \
   && gem install --no-ri --no-rdoc asciidoctor-diagram \
   && gem install --no-ri --no-rdoc asciidoctor-confluence \
   && gem install --no-ri --no-rdoc asciidoctor-mathematical \
-  && gem install --no-ri --no-rdoc rake rouge coderay pygments.rb thread_safe slim haml tilt \
+  && gem install --no-ri --no-rdoc rake rouge coderay thread_safe slim haml tilt \
   && pip install --no-cache-dir --upgrade pip \
   && pip install --no-cache-dir seqdiag actdiag nwdiag 'blockdiag[pdf]' \
   && apk del -r --no-cache \

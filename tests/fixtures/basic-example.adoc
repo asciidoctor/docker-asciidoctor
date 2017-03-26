@@ -34,7 +34,7 @@ end
 
 Even asciidoctor-mathematical is supported:
 
-:stem: asciimath
+:stem: latexmath
 
 [stem]
 ++++
