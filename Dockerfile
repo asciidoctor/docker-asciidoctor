@@ -39,7 +39,7 @@ RUN dnf install -y tar \
   && gem install --no-ri --no-rdoc rake \
   && gem install --no-ri --no-rdoc epubcheck --version 3.0.1 \
   && gem install --no-ri --no-rdoc kindlegen --version 3.0.1 \
-  && gem install --no-ri --no-rdoc asciidoctor-pdf --version 1.5.0.alpha.13 \
+  && gem install --no-ri --no-rdoc asciidoctor-pdf --version 1.5.0.alpha.15 \
   && gem install --no-ri --no-rdoc asciidoctor-confluence \
   && gem install --no-ri --no-rdoc rouge coderay pygments.rb thread_safe epubcheck kindlegen \
   && gem install --no-ri --no-rdoc slim \
