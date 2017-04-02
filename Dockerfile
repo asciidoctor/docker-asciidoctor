@@ -6,22 +6,23 @@ ENV ASCIIDOCTOR_VERSION="1.5.5"
 
 ADD https://alpine.geeknet.cz/keys/jakub%40jirutka.cz-56d0d9fd.rsa.pub /etc/apk/keys/
 
-RUN apk --update --no-cache add \
+RUN apk add --no-cache \
     asciidoctor="${ASCIIDOCTOR_VERSION}-r0" \
     bash \
-    build-base \
     curl \
     ca-certificates \
-    libxml2-dev \
-    python2 python2-dev \
-    py2-pip \
-    py2-pillow \
+    python2 \
     ruby \
-    ruby-dev \
     ttf-liberation \
     unzip \
     findutils \
     which \
+  && apk add --no-cache --virtual .makedepends \
+    build-base \
+    libxml2-dev \
+    python2-dev \
+    py2-pip \
+    ruby-dev \
   && apk --repository 'https://alpine.geeknet.cz/packages/v3.5/backports' --no-cache add \
     lasem \
     ruby-mathematical \
@@ -39,10 +40,7 @@ RUN apk --update --no-cache add \
   && gem install --no-document rake rouge coderay thread_safe slim haml tilt \
   && pip install --no-cache-dir --upgrade pip \
   && pip install --no-cache-dir seqdiag actdiag nwdiag 'blockdiag[pdf]' \
-  && apk del -r --no-cache \
-    build-base \
-    libxml2-dev \
-    python2-dev
+  && apk del -r --no-cache .makedepends
 
 WORKDIR /documents
 VOLUME /documents
