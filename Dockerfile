@@ -14,7 +14,7 @@ RUN apk --update --no-cache add \
     ca-certificates \
     libxml2-dev \
     python2 python2-dev \
-    py-pip \
+    py2-pip \
     py2-pillow \
     ruby \
     ruby-dev \
