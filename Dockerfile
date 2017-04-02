@@ -24,7 +24,7 @@ RUN apk add --no-cache \
     py2-pip \
     ruby-dev \
   && apk --repository 'https://alpine.geeknet.cz/packages/v3.5/backports' --no-cache add \
-    lasem \
+    py2-pillow \
     ruby-mathematical \
     ruby-pygments \
   && gem install --no-document prawn --version 2.1.0 \
