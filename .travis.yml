@@ -4,7 +4,7 @@ services:
   - docker
 
 script: bats ./tests/test_suite.bats
-
-deploy:
-  provider: script
-  script: curl -H "Content-Type: application/json" --data '{"build": true}' -X POST https://registry.hub.docker.com/u/dduportal/docker-asciidoctor/trigger/${DOCKER_HUB_TOKEN}/
+#
+# deploy:
+#   provider: script
+#   script: curl -H "Content-Type: application/json" --data '{"build": true}' -X POST https://registry.hub.docker.com/u/dduportal/docker-asciidoctor/trigger/${DOCKER_HUB_TOKEN}/
