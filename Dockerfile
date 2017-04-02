@@ -27,7 +27,6 @@ RUN apk add --no-cache \
     lasem \
     ruby-mathematical \
     ruby-pygments \
-  && ln -s /usr/lib/liblasem-0.4.so.4 /usr/lib/liblasem.so \
   && gem install --no-document prawn --version 2.1.0 \
   && gem install --no-document asciidoctor-epub3 --version 1.5.0.alpha.6 \
   && gem install --no-document asciidoctor-pdf --version 1.5.0.alpha.14 \
