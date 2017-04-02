@@ -2,39 +2,26 @@ FROM alpine:3.5
 
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
-ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
-  ASCIIDOCTOR_VERSION="1.5.5"
+ENV ASCIIDOCTOR_VERSION="1.5.5"
 
 ADD https://alpine.geeknet.cz/keys/jakub%40jirutka.cz-56d0d9fd.rsa.pub /etc/apk/keys/
 
 RUN apk --update --no-cache add \
     asciidoctor="${ASCIIDOCTOR_VERSION}-r0" \
     bash \
-    bison \
     build-base \
-    cairo cairo-dev \
-    cmake \
     curl \
     ca-certificates \
-    flex \
-    gdk-pixbuf gdk-pixbuf-dev \
-    graphviz \
-    jpeg jpeg-dev \
-    libffi libffi-dev \
     libxml2-dev \
-    pango pango-dev \
-    patch \
     python2 python2-dev \
     py-pip \
+    py2-pillow \
     ruby \
     ruby-dev \
-    tar \
     ttf-liberation \
     unzip \
     findutils \
     which \
-    wget \
-    zip zlib-dev \
   && apk --repository 'https://alpine.geeknet.cz/packages/v3.5/backports' --no-cache add \
     lasem \
     ruby-mathematical \
@@ -53,18 +40,9 @@ RUN apk --update --no-cache add \
   && pip install --no-cache-dir --upgrade pip \
   && pip install --no-cache-dir seqdiag actdiag nwdiag 'blockdiag[pdf]' \
   && apk del -r --no-cache \
-    bison \
     build-base \
-    cairo-dev \
-    cmake \
-    flex \
-    gdk-pixbuf-dev \
-    jpeg-dev \
-    libffi-dev \
     libxml2-dev \
-    pango-dev \
-    python2-dev \
-    zlib-dev
+    python2-dev
 
 WORKDIR /documents
 VOLUME /documents
