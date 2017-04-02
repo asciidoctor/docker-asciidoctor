@@ -27,16 +27,16 @@ RUN apk --update --no-cache add \
     ruby-mathematical \
     ruby-pygments \
   && ln -s /usr/lib/liblasem-0.4.so.4 /usr/lib/liblasem.so \
-  && gem install --no-ri --no-rdoc prawn --version 2.1.0 \
-  && gem install --no-ri --no-rdoc asciidoctor-epub3 --version 1.5.0.alpha.6 \
-  && gem install --no-ri --no-rdoc asciidoctor-pdf --version 1.5.0.alpha.14 \
-  && gem install --no-ri --no-rdoc epubcheck --version 3.0.1 \
-  && gem install --no-ri --no-rdoc kindlegen --version 3.0.3 \
-  && gem install --no-ri --no-rdoc asciidoctor-revealjs \
-  && gem install --no-ri --no-rdoc asciidoctor-diagram \
-  && gem install --no-ri --no-rdoc asciidoctor-confluence \
-  && gem install --no-ri --no-rdoc asciidoctor-mathematical \
-  && gem install --no-ri --no-rdoc rake rouge coderay thread_safe slim haml tilt \
+  && gem install --no-document prawn --version 2.1.0 \
+  && gem install --no-document asciidoctor-epub3 --version 1.5.0.alpha.6 \
+  && gem install --no-document asciidoctor-pdf --version 1.5.0.alpha.14 \
+  && gem install --no-document epubcheck --version 3.0.1 \
+  && gem install --no-document kindlegen --version 3.0.3 \
+  && gem install --no-document asciidoctor-revealjs \
+  && gem install --no-document asciidoctor-diagram \
+  && gem install --no-document asciidoctor-confluence \
+  && gem install --no-document asciidoctor-mathematical \
+  && gem install --no-document rake rouge coderay thread_safe slim haml tilt \
   && pip install --no-cache-dir --upgrade pip \
   && pip install --no-cache-dir seqdiag actdiag nwdiag 'blockdiag[pdf]' \
   && apk del -r --no-cache \
