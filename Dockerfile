@@ -35,7 +35,7 @@ RUN dnf install -y tar \
   && rm /tmp/empty.xml \
   && gem install --no-ri --no-rdoc asciidoctor --version $ASCIIDOCTOR_VERSION \
   && gem install --no-ri --no-rdoc asciidoctor-diagram \
-  && gem install --no-ri --no-rdoc asciidoctor-epub3 --version 1.5.0.alpha.6 \
+  && gem install --no-ri --no-rdoc asciidoctor-epub3 --version 1.5.0.alpha.7 \
   && gem install --no-ri --no-rdoc rake \
   && gem install --no-ri --no-rdoc epubcheck --version 3.0.1 \
   && gem install --no-ri --no-rdoc kindlegen --version 3.0.1 \
