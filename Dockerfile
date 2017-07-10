@@ -1,21 +1,23 @@
-FROM alpine:3.5
+FROM alpine:3.6
 
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
-ENV ASCIIDOCTOR_VERSION="1.5.5"
-
-ADD https://alpine.geeknet.cz/keys/jakub%40jirutka.cz-56d0d9fd.rsa.pub /etc/apk/keys/
+# Check https://pkgs.alpinelinux.org/packages?name=asciidoctor&branch=&repo=&arch=&maintainer=
+ENV ASCIIDOCTOR_VERSION="1.5.5-r1"
 
 RUN apk add --no-cache \
-    asciidoctor="${ASCIIDOCTOR_VERSION}-r0" \
+    asciidoctor="${ASCIIDOCTOR_VERSION}" \
     bash \
     curl \
     ca-certificates \
+    findutils \
+    py2-pillow \
     python2 \
     ruby \
+    ruby-mathematical \
+    ruby-pygments \
     ttf-liberation \
     unzip \
-    findutils \
     which \
   && apk add --no-cache --virtual .makedepends \
     build-base \
@@ -23,13 +25,8 @@ RUN apk add --no-cache \
     python2-dev \
     py2-pip \
     ruby-dev \
-  && apk --repository 'https://alpine.geeknet.cz/packages/v3.5/backports' --no-cache add \
-    py2-pillow \
-    ruby-mathematical \
-    ruby-pygments \
-  && gem install --no-document prawn --version 2.1.0 \
-  && gem install --no-document asciidoctor-epub3 --version 1.5.0.alpha.6 \
-  && gem install --no-document asciidoctor-pdf --version 1.5.0.alpha.14 \
+  && gem install --no-document asciidoctor-epub3 --version 1.5.0.alpha.7 \
+  && gem install --no-document asciidoctor-pdf --version 1.5.0.alpha.15 \
   && gem install --no-document epubcheck --version 3.0.1 \
   && gem install --no-document kindlegen --version 3.0.3 \
   && gem install --no-document asciidoctor-revealjs \
