@@ -69,9 +69,31 @@ fopub sample.xml
 asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
 ----
 
-* Batch mode. You can use it in a "batch" mode 
+* Batch mode. You can use it in a "batch" mode
 +
 [source, bash]
 ----
 docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
+----
+
+== How to contribute / do it yourself ?
+
+=== Requirements
+
+You need the following tools:
+
+* A bash compliant command line
+* link:https://github.com/sstephenson/bats[bats] installed and in your bash PATH
+* Docker installed and in your path
+
+=== How to build and test ?
+
+* "bats" is used as a test suite runner. Since the ability to build is one
+way of testing, it is included.
+
+* You just have to run the bats test suite, from the repository root:
+
+[source,bash]
+----
+bats ./tests/test_suite.bats 
 ----
