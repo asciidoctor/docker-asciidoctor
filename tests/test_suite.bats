@@ -30,6 +30,10 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME}" which asciidoctor-pdf
 }
 
+@test "make is installed and in the path" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME}" which make
+}
+
 @test "asciidoctor-epub3 is installed and in the path" {
   docker run -t --rm "${DOCKER_IMAGE_NAME}" which asciidoctor-epub3
 }

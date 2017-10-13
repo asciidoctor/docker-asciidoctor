@@ -11,6 +11,7 @@ RUN apk add --no-cache \
     curl \
     ca-certificates \
     findutils \
+    make \
     py2-pillow \
     python2 \
     ruby \
