@@ -5,7 +5,8 @@ TMP_GENERATION_DIR="${BATS_TEST_DIRNAME}/tmp"
 ASCIIDOCTOR_VERSION="1.5.5"
 
 clean_generated_files() {
-  rm -rf "${TMP_GENERATION_DIR}"
+  docker run -t --rm -v "${BATS_TEST_DIRNAME}:${BATS_TEST_DIRNAME}" alpine \
+    rm -rf "${TMP_GENERATION_DIR}"
 }
 
 setup() {
