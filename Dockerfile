@@ -12,6 +12,7 @@ RUN apk add --no-cache \
     ca-certificates \
     findutils \
     graphviz \
+    make \
     openjdk8-jre \
     py2-pillow \
     python2 \
