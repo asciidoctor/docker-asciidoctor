@@ -2,7 +2,7 @@
 
 DOCKER_IMAGE_NAME="docker-asciidoctor:test"
 TMP_GENERATION_DIR="${BATS_TEST_DIRNAME}/tmp"
-ASCIIDOCTOR_VERSION="1.5.6"
+ASCIIDOCTOR_VERSION="1.5.6.1"
 
 clean_generated_files() {
   rm -rf "${TMP_GENERATION_DIR}"

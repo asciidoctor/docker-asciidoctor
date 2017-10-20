@@ -2,7 +2,7 @@ FROM alpine:3.6
 
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
-ARG ASCIIDOCTOR_VERSION="1.5.6"
+ARG ASCIIDOCTOR_VERSION="1.5.6.1"
 ENV asciidoctor_version=${ASCIIDOCTOR_VERSION}
 
 RUN apk add --no-cache \
