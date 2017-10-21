@@ -11,7 +11,9 @@ RUN apk add --no-cache \
     curl \
     ca-certificates \
     findutils \
+    graphviz \
     make \
+    openjdk8-jre \
     py2-pillow \
     python2 \
     ruby \

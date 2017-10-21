@@ -1,0 +1,16 @@
+
+= Sample
+
+This is a sample from
+link:https://github.com/asciidoctor/docker-asciidoctor/issues/44#issue-265179207[]
+
+[IMPORTANT]
+====
+Thanks to link:https://github.com/ryosms[]!
+====
+
+[plantuml,sample-diagram,svg]
+----
+class Sample {
+}
+----
