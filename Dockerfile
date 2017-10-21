@@ -2,11 +2,10 @@ FROM alpine:3.6
 
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
-# Check https://pkgs.alpinelinux.org/packages?name=asciidoctor&branch=&repo=&arch=&maintainer=
-ENV ASCIIDOCTOR_VERSION="1.5.5-r1"
+ARG ASCIIDOCTOR_VERSION="1.5.6.1"
+ENV asciidoctor_version=${ASCIIDOCTOR_VERSION}
 
 RUN apk add --no-cache \
-    asciidoctor="${ASCIIDOCTOR_VERSION}" \
     bash \
     curl \
     ca-certificates \
@@ -28,6 +27,7 @@ RUN apk add --no-cache \
     python2-dev \
     py2-pip \
     ruby-dev \
+  && gem install --no-document asciidoctor --version "${asciidoctor_version}" \
   && gem install --no-document asciidoctor-epub3 --version 1.5.0.alpha.7 \
   && gem install --no-document asciidoctor-pdf --version 1.5.0.alpha.15 \
   && gem install --no-document epubcheck --version 3.0.1 \
