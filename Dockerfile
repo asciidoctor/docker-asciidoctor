@@ -29,7 +29,7 @@ RUN apk add --no-cache \
     ruby-dev \
   && gem install --no-document asciidoctor --version "${asciidoctor_version}" \
   && gem install --no-document asciidoctor-epub3 --version 1.5.0.alpha.7 \
-  && gem install --no-document asciidoctor-pdf --version 1.5.0.alpha.15 \
+  && gem install --no-document asciidoctor-pdf --version 1.5.0.alpha.16 \
   && gem install --no-document epubcheck --version 3.0.1 \
   && gem install --no-document kindlegen --version 3.0.3 \
   && gem install --no-document asciidoctor-revealjs \
