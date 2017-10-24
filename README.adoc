@@ -5,7 +5,7 @@
 
 This Docker container provides:
 
-* Asciidoctor 1.5.5
+* Asciidoctor 1.5.6.1
 * Aciidoctor Diagram with Graphviz integration so you can use plantuml and graphiz diagrams
 * Asciidoctor PDF (alpha)
 * Asciidoctor EPUB3 (alpha)
@@ -95,5 +95,5 @@ way of testing, it is included.
 
 [source,bash]
 ----
-bats ./tests/test_suite.bats 
+bats ./tests/test_suite.bats
 ----
