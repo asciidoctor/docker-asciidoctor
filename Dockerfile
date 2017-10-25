@@ -21,6 +21,7 @@ RUN apk add --no-cache \
     ttf-liberation \
     unzip \
     which \
+    sudo \
   && apk add --no-cache --virtual .makedepends \
     build-base \
     libxml2-dev \
