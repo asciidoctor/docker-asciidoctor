@@ -21,6 +21,9 @@ RUN apk add --no-cache \
     ttf-liberation \
     unzip \
     which \
+  && apk add --no-cache \
+    --repository https://nl.alpinelinux.org/alpine/edge/community \
+    font-bakoma-ttf \
   && apk add --no-cache --virtual .makedepends \
     build-base \
     libxml2-dev \
