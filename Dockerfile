@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     make \
     openjdk8-jre \
     py2-pillow \
+    py2-setuptools \
     python2 \
     ruby \
     ruby-mathematical \
