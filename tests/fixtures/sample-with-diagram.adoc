@@ -14,3 +14,119 @@ Thanks to link:https://github.com/ryosms[]!
 class Sample {
 }
 ----
+
+
+= Additional Diagrams
+
+== Dita Example
+[ditaa]
+....
+                   +-------------+
+                   | Asciidoctor |-------+
+                   |   diagram   |       |
+                   +-------------+       | PNG out
+                       ^                 |
+                       | ditaa in        |
+                       |                 v
+ +--------+   +--------+----+    /---------------\
+ |        | --+ Asciidoctor +--> |               |
+ |  Text  |   +-------------+    |   Beautiful   |
+ |Document|   |   !magic!   |    |    Output     |
+ |     {d}|   |             |    |               |
+ +---+----+   +-------------+    \---------------/
+     :                                   ^
+     |          Lots of work             |
+     +-----------------------------------+
+....
+
+
+== Graphviz ( Digraph)
+[graphviz, dot-example, svg]
+----
+digraph g {
+    a -> b
+    b -> c
+    c -> d
+    d -> a
+}
+----
+
+== Plantuml from external file...
+
+plantuml::activity_diagram.txt[format="svg", align="center"]
+
+
+== BlockDiagrams
+ * http://blockdiag.com/en/index.html
+
+
+
+=== Example nwdiag
+You can find a lot of examples here http://blockdiag.com/en/nwdiag/nwdiag-examples.html
+[nwdiag, nwdiag-dmz, svg]
+----
+nwdiag {
+  network dmz {
+      address = "210.x.x.x/24"
+
+      web01 [address = "210.x.x.1"];
+      web02 [address = "210.x.x.2"];
+  }
+  network internal {
+      address = "172.x.x.x/24";
+
+      web01 [address = "172.x.x.1"];
+      web02 [address = "172.x.x.2"];
+      db01;
+      db02;
+  }
+}
+----
+
+=== Exampled blockdiag
+http://blockdiag.com/en/blockdiag/examples.html
+
+[blockdiag, blockdiag-1, svg]
+----
+blockdiag {
+   A -> B -> C -> D;
+   A -> E -> F -> G;
+}
+----
+
+
+=== Multiple Racks
+http://blockdiag.com/en/nwdiag/rackdiag-examples.html
+
+[rackdiag, rackdiag-1, svg]
+----
+rackdiag {
+  // define 1st rack
+  rack {
+    16U;
+
+    // define rack items
+    1: UPS [2U];
+    3: DB Server
+    4: Web Server
+    5: Web Server
+    6: Web Server
+    7: Load Balancer
+    8: L3 Switch
+  }
+
+  // define 2nd rack
+  rack {
+    12U;
+
+    // define rack items
+    1: UPS [2U];
+    3: DB Server
+    4: Web Server
+    5: Web Server
+    6: Web Server
+    7: Load Balancer
+    8: L3 Switch
+  }
+}
+----
