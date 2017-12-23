@@ -1,0 +1,12 @@
+= Validating Syntax colorations
+
+A simple http://asciidoc.org[AsciiDoc] document for validating
+syntax coloration
+
+== Syntax Coloration with {source-highlighter}
+
+[source,ruby]
+.app.rb
+----
+include::./app.rb[]
+----
