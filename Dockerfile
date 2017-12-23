@@ -30,9 +30,9 @@ RUN apk add --no-cache \
     inotify-tools \
     make \
     openjdk8-jre \
-    py2-pillow \
-    py-setuptools \
-    python2 \
+    py3-pillow \
+    python3 \
+    py3-setuptools \
     ruby \
     ruby-mathematical \
     ttf-liberation \
@@ -72,10 +72,9 @@ RUN apk add --no-cache --virtual .rubymakedepends \
 # functionnalities as diagrams or syntax highligthing
 RUN apk add --no-cache --virtual .pythonmakedepends \
     build-base \
-    python2-dev \
-    py2-pip \
-  && pip install --upgrade pip \
-  && pip install --no-cache-dir \
+    python3-dev \
+    py3-pip \
+  && pip3 install --no-cache-dir \
     actdiag \
     'blockdiag[pdf]' \
     nwdiag \
