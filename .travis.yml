@@ -11,12 +11,12 @@ script:
 - make build
 - make test
 
-deploy:
-- provider: script
-  script: make deploy
 # Do not deploy if Pull Request
 # If a contributor want to deploy on its own DockerHub account:
 # 1 - Enable Travis on the forked repository
 # 2 - Set the environment variable DOCKERHUB_USERNAME in Travis Settings
+deploy:
+- provider: script
+  script: make deploy
   on:
     condition: $TRAVIS_PULL_REQUEST = false
