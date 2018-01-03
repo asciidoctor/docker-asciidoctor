@@ -16,7 +16,8 @@ class Sample {
 ----
 
 
-= Additional Diagrams
+== Additional Diagrams
+Below some examples of working additional diagrams.
 
 == Dita Example
 [ditaa]
@@ -52,8 +53,10 @@ digraph g {
 ----
 
 == Plantuml from external file...
-
-plantuml::activity_diagram.txt[format="svg", align="center"]
+[plantuml,activity,svg,align="center"]
+----
+include::activity_diagram.txt[]
+----
 
 
 == BlockDiagrams
