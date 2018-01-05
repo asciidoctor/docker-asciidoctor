@@ -4,6 +4,7 @@ DOCKER_IMAGE_NAME="docker-asciidoctor:test"
 TMP_GENERATION_DIR="${BATS_TEST_DIRNAME}/tmp"
 ASCIIDOCTOR_VERSION="1.5.6.1"
 ASCIIDOCTOR_PDF_VERSION="1.5.0.alpha.16"
+ASCIIDOCTOR_REVEALJS_VERSION="1.1.1"
 
 clean_generated_files() {
   docker run -t --rm -v "${BATS_TEST_DIRNAME}:${BATS_TEST_DIRNAME}" alpine \
@@ -32,6 +33,10 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME}" asciidoctor-pdf -v \
     | grep "Asciidoctor PDF" | grep "${ASCIIDOCTOR_VERSION}" \
     | grep "${ASCIIDOCTOR_PDF_VERSION}"
+}
+
+@test "asciidoctor-revealjs is callable without error" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME}" asciidoctor-revealjs -v
 }
 
 @test "make is installed and in the path" {
