@@ -36,7 +36,7 @@ RUN apk add --no-cache \
   && gem install --no-document asciidoctor-pdf --version 1.5.0.alpha.16 \
   && gem install --no-document epubcheck --version 3.0.1 \
   && gem install --no-document kindlegen --version 3.0.3 \
-  && gem install --no-document asciidoctor-revealjs \
+  && gem install --no-document asciidoctor-revealjs --version 1.1.1 \
   && gem install --no-document asciidoctor-diagram \
   && gem install --no-document asciidoctor-confluence \
   && gem install --no-document asciidoctor-mathematical \

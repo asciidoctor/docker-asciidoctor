@@ -33,6 +33,10 @@ teardown() {
     | grep "${ASCIIDOCTOR_PDF_VERSION}"
 }
 
+@test "asciidoctor-revealjs is callable without error" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME}" asciidoctor-revealjs -v
+}
+
 @test "make is installed and in the path" {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" which make
 }
