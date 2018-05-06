@@ -20,7 +20,7 @@ before_deploy:
 
 deploy:
 - provider: script
-  script: make deploy
+  script: make README.md deploy
   # Do not deploy if Pull Request
   # If a contributor want to deploy on its own DockerHub account:
   # 1 - Enable Travis on the forked repository
