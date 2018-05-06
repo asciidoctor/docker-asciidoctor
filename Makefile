@@ -20,7 +20,8 @@ build:
 test:
 	bats $(CURDIR)/tests/*.bats
 
-deploy:
+deploy: README.md
+	git push origin $(shell git rev-parse --abbrev-ref HEAD)
 	curl -H "Content-Type: application/json" \
 		--data '{"source_type": "Branch", "source_name": "$(CURRENT_GIT_BRANCH)"}' \
 		-X POST https://registry.hub.docker.com/u/$(DOCKERHUB_USERNAME)/$(DOCKER_IMAGE_NAME)/trigger/$(DOCKER_HUB_TOKEN)/
@@ -38,9 +39,10 @@ cache/pandoc-2.2-linux.tar.gz: cache
 cache/pandoc-2.2/bin/pandoc: cache/pandoc-2.2-linux.tar.gz
 	tar xzf "$(CURDIR)/cache/pandoc-2.2-linux.tar.gz" -C "$(CURDIR)/cache"
 
-README.md: cache/pandoc-2.2/bin/pandoc
+README.md: build cache/pandoc-2.2/bin/pandoc
 	docker run --rm -t -v $(CURDIR):/documents --entrypoint bash $(DOCKER_IMAGE_NAME_TO_TEST) \
 		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-2.2/bin/pandoc  --atx-headers --wrap=preserve -t gfm -f docbook - > README.md"
+	git add README.md
+	git commit -s -m "Updating README.md using 'make README.md command'"
 
-
-.PHONY: all build test deploy clean
+.PHONY: all build test deploy clean README.md
