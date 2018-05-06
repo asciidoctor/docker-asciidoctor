@@ -10,6 +10,7 @@ env:
 script:
 - make build
 - make test
+- make README.md
 
 # Do not deploy if Pull Request
 # If a contributor want to deploy on its own DockerHub account:

@@ -25,4 +25,22 @@ deploy:
 		--data '{"source_type": "Branch", "source_name": "$(CURRENT_GIT_BRANCH)"}' \
 		-X POST https://registry.hub.docker.com/u/$(DOCKERHUB_USERNAME)/$(DOCKER_IMAGE_NAME)/trigger/$(DOCKER_HUB_TOKEN)/
 
-.PHONY: all build test deploy
+clean:
+	rm -rf "$(CURDIR)/cache"
+
+cache:
+	mkdir -p "$(CURDIR)/cache"
+
+cache/pandoc-2.2-linux.tar.gz: cache
+	curl -sSL -o "$(CURDIR)/cache/pandoc-2.2-linux.tar.gz" \
+	 	https://github.com/jgm/pandoc/releases/download/2.2/pandoc-2.2-linux.tar.gz
+
+cache/pandoc-2.2/bin/pandoc: cache/pandoc-2.2-linux.tar.gz
+	tar xzf "$(CURDIR)/cache/pandoc-2.2-linux.tar.gz" -C "$(CURDIR)/cache"
+
+README.md: cache/pandoc-2.2/bin/pandoc
+	docker run --rm -t -v $(CURDIR):/documents --entrypoint bash $(DOCKER_IMAGE_NAME_TO_TEST) \
+		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-2.2/bin/pandoc  --atx-headers --wrap=preserve -t gfm -f docbook - > README.md"
+
+
+.PHONY: all build test deploy clean
