@@ -51,12 +51,12 @@ Once started, you just have to create AsciiDoc files (in the directory mentioned
     ```
 
   - To use Asciidoctor-backends use -T with either `/asciidoctor-backends` or `$BACKENDS` followed by the backend you want to use. For example:
-
-<!-- end list -->
-
+    
+    ``` bash
     asciidoctor -T /asciidoctor-backends/slim/dzslides myFile.adoc
     #or
     asciidoctor -T $BACKENDS/slim/dzslides myFile.adoc
+    ```
 
   - To use fopub, you first need to generate the docbook file then use fopub:
     
@@ -95,9 +95,7 @@ You need the following tools:
     way of testing, it is included.
 
   - You just have to run the bats test suite, from the repository root:
-
-<!-- end list -->
-
-``` bash
-bats ./tests/test_suite.bats
-```
+    
+    ``` bash
+    bats ./tests/test_suite.bats
+    ```
