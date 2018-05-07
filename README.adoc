@@ -47,6 +47,7 @@ asciidoctor-epub3 -r asciidoctor-diagram sample-with-diagram.adoc
 ----
 
 * To use Asciidoctor-backends use +-T+ with either `/asciidoctor-backends` or `$BACKENDS` followed by the backend you want to use. For example:
++
 [source,bash]
 ----
 asciidoctor -T /asciidoctor-backends/slim/dzslides myFile.adoc
@@ -92,7 +93,7 @@ You need the following tools:
 way of testing, it is included.
 
 * You just have to run the bats test suite, from the repository root:
-
++
 [source,bash]
 ----
 bats ./tests/test_suite.bats
