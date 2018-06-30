@@ -60,7 +60,7 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
     build-base \
     python2-dev \
     py2-pip \
-  &&␣pip␣install␣--upgrade␣pip␣\
+  && pip install --upgrade pip \
   && pip install --no-cache-dir \
     actdiag \
     'blockdiag[pdf]' \
