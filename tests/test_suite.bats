@@ -4,6 +4,8 @@ TMP_GENERATION_DIR="${BATS_TEST_DIRNAME}/tmp"
 
 export TMP_GENERATION_DIR="${BATS_TEST_DIRNAME}/tmp"
 
+[ -n "${DOCKER_IMAGE_NAME_TO_TEST}" ] || export DOCKER_IMAGE_NAME_TO_TEST=asciidoctor/docker-asciidoctor
+
 clean_generated_files() {
   docker run -t --rm -v "${BATS_TEST_DIRNAME}:${BATS_TEST_DIRNAME}" alpine \
     rm -rf "${TMP_GENERATION_DIR}"
