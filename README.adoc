@@ -83,6 +83,7 @@ docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor
 You need the following tools:
 
 * A bash compliant command line
+* link:http://man7.org/linux/man-pages/man1/make.1.html[GNU make]
 * link:https://github.com/sstephenson/bats[bats] installed and in your bash PATH
 * Docker installed and in your path
 
@@ -95,5 +96,16 @@ way of testing, it is included.
 
 [source,bash]
 ----
-bats ./tests/test_suite.bats
+make test
+----
+
+==== Include test in your build pipeline or test manually
+
+You can use bats directly to test the image, optional you can use a custome image name:
+
+[source,bash]
+----
+# If you want to use a custom name for the image, OPTIONAL
+export DOCKER_IMAGE_NAME_TO_TEST=your-image-name
+bats tests/*.bats
 ----
