@@ -3,3 +3,4 @@ tests/fixtures/generated_images/
 tests/*.pdf
 tests/*.html
 .DS_Store
+cache/*
