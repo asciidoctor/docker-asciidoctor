@@ -17,6 +17,7 @@ RUN apk add --no-cache \
     findutils \
     font-bakoma-ttf \
     graphviz \
+    inotify-tools \
     make \
     openjdk8-jre \
     py2-pillow \
