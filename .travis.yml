@@ -10,13 +10,20 @@ env:
 script:
 - make build
 - make test
+- make README.md
 
-# Do not deploy if Pull Request
-# If a contributor want to deploy on its own DockerHub account:
-# 1 - Enable Travis on the forked repository
-# 2 - Set the environment variable DOCKERHUB_USERNAME in Travis Settings
+
+before_deploy:
+  # Set up git user name before generating README.md as part of deploy
+  - git config --local user.name "travis-build"
+  - git config --local user.email "travis@travis-ci.org"
+
 deploy:
 - provider: script
-  script: make deploy
+  script: make README.md deploy
+  # Do not deploy if Pull Request
+  # If a contributor want to deploy on its own DockerHub account:
+  # 1 - Enable Travis on the forked repository
+  # 2 - Set the environment variable DOCKERHUB_USERNAME in Travis Settings
   on:
     condition: $TRAVIS_PULL_REQUEST = false
