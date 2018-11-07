@@ -1,0 +1,23 @@
+= Precompiled Math
+:math: asciimath
+:imagesoutdir: generated_images
+:imagesdir: images
+:stem: asciimath
+
+Sample example, courtesy of link:https://github.com/aledomu[@aledomu], with inspiration from link:https://github.com/philwinder[@philwinder].
+
+== Equations in normal blocks
+
+[asciimath]
+++++
+k_(n+1) = n^2 + k_n^2 - k_(n-1)
+++++
+
+Some useful text!
+
+Formula for quadratic root:
+
+[asciimath]
+++++
+x = (-b +- sqrt(b^2 - 4ac)) / (2a)
+++++
