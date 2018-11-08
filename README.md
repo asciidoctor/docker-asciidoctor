@@ -4,7 +4,7 @@
 
 This Docker container provides:
 
-  - Asciidoctor 1.5.7
+  - Asciidoctor 1.5.8
 
   - Aciidoctor Diagram with Graphviz integration so you can use plantuml and graphiz diagrams
 
