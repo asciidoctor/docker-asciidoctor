@@ -9,6 +9,8 @@ This Docker container provides:
 * Aciidoctor Diagram with Graphviz integration so you can use plantuml and graphiz diagrams
 * Asciidoctor PDF (alpha)
 * Asciidoctor EPUB3 (alpha)
+* Asciidoctor Mathematical
+* Asciimath
 * Source highlighting using CodeRay or Pygments
 * Asciidoctor backends
 * Asciidoctor-fopub
