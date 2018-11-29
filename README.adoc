@@ -45,6 +45,23 @@ asciidoctor-pdf -r asciidoctor-diagram sample-with-diagram.adoc
 asciidoctor-epub3 -r asciidoctor-diagram sample-with-diagram.adoc
 ----
 
+* To use Asciidoctor together with https://github.com/guard/guard[Guard]
+Guard watches source files for changes and triggers asciidoctor automatically on every file change.
+This setup with Guard is inspired from the asciidoctor
+https://asciidoctor.org/docs/editing-asciidoc-with-live-preview/#using-a-system-monitor[documentation].
++
+The docker container should be started with an environment variable setting
+[source, bash]
+----
+docker run \
+       ... \
+       -e ASCIIDOCTOR_COMMAND="asciidoctor index.adoc -r asciidoctor-diagram --out-file index.html 2>&1" \
+       -e GUARD_WATCH="/.*\\.adoc$/" \
+       ... \
+       asciidoctor/docker-asciidoctor \
+       guard start -G /Guardfile
+----
+
 * To use Asciidoctor Confluence:
 +
 [source, bash]

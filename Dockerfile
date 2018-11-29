@@ -76,6 +76,7 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
     seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
+COPY Guardfile /Guardfile
 WORKDIR /documents
 VOLUME /documents
 
