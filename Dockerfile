@@ -33,7 +33,11 @@ RUN apk add --no-cache \
 # including asciidoctor itself
 RUN apk add --no-cache --virtual .rubymakedepends \
     build-base \
+    gcc \
+    libffi-dev \
     libxml2-dev \
+    make \
+    musl-dev \
     ruby-dev \
   && gem install --no-document \
     "asciidoctor:${ASCIIDOCTOR_VERSION}" \
@@ -46,6 +50,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     asciidoctor-revealjs \
     coderay \
     epubcheck:3.0.1 \
+    guard guard-shell \
     haml \
     kindlegen:3.0.3 \
     pygments.rb \
