@@ -2,11 +2,19 @@ FROM alpine:3.7
 
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
-ARG asciidoctor_version=1.5.8
+ARG asciidoctor_version=2.0.0
+ARG asciidoctor_confluence_version=0.0.2
 ARG asciidoctor_pdf_version=1.5.0.alpha.16
+ARG asciidoctor_diagram_version=1.5.16
+ARG asciidoctor_epub3_version=1.5.0.alpha.8
+ARG asciidoctor_mathematical_version=0.2.2
 
 ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
-  ASCIIDOCTOR_PDF_VERSION=${asciidoctor_pdf_version}
+  ASCIIDOCTOR_CONFLUENCE_VERSION=${asciidoctor_confluence_version} \
+  ASCIIDOCTOR_PDF_VERSION=${asciidoctor_pdf_version} \
+  ASCIIDOCTOR_DIAGRAM_VERSION=${asciidoctor_diagram_version} \
+  ASCIIDOCTOR_EPUB3_VERSION=${asciidoctor_epub3_version} \
+  ASCIIDOCTOR_MATHEMATICAL_VERSION=${asciidoctor_mathematical_version}
 
 # Installing package required for the runtime of
 # any of the asciidoctor-* functionnalities
@@ -37,10 +45,10 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     ruby-dev \
   && gem install --no-document \
     "asciidoctor:${ASCIIDOCTOR_VERSION}" \
-    asciidoctor-confluence \
-    asciidoctor-diagram \
-    asciidoctor-epub3:1.5.0.alpha.7 \
-    asciidoctor-mathematical \
+    "asciidoctor-confluence:${ASCIIDOCTOR_CONFLUENCE_VERSION}" \
+    "asciidoctor-diagram:${ASCIIDOCTOR_DIAGRAM_VERSION}" \
+    "asciidoctor-epub3:${ASCIIDOCTOR_EPUB3_VERSION}" \
+    "asciidoctor-mathematical:${ASCIIDOCTOR_MATHEMATICAL_VERSION}" \
     asciimath \
     "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}" \
     asciidoctor-revealjs \
