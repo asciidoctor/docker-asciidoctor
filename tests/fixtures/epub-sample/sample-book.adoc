@@ -1,0 +1,25 @@
+= Asciidoctor EPUB3: Sample Book
+Author Name
+v1.0, 2014-04-15
+:doctype: book
+:producer: Asciidoctor
+:keywords: Asciidoctor, samples, e-book, EPUB3, KF8, MOBI, Asciidoctor.js
+:copyright: CC-BY-SA 3.0
+// NOTE anthology adds support for an author per chapter; use book for a single author
+:publication-type: anthology
+:idprefix:
+:idseparator: -
+:imagesdir: images
+//:front-cover-image: image:front-cover.jpg[Front Cover,1050,1600]
+
+ifeval::["{scripts}" == "multilingual"]
+include::i18n.adoc[]
+endif::[]
+
+include::asciidoctor-epub3-readme.adoc[]
+
+include::sample-content.adoc[]
+
+include::asciidoctor-js-introduction.adoc[]
+
+include::asciidoctor-js-browser-extension.adoc[]
