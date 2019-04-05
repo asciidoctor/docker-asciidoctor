@@ -6,7 +6,7 @@ ARG asciidoctor_version=2.0.6
 ARG asciidoctor_confluence_version=0.0.2
 ARG asciidoctor_pdf_version=1.5.0.alpha.16
 ARG asciidoctor_diagram_version=1.5.16
-ARG asciidoctor_epub3_version=1.5.0.alpha.8
+ARG asciidoctor_epub3_version=1.5.0.alpha.9
 ARG asciidoctor_mathematical_version=0.3.0
 ARG asciidoctor_revealjs_version=2.0.0
 
