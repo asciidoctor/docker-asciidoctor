@@ -33,9 +33,13 @@ test:
 	bats $(CURDIR)/tests/*.bats
 
 deploy:
+ifdef DOCKER_HUB_TRIGGER_URL
 	curl -H "Content-Type: application/json" \
 		--data '{"source_type": "Branch", "source_name": "$(CURRENT_GIT_BRANCH)"}' \
-		-X POST https://registry.hub.docker.com/u/$(DOCKERHUB_USERNAME)/$(DOCKER_IMAGE_NAME)/trigger/$(DOCKER_HUB_TOKEN)/
+		-X POST $(DOCKER_HUB_TRIGGER_URL)
+else
+	@echo 'Unable to deploy: Please define $$DOCKER_HUB_TRIGGER_URL'
+endif
 
 clean:
 	rm -rf "$(CURDIR)/cache"
