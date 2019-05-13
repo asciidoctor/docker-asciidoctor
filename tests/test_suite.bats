@@ -174,3 +174,21 @@ teardown() {
 
 # asciimath isn't tested with the PDF backend because it doesn't support stem blocks
 # without image rendering
+
+@test "We can generate a Reveal.js Slide deck" {
+  run docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor-revealjs -D /documents/tmp -r asciidoctor-diagram \
+      /documents/fixtures/sample-slides.adoc
+
+  # Even when in ERROR with the module, asciidoctor return 0 because a document
+  # has been generated
+  [ "${status}" -eq 0 ]
+
+  echo "-- Output of command:"
+  echo "${output}"
+  echo "--"
+
+  [ "$(echo ${output} | grep -c -i error)" -eq 0 ]
+}
