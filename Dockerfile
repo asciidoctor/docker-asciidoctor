@@ -30,6 +30,8 @@ RUN apk add --no-cache \
     inotify-tools \
     make \
     openjdk8-jre \
+    openssl \
+    openssl-dev \
     py2-pillow \
     py-setuptools \
     python2 \
@@ -45,6 +47,7 @@ RUN apk add --no-cache \
 # including asciidoctor itself
 RUN apk add --no-cache --virtual .rubymakedepends \
     build-base \
+    cmake \
     libxml2-dev \
     ruby-dev \
   && gem install --no-document \
@@ -63,6 +66,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     pygments.rb \
     rake \
     rouge \
+    rugged \
     slim \
     thread_safe \
     tilt \
