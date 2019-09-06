@@ -8,7 +8,7 @@ This Docker container provides:
 
   - Asciidoctor Diagram 1.5.18 with Graphviz integration so you can use plantuml and graphiz diagrams
 
-  - Asciidoctor PDF 1.5.0.beta.3
+  - Asciidoctor PDF 1.5.0.beta.4
 
   - Asciidoctor EPUB3 (alpha)
 
