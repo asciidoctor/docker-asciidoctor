@@ -1,11 +1,11 @@
-FROM alpine:3.9
+FROM alpine:3.10
 
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
-ARG asciidoctor_version=2.0.9
+ARG asciidoctor_version=2.0.10
 ARG asciidoctor_confluence_version=0.0.2
-ARG asciidoctor_pdf_version=1.5.0.alpha.17
-ARG asciidoctor_diagram_version=1.5.16
+ARG asciidoctor_pdf_version=1.5.0.beta.4
+ARG asciidoctor_diagram_version=1.5.18
 ARG asciidoctor_epub3_version=1.5.0.alpha.9
 ARG asciidoctor_mathematical_version=0.3.0
 ARG asciidoctor_revealjs_version=2.0.0
@@ -36,6 +36,7 @@ RUN apk add --no-cache \
     ruby \
     ruby-mathematical \
     ttf-liberation \
+    ttf-dejavu \
     unzip \
     which
 
