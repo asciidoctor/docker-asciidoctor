@@ -29,6 +29,10 @@ teardown() {
     | grep "Asciidoctor" | grep "${ASCIIDOCTOR_VERSION}"
 }
 
+@test "Timezone data is present in the image" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" test -f /usr/share/zoneinfo/posixrules
+}
+
 @test "asciidoctor-pdf is installed and in version ${ASCIIDOCTOR_PDF_VERSION}" {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" asciidoctor-pdf -v \
     | grep "Asciidoctor PDF" | grep "${ASCIIDOCTOR_VERSION}" \
