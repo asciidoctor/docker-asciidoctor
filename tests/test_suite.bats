@@ -184,16 +184,16 @@ teardown() {
 
 @test "We can generate HTML documents with different syntax-colored codes" {
   docker run -t --rm \
-    -v "${BATS_TEST_DIRNAME}":/documents/ \
-    "${DOCKER_IMAGE_NAME}" \
-      asciidoctor -D /documents/tmp \
-      /documents/fixtures/samples-syntax-highlight/*.adoc
+  -v "${BATS_TEST_DIRNAME}":/documents/ \
+  "${DOCKER_IMAGE_NAME_TO_TEST}" \
+    asciidoctor --trace -D /documents/tmp -r asciidoctor-mathematical \
+    /documents/fixtures/samples-syntax-highlight/*.adoc
 }
 
 @test "We can generate PDF documents with different syntax-colored codes" {
   docker run -t --rm \
     -v "${BATS_TEST_DIRNAME}":/documents/ \
-    "${DOCKER_IMAGE_NAME}" \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
       asciidoctor-pdf -D /documents/tmp \
       /documents/fixtures/samples-syntax-highlight/*.adoc
 }

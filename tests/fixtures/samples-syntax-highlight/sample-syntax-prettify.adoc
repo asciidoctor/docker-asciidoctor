@@ -1,4 +1,4 @@
 
-:source-highlighter: pygments
+:source-highlighter: prettify
 
 include::includes/syntax-template.adoc[]
