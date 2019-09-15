@@ -30,11 +30,14 @@ RUN apk add --no-cache \
     inotify-tools \
     make \
     openjdk8-jre \
-    py3-pillow \
     python3 \
+    py3-pillow \
     py3-setuptools \
     ruby \
     ruby-mathematical \
+    # ruby-pygments installs python2, it is required for now
+    ruby-pygments \
+    ruby-rake \
     ttf-liberation \
     ttf-dejavu \
     tzdata \
@@ -61,7 +64,6 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     haml \
     kindlegen:3.0.3 \
     pygments.rb \
-    rake \
     rouge \
     slim \
     thread_safe \
@@ -78,7 +80,6 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
     actdiag \
     'blockdiag[pdf]' \
     nwdiag \
-    Pygments \
     seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
