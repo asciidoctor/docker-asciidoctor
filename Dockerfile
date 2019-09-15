@@ -37,6 +37,7 @@ RUN apk add --no-cache \
     ruby-mathematical \
     ttf-liberation \
     ttf-dejavu \
+    tzdata \
     unzip \
     which
 
