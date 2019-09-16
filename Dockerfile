@@ -4,7 +4,7 @@ LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUP
 
 ARG asciidoctor_version=2.0.10
 ARG asciidoctor_confluence_version=0.0.2
-ARG asciidoctor_pdf_version=1.5.0.beta.4
+ARG asciidoctor_pdf_version=1.5.0.beta.5
 ARG asciidoctor_diagram_version=1.5.18
 ARG asciidoctor_epub3_version=1.5.0.alpha.9
 ARG asciidoctor_mathematical_version=0.3.1
@@ -17,6 +17,8 @@ ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_EPUB3_VERSION=${asciidoctor_epub3_version} \
   ASCIIDOCTOR_MATHEMATICAL_VERSION=${asciidoctor_mathematical_version} \
   ASCIIDOCTOR_REVEALJS_VERSION=${asciidoctor_revealjs_version}
+
+RUN apk update
 
 # Installing package required for the runtime of
 # any of the asciidoctor-* functionnalities
