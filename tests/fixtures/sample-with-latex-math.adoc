@@ -21,3 +21,7 @@ Formula for quadratic root:
 ++++
 x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
 ++++
+
+* Equations can also be inlined, like
+latexmath:[\frac{v^2}{2} + gz + \frac{p}{\rho} = \text{constant}]
+(Bernoulli equation here).
