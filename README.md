@@ -12,7 +12,7 @@ This Docker container provides:
 
   - Asciidoctor EPUB3 (alpha)
 
-  - Source highlighting using Rouge or CodeRay
+  - Source highlighting using Rouge or CodeRay (Pygments not supported)
 
   - Asciidoctor backends
 
