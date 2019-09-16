@@ -35,8 +35,6 @@ RUN apk add --no-cache \
     py3-setuptools \
     ruby \
     ruby-mathematical \
-    # ruby-pygments installs python2, it is required for now
-    ruby-pygments \
     ruby-rake \
     ttf-liberation \
     ttf-dejavu \
@@ -63,7 +61,6 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     epubcheck:3.0.1 \
     haml \
     kindlegen:3.0.3 \
-    pygments.rb \
     rouge \
     slim \
     thread_safe \
