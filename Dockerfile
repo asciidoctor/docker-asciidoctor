@@ -30,11 +30,12 @@ RUN apk add --no-cache \
     inotify-tools \
     make \
     openjdk8-jre \
-    py2-pillow \
-    py-setuptools \
-    python2 \
+    python3 \
+    py3-pillow \
+    py3-setuptools \
     ruby \
     ruby-mathematical \
+    ruby-rake \
     ttf-liberation \
     ttf-dejavu \
     tzdata \
@@ -60,8 +61,6 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     epubcheck:3.0.1 \
     haml \
     kindlegen:3.0.3 \
-    pygments.rb \
-    rake \
     rouge \
     slim \
     thread_safe \
@@ -72,14 +71,12 @@ RUN apk add --no-cache --virtual .rubymakedepends \
 # functionnalities as diagrams or syntax highligthing
 RUN apk add --no-cache --virtual .pythonmakedepends \
     build-base \
-    python2-dev \
-    py2-pip \
-  && pip install --upgrade pip \
-  && pip install --no-cache-dir \
+    python3-dev \
+    py3-pip \
+  && pip3 install --no-cache-dir \
     actdiag \
     'blockdiag[pdf]' \
     nwdiag \
-    Pygments \
     seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 

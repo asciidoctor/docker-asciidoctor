@@ -101,7 +101,7 @@ Of course, there's always room for improvement, so we'll continue to work with y
 * EPUB3 metadata, manifest and spine (assembled by Gepub)
 * Document metadata (title, authors, subject, keywords, etc.)
 * Internal cross reference links
-* Syntax highlighting with CodeRay or Pygments (must use inline styles)
+* Syntax highlighting with Rouge or CodeRay
 * Unicode callout numbers
 * Page breaks avoided in block content (so much as it's supported by the e-reader)
 * Orphan section titles avoided (so much as it's supported by the e-reader)
@@ -270,14 +270,14 @@ You can install the published gem using the following command:
 This optional environment variable tells the gem installer to link against the C libraries on the system, if available, instead of compiling the libraries from scratch.
 This speeds up the installation of Nokogiri considerably.
 
-If you want to syntax highlight source listings, you'll also want to install CodeRay or Pygments.
+If you want to syntax highlight source listings, you'll also want to install Rouge or CodeRay.
 Choose one (or more) of the following:
+
+.Rouge
+ $ gem install rouge
 
 .CodeRay
  $ gem install coderay
-
-.Pygments
- $ gem install pygments.rb
 
 You then activate syntax highlighting for a given document by adding the `source-highlighter` attribute to the document header (CodeRay shown):
 
@@ -285,11 +285,6 @@ You then activate syntax highlighting for a given document by adding the `source
 ----
 :source-highlighter: coderay
 ----
-
-NOTE: At the moment, Pygments is automatically used if it's available.
-If a style is not specified, the black and white theme (i.e., bw) is used.
-This default is used so that the syntax highlighting is legibile regardless of which reading mode the reader selects (white, black, sepia, etc).
-To override this default, you must pass a valid Pygments style name to the `pygments-style` attribute when invoking the `asciidoctor-epub3` script (e.g., `-a pygments-style=pastie`).
 
 Assuming all the required gems install properly, verify you can run the `asciidoctor-epub3` script:
 

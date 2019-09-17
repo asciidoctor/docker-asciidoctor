@@ -10,6 +10,7 @@ v1.0, 2014-04-15
 :idprefix:
 :idseparator: -
 :imagesdir: images
+:source-highlighter: coderay
 //:front-cover-image: image:front-cover.jpg[Front Cover,1050,1600]
 
 ifeval::["{scripts}" == "multilingual"]

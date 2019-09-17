@@ -11,7 +11,7 @@ This Docker container provides:
 * Asciidoctor EPUB3 (alpha)
 * Asciidoctor Mathematical
 * AsciiMath
-* Source highlighting using CodeRay or Pygments
+* Source highlighting using Rouge or CodeRay (Pygments not supported in the default Docker image as only Python 3 is available)
 * Asciidoctor Confluence
 
 == How to use it

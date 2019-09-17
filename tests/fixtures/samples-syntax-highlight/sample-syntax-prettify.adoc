@@ -1,0 +1,4 @@
+
+:source-highlighter: prettify
+
+include::includes/syntax-template.adoc[]
