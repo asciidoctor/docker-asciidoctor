@@ -1,0 +1,19 @@
+= Slide Title
+:author: John Doe
+:email: john.doe@asciidoctor.org
+:revnumber: 1.0
+:revdate: 2019-05-13
+:revremark: Initial Release
+:encoding: utf-8
+:lang: en
+:imagesdir: images
+:doctype: article
+:icons: font
+:numbered:
+
+== My first slide
+
+* Topic 1
+* Topic 2
+
+

@@ -1,3 +1,6 @@
 tests
 .git*
 README.adoc
+README.md
+cache
+tests

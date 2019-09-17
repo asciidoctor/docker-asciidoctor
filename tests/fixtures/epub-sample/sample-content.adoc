@@ -1,0 +1,178 @@
+[#sample-content]
+= Asciidoctor Playground: Sample Content
+Sarah White <https://github.com/graphitefriction[@graphitefriction]>
+:username: graphitefriction
+:description: This guide describes the Asciidoctor attributes, values, and layout options available for producing a customized and polished document.
+:keywords: AsciiDoc, Asciidoctor, syntax, reference
+:language: asciidoc
+
+[abstract]
+This sample guide describes several Asciidoctor attributes, values, and layout options available for producing a customized and polished document.
+
+== Text size and justification
+
+* *http://guides.github.com/overviews/forking[Fork] the repository* and clone it locally.
+Connect your local to the original _upstream_ repository by adding it as a remote.
+
+1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
+
+== Block titles
+
+You can assign a title to any paragraph, list, delimited block, or block macro.
+In most cases, the title is displayed immediately above the content.
+If the content is a figure or image, the title is displayed below the content.
+
+A block title is defined on a line above the element.
+The line must begin with a dot (`.`) and be followed immediately by the title text with no spaces inbetween.
+
+Here's an example of a list with a title:
+
+.A titled list
+====
+.TODO list
+- Learn the AsciiDoc syntax
+- Install Asciidoctor
+- Write my novel
+====
+
+== Metadata
+
+In addition to a title, lists and blocks can be assigned metadata, including:
+
+* Id (i.e., anchor)
+* Style (first unnamed block attribute)
+* Named block attributes
+* Options
+
+Here's an example of a quote block with metadata:
+
+[source]
+----
+.Gettysburg Address <1>
+[#gettysburg] <2>
+[quote, Abraham Lincoln, Soldiers' National Cemetery Dedication] <3> <4> <5>
+____
+Four score and seven years ago our fathers brought forth on this continent a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.
+
+Now we are engaged in a great civil war,
+testing whether that nation,
+or any nation so conceived and so dedicated,
+can long endure.
+...
+
+Fourscoreandsevenyearsagoourfathersbroughtforthonthiscontinentanewnation...
+____
+----
+<1> Title: Gettysburg Address
+<2> Id: gettysburg
+<3> Style: quote
+<4> attribution: Abraham Lincoln (Named block attribute)
+<5> citetitle: Dedication of the Soldiers' National Cemetery (Named block attribute)
+
+TIP: A block can have multiple block attribute lines.
+The attributes will be aggregated.
+If there is a name conflict, the last attribute defined wins.
+
+Some metadata is used as supplementary content, such as the title, whereas other metadata controls how the block is rendered, such as the style.
+
+== Delimited blocks
+
+The AsciiDoc syntax provides a set of components for including non-paragraph text--such as block quotes, source code listings, sidebars and tables--in your document.
+These components are referred to as _delimited blocks_ because they are surrounded by delimiter lines.
+
+Within the boundaries of a delimited block, you can enter any content or blank lines.
+The block doesn't end until the ending delimiter is found.
+The delimiters around the block determine the type of block, how the content is processed and rendered, and what elements are used to wrap the content in the output.
+
+=== Optional delimiters
+
+If the content is contiguous (not interrupted by blank lines), you can forgo the use of the block delimiters and instead use the block style above a paragraph to repurpose it as one of the delimited block types.
+
+NOTE: This format is often used for single-line listings or quotes.
+
+.Single line listing block
+[source]
+----
+[listing]
+sudo yum install asciidoc
+----
+
+.Single line quote block
+[source]
+----
+[quote]
+Never do today what you can put off 'til tomorrow.
+----
+
+== Admonitions
+
+There are certain statements that you may want to draw attention to by taking them out of the content's flow and labeling them with a priority.
+These are called admonitions.
+Asciidoctor provides five built-in admonition style labels:
+
+Tip:: Used for giving the reader helpful advice.
+Note:: Used to communicate related or follow-up information.
+Important:: Used to remind the reader to do a critical step or task.
+Warning:: Used to inform the reader of potential risks.
+Caution:: Also used to inform the reader of potential risks, take your pick.
+
+When you want to call attention to a single paragraph, start the first line of the paragraph with the label you want to use.
+The label must be uppercase and followed by a colon (`:`).
+
+WARNING: Wolpertingers are known to nest in server racks.
+Enter at your own risk.
+
+When you want to apply an admonition label to complex content, set the label as a style attribute on a delimited block.
+Admonition labels are commonly set on example blocks.
+This behavior is referred to as _masquerading_.
+The label must be uppercase when set as an attribute on a block.
+
+[IMPORTANT]
+.Feeding the Werewolves
+====
+While werewolves are hardy community members, keep in mind the following dietary concerns:
+
+. They are allergic to cinnamon.
+. More than two glasses of orange juice in 24 hours makes them howl in harmony with alarms and sirens.
+. Celery makes them sad.
+====
+
+== Quotes, Prose Excerpts, and Verses
+
+Quotes, prose excerpts and verses share the same syntax structure, including:
+
+* style attribute, either `quote` or `verse`
+* name of who the content is attributed to
+* bibliographical information of the book, speech, play, etc., where the content was drawn from
+* excerpt text
+
+.Anatomy of a basic quote
+----
+[quote, attribution, citation title and information]
+Quote or excerpt text
+----
+
+For content that doesn't require the preservation of line breaks, set the +quote+ attribute in the first position of the attribute list.
+Next, set the attribution and relevant citation information.
+However, these positional attributes are optional.
+
+If the quote is a single line or paragraph, you can place the attribute list directly on top of the text.
+
+.after landing the cloaked Klingon bird of prey in Golden Gate park
+[quote, James Kirk, Star Trek IV: The Voyage Home]
+Everybody remember where we parked.
+
+For those of you who want a little bit of culture in this document, here's an excerpt of a poem by Carl Sandburg.
+
+[verse, Carl Sandburg, Fog]
+____
+The fog comes
+on little cat feet.
+
+It sits looking
+over harbor and city
+on silent haunches
+and then moves on.
+____
+
+That's all folks!

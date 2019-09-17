@@ -29,6 +29,10 @@ teardown() {
     | grep "Asciidoctor" | grep "${ASCIIDOCTOR_VERSION}"
 }
 
+@test "Timezone data is present in the image" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" test -f /usr/share/zoneinfo/posixrules
+}
+
 @test "asciidoctor-pdf is installed and in version ${ASCIIDOCTOR_PDF_VERSION}" {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" asciidoctor-pdf -v \
     | grep "Asciidoctor PDF" | grep "${ASCIIDOCTOR_VERSION}" \
@@ -107,6 +111,10 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" apk info font-bakoma-ttf
 }
 
+@test "DejaVu Fonts are installed to get corretly rendered PlantUML-Graphs" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" fc-list "DejaVu Sans"
+}
+
 @test "We can generate an HTML document with asciidoctor-mathematical as backend" {
   run docker run -t --rm \
     -v "${BATS_TEST_DIRNAME}":/documents/ \
@@ -123,6 +131,17 @@ teardown() {
   echo "--"
 
   [ "$(echo ${output} | grep -c -i error)" -eq 0 ]
+}
+
+@test "We can generate an EPub document with asciidoctor-epub3" {
+
+  run docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor-epub3 /documents/fixtures/epub-sample/sample-book.adoc -D /documents/tmp
+
+  [ "${status}" -eq 0 ]
+
 }
 
 @test "We can generate an HTML document with asciimath as backend" {
@@ -160,6 +179,39 @@ teardown() {
 
   [ "$(echo ${output} | grep -c -i error)" -eq 0 ]
 }
-
 # asciimath isn't tested with the PDF backend because it doesn't support stem blocks
 # without image rendering
+
+@test "We can generate a Reveal.js Slide deck" {
+  run docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor-revealjs -D /documents/tmp -r asciidoctor-diagram \
+      /documents/fixtures/sample-slides.adoc
+
+  # Even when in ERROR with the module, asciidoctor return 0 because a document
+  # has been generated
+  [ "${status}" -eq 0 ]
+
+  echo "-- Output of command:"
+  echo "${output}"
+  echo "--"
+
+  [ "$(echo ${output} | grep -c -i error)" -eq 0 ]
+}
+
+@test "We can generate HTML documents with different syntax-colored codes" {
+  docker run -t --rm \
+  -v "${BATS_TEST_DIRNAME}":/documents/ \
+  "${DOCKER_IMAGE_NAME_TO_TEST}" \
+    asciidoctor --trace -D /documents/tmp -r asciidoctor-mathematical \
+    /documents/fixtures/samples-syntax-highlight/*.adoc
+}
+
+@test "We can generate PDF documents with different syntax-colored codes" {
+  docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor-pdf -D /documents/tmp \
+      /documents/fixtures/samples-syntax-highlight/*.adoc
+}

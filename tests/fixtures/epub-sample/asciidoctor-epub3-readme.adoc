@@ -1,0 +1,976 @@
+= {project-name}: A _native_ EPUB3 converter for AsciiDoc
+Dan Allen <https://github.com/mojavelinux[@mojavelinux]>; Sarah White <https://github.com/graphitefriction[@graphitefriction]>
+v1.5.0.alpha.9, 2019-04-04
+// Settings:
+:experimental:
+:idprefix:
+:idseparator: -
+:imagesdir: data/samples/images
+ifdef::env-github,env-browser[]
+:toc: preamble
+:toclevels: 1
+endif::[]
+ifdef::env-github[]
+:status:
+:!toc-title:
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+ifndef::env-github[]
+:icons: font
+endif::[]
+// Aliases:
+:project-name: Asciidoctor EPUB3
+:project-handle: asciidoctor-epub3
+// URIs:
+:uri-project: https://github.com/asciidoctor/{project-handle}
+:uri-gem: http://rubygems.org/gems/asciidoctor-epub3
+:uri-repo: {uri-project}
+:uri-issues: {uri-repo}/issues
+:uri-discuss: http://discuss.asciidoctor.org
+:uri-rvm: https://rvm.io
+:uri-asciidoctor: http://asciidoctor.org
+:uri-idpf: http://www.idpf.org/
+:uri-epub: http://www.idpf.org/epub/31/spec/epub-spec.html
+:uri-epubcheck: https://github.com/idpf/epubcheck
+:uri-kindlegen: http://www.amazon.com/gp/feature.html?docId=1000765211
+:uri-kf8: http://www.amazon.com/gp/feature.html?docId=1000729511
+:uri-send-to-kindle: https://www.amazon.com/gp/sendtokindle/
+:uri-metadata-elem: http://www.idpf.org/epub/30/spec/epub30-publications.html#sec-metadata-elem
+:uri-dc: http://dublincore.org/documents/2004/12/20/dces
+:uri-github-guides: https://guides.github.com
+:uri-github-guides-fork: https://github.com/opendevise/github-guides-asciidoc
+:uri-asciidoctor-i18n: http://asciidoctor.org/docs/user-manual/#builtin-attributes-i18n
+:uri-epubreadingsystem: http://www.idpf.org/epub/301/spec/epub-contentdocs.html#app-epubReadingSystem
+:uri-android-sdk: http://developer.android.com/sdk/index.html
+
+ifdef::status[]
+image:https://img.shields.io/gem/v/asciidoctor-epub3.svg[Latest Release,link={uri-gem}]
+image:https://img.shields.io/badge/license-MIT-blue.svg[MIT License,link=#copyright]
+endif::[]
+
+{project-name} is a set of Asciidoctor extensions for converting AsciiDoc documents directly to the EPUB3 and KF8/MOBI e-book formats.
+
+== Introduction
+
+{project-name} is not merely a converter from AsciiDoc to EPUB3 and KF8/MOBI.
+Rather, it's a tool for creating highly aesthetic, professional, _easy-to-read_ e-books.
+Let's face it, many of the technical e-books out there--especially those produced from software documentation--are *_hideous_*.
+{project-name} is on a mission to disrupt the status quo.
+
+ifdef::env-github[]
+.An excerpt from an e-book produced by {project-name} shown in Day, Night and Sepia mode.
+image::screenshots/text.png[]
+endif::[]
+
+=== Project Mission
+
+The {project-name} project aims to produce EPUB3 documents that meet the following objectives:
+
+[itemized,subject-stop=.]
+Fully Semantic::
+  Produce deeply semantic XHTML5 documents, including use of the recommended `epub:type` attribute.
+Exceptional Readability::
+  Readers should be drawn into the text so that they read and absorb it.
+  Maximize the readability of the text using carefully crafted styles that are focused on:
+  - Custom, readable fonts with strong UTF-8 character support
+  - Sufficient line spacing and margins
+  - Modular font size scale
+  - Subtle, pleasing colors with good contrast
+  - A responsive design that scales well from small to large screens
+  - Widowed and orphaned content avoided where possible
+Complete and Accurate Metadata::
+  Fully populate the EPUB3 package metadata using information in the AsciiDoc source document.
+Consistent Rendering::
+  Render consistently across a broad range of EPUB3 (and select EPUB2+) e-readers and respond to any size screen.
+Polish, Polish, and More Polish::
+  Add polish to the final product such as font-based icons and callout numbers.
+
+We believe that the e-books produced by {project-name} are the _very best_ output you can expect to find in digital publishing today.
+Of course, there's always room for improvement, so we'll continue to work with you to achieve and maintain this goal.
+
+=== Notable Features
+
+* Direct AsciiDoc to EPUB3 conversion
+* Direct AsciiDoc to KF8/MOBI conversion
+* Highly-aesthetic and readable styles with optimized text legibility
+* Respects font settings (if supported by the e-reader) without altering headings, code or icons
+* EPUB3 metadata, manifest and spine (assembled by Gepub)
+* Document metadata (title, authors, subject, keywords, etc.)
+* Internal cross reference links
+* Syntax highlighting with Rouge or CodeRay
+* Unicode callout numbers
+* Page breaks avoided in block content (so much as it's supported by the e-reader)
+* Orphan section titles avoided (so much as it's supported by the e-reader)
+* Table border settings honored
+* Support for SVG images in the content
+
+=== Project Status
+
+CAUTION: {project-name} is currently _alpha_ software.
+Use accordingly.
+Although the bulk of AsciiDoc content is converted, there's still work needed to fill in gaps where conversion is incomplete or unstyled.
+
+NOTE: {project-name} only produces variable layout (i.e., reflowable) EPUB3 documents since this layout is best suited for the types of documents typically written in AsciiDoc.
+We may explore the use of fixed layout documents in the future if the need arises.
+
+ifdef::env-github[]
+=== Planned Features and Work In Progress
+
+See <<WORKLOG#,WORKLOG.adoc>>.
+endif::[]
+
+== Converter Workflow
+
+{project-name} takes an aggregate AsciiDoc document and any assets it references as input and produces an EPUB3 publication archive (often described as a “website in a box”).
+
+{project-name} can also produce KF8/MOBI files, the format required for viewing on Amazon Kindle.
+The conversion to KF8/MOBI is performed by generating a slightly modified EPUB3 publication, then passing it through the {uri-kindlegen}[KindleGen] application.
+The EPUB3 publication, which can be thought of as the “digital master”, is altered to adhere to certain Amazon Kindle requirements.
+
+== Structuring your Manuscript
+
+An EPUB3 archive is composed of multiple files. The content of each “chapter” is typically stored in a dedicated XHTML file.
+Therefore, the {project-name} converter “chunks” the AsciiDoc source document into multiple XHTML files to add to the EPUB3 archive.
+While other converters handle this chunking task by automatically slicing up the XHTML output at predetermined heading levels, this converter takes a different approach, outlined next.
+
+=== Composition Rules
+
+There are several rules you must follow to successfully convert your AsciiDoc source documents into an EPUB3 publication archive.
+These rules may be loosened in the future, but they are mandatory at the moment.
+
+Rule 1::
+Each chapter must begin in a dedicated file that resides at the root of the project.
+It must be included into the main document using the AsciiDoc include directive.
+The main document, which we call the “spine”, may only contain a document header and a sequence of include directives.
+See <<Declaring the Spine>> for details.
++
+TIP: The include directive may be used in the chapter files to include other files (even files in other folders).
+
+Rule 2::
+Each chapter must start with a document title (i.e., level-0 heading).
+The document header must declare an ID that matches the chapter filename (minus its file extension).
+
+Rule 3::
+No sections in a chapter may have the same ID as the chapter ID.
+
+Rule 4::
+The cross reference (i.e., xref) from one chapter to another must be in the format `+xref:chapter-id#chapter-id[optional reftext]+` (or `+<<chapter-id#chapter-id,optional reftext>>+`).
+If you want to reference a section in a chapter, update the fragment (i.e., the value that follows the hash) to match the target section ID.
+The reftext is optional since the reftext of the target is used by default.
++
+TIP: To assign reference text (i.e., reftext) for a chapter title, set the document attribute `docreftext` in the header for that chapter.
++
+TIP: Rule 2 states that the chapter ID must match the basename of the chapter file.
+In truth, the chapter ID can be a _derivative of_ the chapter filename.
+In that case, an attribute reference can be used to prepend a prefix to an inter-document cross reference.
+For example, if you want each chapter file to begin with `chapter-`, you'd write the xref as `+xref:{chapter-prefix}chapter-id#chapter-id[]+`.
+You'd then assign an empty value to the `chapter-prefix` attribute when converting to an e-book and `chapter-` for all other formats.
+
+The next section goes into more detail about how to set up the spine document and include the chapter files.
+
+=== Declaring the Spine
+
+The spine (or master document) must be well-formed.
+Otherwise, {project-name} will not convert the document properly.
+If your AsciiDoc documents are not structured as explained in this section, you'll need to change them.
+
+Asciidoctor uses top-level include directives (i.e., include directives in the master document) to indicate where each chapter split should occur.
+The chapter files should begin with an AsciiDoc document header, which consists of an ID, a document title (i.e., level-0 heading), an author name, and a set of attribute entries.
+Only the document title is required.
+
+The document title in the chapter file is used as the chapter title and the label for the chapter in the TOC.
+The chapter ID, combined with the _.xhtml_ suffix, is used as the filename of the chapter inside the EPUB3 archive (though this could change in the future).
+We recommend that you base the filename of the chapter on the chapter ID.
+
+If you don't specify an ID for a chapter, one will be generated automatically from the document title.
+The rules for generating a chapter ID from the document title are as follows:
+
+* apply inline formatting, then remove XML elements
+* remove the `\&#8217;` character reference (so `John\&#8217;s` becomes `Johns`)
+* replace `\&amp;` with the word `and` (so `John \&amp; Jane` becomes `John and Jane`)
+* expand all other character references
+* lowercase all characters
+* replace illegal ID characters with the character defined by the `idseparator` attribute
+* prepend the value of the `idprefix` attribute
+* prepend an underscore if the ID begins with a number
+
+You can think of the master document as the spine of the book and the include directives the individual items being bound together.
+The target of each include directive in the master document is parsed and converted as a separate AsciiDoc document, with certain options and attributes passed down from the master to ensure consistent behavior.
+Each resulting XHTML document is then added to the EPUB3 archive as a chapter document and the master document becomes the navigation file (i.e, the table of contents).
+
+Here's an example showing the structure of a spine document:
+
+[source,asciidoc]
+----
+= Book Title
+Author Name
+:doctype: book
+:imagesdir: images
+\ifndef::ebook-format[:leveloffset: 1]
+//...and so on
+
+\include::chapter-one.adoc[]
+
+\include::chapter-two.adoc[]
+
+\include::chapter-three.adoc[]
+----
+
+IMPORTANT: The spine document cannot contain any content other than include directives.
+
+Here's an example showing the structure of a chapter document:
+
+[source,asciidoc]
+----
+[#chapter-one]
+= Chapter One
+
+chapter content
+----
+
+CAUTION: Although an explicit ID over the chapter title is not required, it's recommended for stability.
+
+If your chapter files start with a level-1 section instead of a level-2 section, you need to make the opposite adjustment in the header of the spine document:
+
+[source,asciidoc]
+----
+\ifndef::ebook-format[:leveloffset: -1]
+----
+
+If the master document does not contain any include directives, then the converter treats the document as the sole chapter in the EPUB3 archive and automatically produces a navigation file that references it.
+(Currently broken. See issue {uri-issues}/47[#47]).
+
+NOTE: Eventually, we envision introducing a dedicated block macro to represent a spine item so that we don't overload the meaning of the include directive.
+However, for the time being, the include directive fills this role.
+
+== Prerequisites
+
+All that's needed to use {project-name} is Ruby (1.9.3 or above; 2.2.x recommended) and a few Ruby gems, which we'll explain how to install in the next section.
+
+To check if you have Ruby available, use the `ruby` command to query the installed version:
+
+ $ ruby --version
+
+== Getting Started
+
+You can get {project-name} by <<Install the Published Gem,installing the published gem>>.
+ifndef::env-site[You can also <<Development,run the code from source>> if you want to use the development version or participate in development.]
+
+=== Install the Published Gem
+
+{project-name} is published as a pre-release on RubyGems.org.
+You can install the published gem using the following command:
+
+ $ NOKOGIRI_USE_SYSTEM_LIBRARIES=1 gem install asciidoctor-epub3 --pre
+
+This optional environment variable tells the gem installer to link against the C libraries on the system, if available, instead of compiling the libraries from scratch.
+This speeds up the installation of Nokogiri considerably.
+
+If you want to syntax highlight source listings, you'll also want to install Rouge or CodeRay.
+Choose one (or more) of the following:
+
+.Rouge
+ $ gem install rouge
+
+.CodeRay
+ $ gem install coderay
+
+You then activate syntax highlighting for a given document by adding the `source-highlighter` attribute to the document header (CodeRay shown):
+
+[source,asciidoc]
+----
+:source-highlighter: coderay
+----
+
+Assuming all the required gems install properly, verify you can run the `asciidoctor-epub3` script:
+
+ $ asciidoctor-epub3 -v
+
+If you see the version of {project-name} printed, you're ready to use {project-name}.
+Let's get an AsciiDoc document ready to convert to EPUB3.
+
+=== Prepare an AsciiDoc Document
+
+If you don't already have an AsciiDoc document, you can use the [file]_sample-book.adoc_ file and its chapters found in the [path]_data/samples_ directory of this project.
+
+.Master file named sample-book.adoc
+```asciidoc
+= Asciidoctor EPUB3: Sample Book
+Author Name
+v1.0, 2014-04-15
+:doctype: book
+:creator: {author}
+:producer: Asciidoctor
+:keywords: Asciidoctor, samples, e-book, EPUB3, KF8, MOBI, Asciidoctor.js
+:copyright: CC-BY-SA 3.0
+:imagesdir: images
+
+\include::asciidoctor-epub3-readme.adoc[]
+
+\include::sample-content.adoc[]
+
+\include::asciidoctor-js-introduction.adoc[]
+
+\include::asciidoctor-js-extension.adoc[]
+```
+
+=== EPUB-related AsciiDoc Attributes
+
+The metadata in the generated EPUB3 file is populated from attributes in the AsciiDoc document.
+The names of the attributes and the metadata elements to which they map are documented in this section.
+
+The term [term]_package metadata_ in Table 1 is in reference to the {uri-metadata-elem}[<metadata> element] in the EPUB3 package document (e.g., [file]_package.opf_).
+The `dc` namespace prefix is in reference to the {uri-dc}[Dublin Core Metadata Element Set].
+
+.AsciiDoc attributes that control the EPUB3 metadata (i.e., package.opf)
+[cols="1m,3"]
+|===
+|Name |Description
+
+|uuid
+|Populates the *required* unique identifier (`<dc:identifier>`) in the package metadata.
+An id will be generated automatically from the doctitle if not specified.
+The recommended practice is to identify the document by means of a string or number conforming to a formal identification system.
+
+|lang
+|Populates the content language / locale (`<dc:language>`) in the package metadata.
+
+|scripts
+|Controls the font subsets that are selected based on the specified scripts (e.g., alphabets).
+(values: *latin*, latin-ext, latin-cyrillic or multilingual)
+
+|revdate
+|Populates the publication date (`<dc:date>`) in the package metadata.
+The date should be specified in a parsable format, such as `2014-01-01`.
+
+|doctitle
+|Populates the title (`<dc:title>`) in the package metadata.
+The title is added to the metadata in plain text format.
+
+|author
+|Populates the contributors (`<dc:contributor>`) in the package metadata.
+The authors in each chapter document are aggregated together with the authors in the master file.
+
+|username
+|Used to resolve an avatar for the author that is displayed in the header of a chapter when the `publication-type` is set to a value other than `book`.
+The avatar image should be located at the path _\{imagesdir}/avatars/\{username}.jpg_, where `\{username}` is the value of this attribute.
+
+|producer
+|Populates the publisher (`<dc:publisher>`) in the package metadata.
+
+|creator
+|Populates the creator (`<dc:creator>`) in the package metadata.
+*If the creator is not specified, Asciidoctor is set as the creator with the role "mfr" (an abbreviation for manufacturer).*
+
+|description
+|Populates the description (`<dc:description>`) in the package metadata.
+
+|keywords
+|Populates the subjects (i.e., `<dc:subject>`) in the package metadata.
+The keywords should be represented as comma-separated values (CSV).
+
+|front-cover-image
+|Populates the front cover image and the image on the cover page (EPUB3 only) in the package metadata.
+The image is also added to the e-book archive.
+The value may be specified as a path or inline image macro.
+Using the inline image macro is preferred as it allows the height and width to be specified.
+
+|copyright
+|Populates the rights statement (`<dc:rights>`) in the package metadata.
+
+|source
+|Populates the source reference (`<dc:source>`) in the package metadata.
+The recommended practice is to identify the referenced resource by means of a string or number conforming to a formal identification system.
+
+|epub-properties
+|An optional override of the properties attribute for this document's item in the manifest.
+_Only applies to a chapter document._
+
+|epub3-stylesdir
+|The path to a directory that contains alternate epub3.css and epub3-css3-only.css files to customize the look and feel.
+
+|doctype
+|Effectively ignored.
+The master document is assumed to be a book and each chapter an article.
+
+|publication-type
+|Used to control the inclusion of special content in the generated HTML.
+If set to a value other than book, the byline information (author and avatar) is included below the chapter header and a typographic end mark is added at the end of the last paragraph.
+Suggested values include: book (default), anthology, magazine, journal, article.
+|===
+
+When using the EPUB3 converter, the `ebook-format` attribute resolves to the name of the e-book format being generated (epub3 or kf8) and the corresponding attribute `ebook-format-<name>` is defined, where `<name>` is `epub3` or `kf8`.
+You can use these attributes in a preprocessor directive if you only want to show certain content to readers using a particular device.
+For instance, if you want to display a message to readers on Kindle, you can use:
+
+[source,asciidoc]
+----
+\ifdef::ebook-format-kf8[Hello Kindle reader!]
+----
+
+With that out of the way, it's time to convert the AsciiDoc document directly to EPUB3.
+
+== Performing the Conversion
+
+You can convert AsciiDoc documents to EPUB3 and KF8/MOBI from the commandline using the `asciidoctor-epub3` script provided with the {project-name} project.
+
+=== Convert AsciiDoc to EPUB3
+
+Converting an AsciiDoc document to EPUB3 is as simple as passing your document to the `asciidoctor-epub3` command.
+This command should be available on your PATH if you installed the `asciidoctor-epub3` gem.
+Otherwise, you can find the command in the [path]_bin_ folder of the project.
+We also recommend specifying an output directory using the `-D` option flag.
+
+ $ asciidoctor-epub3 -D output data/samples/sample-book.adoc
+
+When the script completes, you'll see the file [file]_sample-book.epub_ appear in the [path]_output_ directory.
+Open that file with an EPUB reader (aka e-reader) to view the result.
+
+Below are several screenshots of this sample book as it appears on an Android phone.
+
+.An example of a chapter title and abstract shown side-by-side in Day and Night mode
+image::screenshots/chapter-title.png[]
+
+.An example of a section title followed by paragraph text separated by a literal block
+image::screenshots/section-title-paragraph.png[]
+
+.An example of a figure and an admonition
+image::screenshots/figure-admonition.png[]
+
+.An example of a sidebar
+image::screenshots/sidebar.png[]
+
+.An example of a table
+image::screenshots/table.png[]
+
+NOTE: The `asciidoctor-epub3` command is a temporary solution for invoking the {project-name} converter.
+We plan to remove this script once we have completed proper integration with the `asciidoctor` command.
+
+TIP: As another example, point `asciidoctor-epub3` at the {uri-github-guides-fork}[GitHub Guides] that we've ported to AsciiDoc, then compare the output to the real {uri-github-guides}[GitHub Guides].
+
+=== Validate the EPUB3 Archive
+
+Next, let's validate the EPUB3 archive to ensure it built correctly.
+
+.EPUB3 with validation
+ $ asciidoctor-epub3 -D output -a ebook-validate data/samples/sample-book.adoc
+
+.Validation success
+[.output]
+....
+Epubcheck Version 3.0.1
+
+Validating against EPUB version 3.0
+No errors or warnings detected.
+....
+
+If the EPUB3 archive contains any errors, they will be output in your terminal.
+
+.EPUB Standard & Validator
+****
+The electronic publication (EPUB) standard is developed by the {uri-idpf}[International Digital Publishing Forum (IDPF)].
+{uri-epub}[EPUB 3.1], released in January 2017, is the latest version of this standard.
+
+An EPUB3 archive contains:
+
+* a package document (metadata, file manifest, spine)
+* a navigation document (table of contents)
+* one or more content documents
+* assets (images, fonts, stylesheets, etc.)
+
+The IDPF also supports {uri-epubcheck}[EpubCheck].
+EpubCheck parses and validates the file against the EPUB schema.
+****
+
+If you want to browse the contents of the EPUB3 file that is generated, or preview the XHTML files in a regular web browser, add the `-a ebook-extract` flag to the `asciidoctor-epub3` command.
+The EPUB3 file will be extracted to a directory adjacent to the generated file, but without the file extension.
+
+ $ asciidoctor-epub3 -D output -a ebook-extract data/samples/sample-book.adoc
+
+In this example, the contents of the EPUB3 will be extracted to the [path]_output/sample-book_ directory.
+
+=== Convert AsciiDoc to KF8/MOBI
+
+Creating a KF8/MOBI archive directly from an AsciiDoc document is done with the same generation script (`asciidoctor-epub3`).
+You just need to specify the format (`-a ebook-format`) as `kf8`.
+
+ $ asciidoctor-epub3 -D output -a ebook-format=kf8 data/samples/sample-book.adoc
+
+When the script completes, you'll see the file [file]_sample-book.mobi_ as well as [file]_sample-book-kf8.epub_ (the precursor) appear in the [path]_output_ directory.
+
+KindleGen does mandatory validation so you don't need to run the `validate` command after converting to KF8/MOBI.
+
+.What is KF8?
+****
+Kindle Format 8 (KF8) is Amazon's next generation file format offering a wide range of new features and enhancements--including HTML5 and CSS3 support--that publishers can use to create a broad range of books.
+The format is close enough to EPUB3 that it's safe to think of it simply as an EPUB3 implementation under most circumstances.
+You can read more about the format on the {uri-kf8}[Kindle Format 8 page].
+
+Amazon continues to use the _.mobi_ file extension for KF8 archives, despite the fact that they've switched from the Mobipocket format to the EPUB3-like KF8 format.
+That's why we refer to the format in this project as KF8/MOBI.
+****
+
+=== Tuning Listing Captions
+
+Unlike the built-in converters, the EPUB3 converter is configured to add a signifier (e.g., `Listing`) at the start the caption for all listing and source blocks that have a title.
+This behavior is triggered because the `listing-caption` attribute is set by default.
+
+If you don't want the signifier to be included at the beginning of the caption on listing and source blocks, simply unset the `listing-caption` when invoking Asciidoctor EPUB3.
+
+ $ asciidoctor-epub3 -a listing-caption! book.adoc
+
+Now the behavior will match that of the built-in converters.
+For more information about this attribute and other related attributes, see {uri-asciidoctor-i18n}[internationalization and numbering].
+
+=== Command Arguments
+
+*-h, --help* ::
+  Show the usage message
+
+*-D, --destination-dir* ::
+  Writes files to specified directory (defaults to the current directory)
+
+*-a ebook-extract* ::
+  Extracts the EPUB3 to a folder in the destination directory after the file is generated
+
+*-a ebook-format=<format>* ::
+  Specifies the ebook format to generate (epub3 or kf8, default: epub3)
+
+*-a ebook-validate* ::
+  Runs Epubcheck 3.0.1 to validate output file against the EPUB3 specification
+
+*-a ebook-compress=<0|1|2|none|standard|huffdic>* ::
+  Controls the compression type used by kindlegen (0=none [default if unset], 1=standard [default if empty], 2=huffdic)
+
+*-v, --version* ::
+  Display the program version
+
+=== EPUB3 Archive Structure
+
+Here's a sample manifest of files found in an EPUB3 document produced by {project-name}.
+
+....
+META-INF/
+  container.xml
+OEBPS/
+  fonts/
+    font-awesome.ttf
+    font-icons.ttf
+    mplus-1mn-latin-bold.ttf
+    mplus-1mn-latin-light.ttf
+    mplus-1mn-latin-medium.ttf
+    mplus-1mn-latin-regular.ttf
+    mplus-1p-latin-bold.ttf
+    mplus-1p-latin-light.ttf
+    mplus-1p-latin-regular.ttf
+    noto-serif-bold-italic.ttf
+    noto-serif-bold.ttf
+    noto-serif-italic.ttf
+    noto-serif-regular.ttf
+  images/
+    avatars/
+      default.png
+    figure-01.png
+    figure-02.png
+  styles/
+    epub3-css3-only.css
+    epub3.css
+  chapter-01.xhtml
+  chapter-02.xhtml
+  ...
+  cover.xhtml
+  nav.xhtml
+  package.opf
+  toc.ncx
+mimetype
+....
+
+== Working with Images
+
+Images referenced in your AsciiDoc document must be stored in the images catalog.
+The images catalog is defined by the `imagesdir` attribute.
+If set, the value of this attribute is resolved relative to the spine document and must be at or below (i.e., within) the directory of that document.
+(In other words, it cannot point to a location outside the document directory).
+If this attribute is not set, the images catalog defaults to the directory of the spine document.
+{project-name} will discover all local image references and insert those images into the EPUB3 archive at the same relative path.
+
+WARNING: {project-name} does not currently discover and package inline images.
+See issue {uri-issues}/30[#30].
+
+=== Default Images
+
+The sample book contains placeholder images for an author avatar and a book cover.
+
+// TODO explain the avatar and book cover images
+
+=== Changing the Cover Image
+
+Ereaders have different image resolution and file size limits regarding a book's cover.
+Kindle covers tend to be 1050x1600 (16:9 resolution), which is the size of the sample cover provided with {project-name}.
+To ensure your cover displays correctly, you'll want to review the documentation or publisher guidelines for the e-reading platform you're targeting.
+
+WARNING: We've found that if the book cover is more than 1600px on any side, Aldiko will not render it and may even crash.
+
+Feel free to use the SVG of the sample cover in the [path]_data/images_ folder as a template for creating your own cover.
+Once your image is ready, you can replace the placeholder cover image by defining the `front-cover-image` attribute in the header of the master document.
+
+[source,asciidoc]
+----
+:front-cover-image: image:cover.png[Front Cover,1050,1600]
+----
+
+The image is resolved relative to the directory specified in the `imagesdir` attribute, which defaults to the directory of the spine document.
+The image can be in any format, though we recommend using PNG, JPG, or SVG as they are the most portable formats.
+
+IMPORTANT: *You should always specify the dimensions of the cover image.*
+This ensures the viewer will preserve the aspect ratio if it needs to be scaled to fit the screen.
+If you don't specify a width and height, then the dimensions are assumed to be 1050x1600.
+
+=== How to Organize Images by Chapter
+
+You can set the `imagesdir` attribute per chapter (as long as the attribute is not overridden by the API).
+To do so, use an attribute entry to set the value of the `imagesdir` attribute on the line above the include directive for a chapter.
+
+[source,asciidoc]
+----
+:imagesdir: chapter-one/images
+\include::chapter-one.adoc[]
+
+:imagesdir: chapter-two/images
+\include::chapter-two.adoc[]
+----
+
+== About the Theme
+
+EPUB3 and KF8/MOBI files are styled using CSS3.
+However, each e-reading platform honors a reduced set of CSS3 styles, and the styles they allow and how they implement them are rarely documented.
+All we've got to say is _thank goodness for CSS hacks, media queries and years of CSS experience!_
+
+The theme provided with {project-name} has been crafted to display EPUB3 and KF8/MOBI files as consistently as possible across the most common EPUB3 platforms and to degrade gracefully in select EPUB2 platforms.
+The theme maintains readability regardless of the reading mode (i.e., day, night or sepia) or the display device's pixel density and screen resolution.
+
+The theme's CSS files are located in the [path]_data/style_ directory.
+
+IMPORTANT: {project-name} only provides one theme, and, at this time, you can not replace it with a custom theme using the `stylesheet` attribute.
+However, you can use your own [path]_epub3.css_ and [path]_epub3-css3-only.css_ files by specifying the directory where they are located using the `epub3-stylesdir` attribute.
+
+=== Fonts
+
+{project-name} embeds a set of fonts and font icons.
+The theme's fonts are located in the [path]_data/fonts_ directory.
+
+The M+ Outline fonts are used for titles, headings, literal (monospace) text, and annotation numbers.
+The body text uses Noto Serif.
+Admonition icons and the end-of-chapter mark are from the Font Awesome icon font.
+Refer to the <<NOTICE#,NOTICE>> file for further information about the fonts.
+
+// TODO document command to generate the M+ 1p latin fonts
+
+=== Device-specific Styles
+
+For readers that support JavaScript, {project-name} adds a CSS class to the body element of each chapter that corresponds to the name of the reader as reported by the {uri-epubreadingsystem}[epubReadingSystem] JavaScript object.
+This enhancement allows you to use styles targeted specifically at that reader.
+
+Below you can find the readers that are known to support this feature and the CSS class name that gets added to the body element.
+
+,===
+Reader,HTML Element,CSS Class Name
+
+Gitden,body,gitden-reader
+Namo PubTreeViewer,body,namo-epub-library
+Readium,body,readium-js-viewer
+iBooks,body,ibooks
+Adobe RMSDK >= 11,body,rmsdk
+Google Books,div,gb-reader-container
+,===
+
+NOTE: Kobo does not support the epubReadingSystem JavaScript object, despite the fact that it does support JavaScript.
+
+== Pushing to Android
+
+While it's certainly possible to view the EPUB3 on your desktop/laptop, you'll probably want to test it where it's most likely going to be read--on a reading device such as a smartphone or a tablet.
+Assuming you have an Android device available, transferring the EPUB3 to the device is easy once you get a bit of setup out of the way.
+
+You transfer files from your computer to an Android phone over a USB connection using a command from the Android SDK Tools called `adb`.
+Follow these steps to get it setup:
+
+. Download the Android SDK Tools zip from the table labeled *SDK Tools Only* on the {uri-android-sdk}[Get the Android SDK] page
+. Extract the archive
+. Locate the path to the `adb` command (Hint: Look in the platform-tools folder)
+. Set the environment variable named ADB to the path of the `adb` command
+
+ $ export ADB=~/apps/android-sdk/platform-tools/adb
+
+Now you can use the `adb-push-ebook` script provided by {project-name} to push the EPUB3 and KF8/MOBI files to your Android device.
+
+.Publish both EPUB3 and KF8 files to Android device
+ $ adb-push-ebook output/sample-book
+
+IMPORTANT: Don't include the file extension since the script will check for both the .epub and .mobi files.
+
+The `adb-push-ebook` script copies the files to the following locations on the device:
+
+,===
+File type,Destination on Android device
+
+*.epub,/sdcard/
+*.mobi,/sdcard/Android/data/com.amazon.kindle/files/
+,===
+
+Amazon Kindle should immediately detect the new file and display it in your “On Device” library.
+You'll have to manually import the EPUB3 into your e-reader of choice.
+
+== E-book Reader Recommendations and Quirks
+
+EPUB3 e-readers will provide the best reading experience when viewing the book generated by {project-name}.
+Here's a list of some of the e-readers we know to have good EPUB3 support and the systems on which they run:
+
+* http://www.amazon.com/gp/feature.html?docId=1000493771[Amazon Kindle] (most platforms)
+* http://gitden.com/gitdenreader[Gitden] (Android and iOS)
+* http://www.apple.com/ibooks[iBooks] (iOS, OSX)
+* https://chrome.google.com/webstore/detail/readium/fepbnnnkkadjhjahcafoaglimekefifl?hl=en-US[Readium] (Chrome)
+* http://www.kobo.com/apps[Kobo] (Android, iOS, OSX and Windows)
+* http://www.namo.com/site/namo/menu/5074.do[Namo PubTreeViewer] (Android, iOS and Windows)
+* http://calibre-ebook.com[Calibre (ebook-viewer)] (Linux, OSX, Windows)
+
+IMPORTANT: To get the full experience, *ensure that the e-reader is configured to use the publisher's styles*.
+Different e-readers word this setting in different ways.
+Look for the option screen that allows you to set the fonts and font colors and disable it.
+With publisher's styles active, you'll still be able to adjust the relative size of the fonts and margins and toggle between day, night and sepia mode.
+
+When the book is viewed in EPUB2 e-readers and Kindle apps/devices which have reached their end-of-life (EOL), the e-book relies on the strong semantics of the HTML and some fallback styles to render properly.
+EPUB2 e-readers, such as Aldiko, don't understand CSS3 styles and therefore miss out on some of subtleties in the formatting.
+
+As mentioned in the <<About the Theme,theme section>>, the stylesheet attempts to provide as consistent a reading experience as possible in the common EPUB3 e-readers, despite the different CSS implementation rules and limitations unique to each e-book application.
+Most of these obstacles were addressed using media queries or explicit classes.
+Some we haven't conquered.
+Yet.
+
+The <<kindle-quirks,Kindle quirks list>> shows you just a few of the constraints we encountered.
+To see all of the workarounds and why we chose certain style options, check out the code and comments in the [file]_epub3.css_ and [file]_epub3-css-only.css_ files.
+
+// TODO add http://www.namo.com/site/namo/menu/5074.do[Namo PubTreeViewer] (iOS, Android & Windows) and http://www.kobo.com/apps[Kobo] (iOS, Android, OSX & Windows)
+
+[#kindle-quirks]
+.Kindle Quirks
+* overrules margins and line heights like a medieval tyrant
+* `font-family` can't be set on `<body>`
+* requires `!important` on text-decoration
+* `position: relative` isn't permitted
+* strips (or unwraps) `<header>` tags
+* `@page` isn't supported
+* `page-break: avoid` isn't supported
+* `page-break-*` cannot be applied using a compound or nested CSS selector; must be a simple ID or class
+* `max-width` isn't supported
+* `widows` are left in the cold
+* won't style footers without an explicit class
+* `-webkit-hyphens: auto` causes Kindle for Mac (and perhaps others) to crash
+* `text-rendering: optimizeLegibility` causes file to be rejected by KFP (and causes the text to disappear in some previewers)
+* Kindle Direct Publishing (KDP) strips out select font-related CSS rules (e.g., `font-family`) under certain conditions (for reasons that have proved nearly impossible to reverse engineer); the known workaround is to add a layer of indirection by using `@import` to hide the CSS files from the script
+
+=== Kindle Direct Publishing
+
+If you want to publish your book to the Amazon Kindle store, and have your styles and fonts preserved, you must use https://kdp.amazon.com[Kindle Direct Publishing].
+No other method of publishing to the Amazon Kindle store will leave your book intact.
+
+This workflow also allows you to preview the book the way your readers will see it.
+So it's a good way to acceptance test your custom styles to discover which ones are honored and which ones are ignored.
+
+==== Look Inside
+
+The Amazon Kindle store offers a “Look Inside” feature for reader.
+This so-called feature aims to gives readers a glimpse at the contents of the book.
+Sadly, it does no such thing.
+Instead, it shows pages from the legacy MOBI document that kindlegen adds to your e-book file, not the higher fidelity KF8 document.
+This means the preview won't look at all like what the Kindle reader or application will actually show.
+Custom fonts, font-based icons, and most styles will be missing.
+
+This situation is unfortunate for authors.
+What we recommend is to complain loudly to Amazon that they are hurting your sales by displaying a crippled version of your product.
+Tell them that under no circumstances should they show an altered version of your product.
+Another option is to contact Amazon to opt-out of this program.
+
+=== Send to Kindle
+
+WARNING: Don't use it!
+
+{uri-send-to-kindle}[Send to Kindle] is a tempting choice for transferring MOBI files to a Kindle device.
+However, it's utterly broken.
+If you use this tool, don't be surprised if you see missing font-based icons, default fonts, and other font and style errors in your manuscript.
+It's known to strip out all the font files and break the encoding of the document.
+
+We *strongly* recommend you transfer the file to your device using either a USB cable or a sync service such as Dropbox.
+Once transferred, Whispersync will detect the new file (usually looking in the Books folder) and add it to the “On Device” library.
+
+It's important to note that “Send to Kindle” is not reflective of the experience readers will have when shopping in the Kindle store.
+If you use Kindle Direct Publishing (KDP) to publish your book, the integrity of your book will be preserved (to the degree that Amazon allows).
+
+////
+head-stop (default '.')
+stack-head role (run-in is default)
+signature role (sets hardbreaks option)
+
+subject-stop (default ':')
+////
+
+////
+== Device and Application Testing
+
+{project-name} has been tested on the following devices and applications.
+
+.Computers
+|===
+|Device |OS |Resolution |ppi |Browsers |Readium |Gitden |Kindle
+
+|Asus
+|Fedora 17
+|no x no
+|
+|Chrome x
+|Readium
+
+Asus, Fedora 20, display resolution, Chrome x, Readium
+Ideapad Y460  |Fedora 20 |1366 x 768 (16:9) |
+PC, Windows X,
+|===
+
+.Tablets
+|===
+Asus Transformer, Android x, display resolution, Aldiko, Kindle, Readium, Readmill
+Nexus,
+|===
+
+.Phones
+|===
+HTC Sensation, Android x, display resolution, xxxx
+Nexus ,
+|===
+
+////
+
+ifndef::env-site[]
+== Contributing
+
+In the spirit of free software, _everyone_ is encouraged to help improve this project.
+
+To contribute code, simply fork the project on GitHub, hack away and send a pull request with your proposed changes.
+
+Feel free to use the {uri-issues}[issue tracker] or {uri-discuss}[Asciidoctor mailing list] to provide feedback or suggestions in other ways.
+
+== Development
+
+To help develop {project-name}, or to simply test drive the development version, you need to get the source from GitHub.
+Follow the instructions below to learn how to clone the source and run it from your local copy.
+
+=== Retrieve the Source Code
+
+You can retrieve {project-name} in one of two ways:
+
+. Clone the git repository
+. Download a zip archive of the repository
+
+==== Option 1: Fetch Using `git clone`
+
+If you want to clone the git repository, simply copy the {uri-repo}[GitHub repository URL] and pass it to the `git clone` command:
+
+[subs=attributes+]
+ $ git clone {uri-repo}
+
+Next, change to the project directory:
+
+[subs=attributes+]
+ $ cd {project-handle}
+
+==== Option 2: Download the Archive
+
+If you want to download a zip archive, click on the btn:[icon:cloud-download[\] Download Zip] button on the right-hand side of the repository page on GitHub.
+Once the download finishes, extract the archive, open a console and change to that directory.
+
+TIP: Instead of working out of the {project-handle} directory, you can simply add the absolute path of the [path]_bin_ directory to your `PATH` environment variable.
+
+We'll leverage the project configuration to install the necessary dependencies.
+
+=== Prepare RVM (optional step)
+
+If you're using {uri-rvm}[RVM], we recommend creating a new gemset to work with {project-name}:
+
+ $ rvm use 2.2@asciidoctor-epub3-dev --create
+
+We like RVM because it keeps the dependencies required by various projects isolated.
+
+=== Install the Dependencies
+
+The dependencies needed to use {project-name} are defined in the [file]_Gemfile_ at the root of the project.
+We can use Bundler to install the dependencies for us.
+
+To check if you have Bundler available, use the `bundle` command to query the version installed:
+
+ $ bundle --version
+
+If it's not installed, use the `gem` command to install it.
+
+ $ gem install bundler
+
+Then use the `bundle` command to install the project dependencies:
+
+ $ bundle
+
+NOTE: You need to call `bundle` from the project directory so that it can find the [file]_Gemfile_.
+
+=== Build and Install the Gem
+
+Now that the dependencies are installed, you can build and install the gem.
+
+Use the Rake build tool to build and install the gem (into the current RVM gemset or into the system if not using RVM):
+
+ $ rake install:local
+
+The build will report that it built the gem into the [path]_pkg_ directory and that it installed the gem.
+
+Once the development version of the gem is installed, you can run {project-name} by invoking the `asciidoctor-epub3` script:
+
+ $ asciidoctor-epub3 -v
+
+If you see the version of {project-name} printed to your console, you're ready to use {project-name}!
+
+=== Shortcut: Run the Launch Script Directly
+
+Assuming all the required gems install properly, you can run the `asciidoctor-epub3` script directly out of the project folder using either:
+
+ $ bin/asciidoctor-epub3 -v
+
+or
+
+ $ bundle exec bin/asciidoctor-epub3 -v
+
+You're now ready to test drive the development version of {project-name}!
+
+Jump back to <<Getting Started>> to learn how to create an AsciiDoc document and convert it to EPUB3.
+endif::[]
+
+== Authors
+
+{project-name} was written by https://github.com/mojavelinux[Dan Allen] and https://github.com/graphitefriction[Sarah White] of OpenDevise on behalf of the Asciidoctor Project.
+
+== Copyright
+
+Copyright (C) 2014-2019 OpenDevise Inc. and the Asciidoctor Project.
+Free use of this software is granted under the terms of the MIT License.
+
+For the full text of the license, see the <<LICENSE#,LICENSE>> file.
+Refer to the <<NOTICE#,NOTICE>> file for information about third-party Open Source software in use.
+
+////
+== Additional Points of Note
+
+* uppercase chapter titles to work around line-height limitation in Kindle (1.4 minimum)
+* using vw units crashes Aldiko
+* circled numbers from M+ 1mn for annotation numbers in listing blocks
+* avatars for authors
+* document command to generate the M+ 1p latin fonts
+* recommended e-readers (Readium, Gitden, Kindle, etc)
+////

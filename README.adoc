@@ -5,13 +5,13 @@
 
 This Docker container provides:
 
-* Asciidoctor 1.5.8
-* Aciidoctor Diagram with Graphviz integration (supports plantuml and graphiz diagrams)
-* Asciidoctor PDF (alpha)
+* Asciidoctor 2.0.10
+* Asciidoctor Diagram 1.5.18 with Graphviz integration (supports plantuml and graphiz diagrams)
+* Asciidoctor PDF 1.5.0.beta.5
 * Asciidoctor EPUB3 (alpha)
 * Asciidoctor Mathematical
 * AsciiMath
-* Source highlighting using CodeRay or Pygments
+* Source highlighting using Rouge or CodeRay (Pygments not supported in the default Docker image as only Python 3 is available)
 * Asciidoctor Confluence
 
 == How to use it
@@ -68,6 +68,23 @@ docker run \
 ----
 asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
 ----
+
+* To use Asciidoctor reveal.js with local downloaded reveal.js:
+
+[source,bash]
+----
+asciidoctor-revealjs sample-slides.adoc
+asciidoctor-revealjs -r asciidoctor-diagram sample-slides.adoc
+----
+
+* To use Asciidoctor reveal.js with online reveal.js:
+
+[source,bash]
+----
+asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0 sample-slides.adoc
+asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0 -r asciidoctor-diagram sample-slides.adoc
+----
+
 
 * Batch mode. You can use it in a "batch" mode
 +

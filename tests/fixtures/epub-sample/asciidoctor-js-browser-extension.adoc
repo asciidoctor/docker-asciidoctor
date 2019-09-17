@@ -1,0 +1,46 @@
+[#asciidoctor-js-browser-extension]
+= Asciidoctor.js browser extension: _Preview_ AsciiDoc in your browser
+Guillaume Grossetie <https://github.com/mogztter>
+2013-09-18
+:username: mogztter
+:gh-chrome-repo: https://github.com/asciidoctor/asciidoctor-chrome-extension
+:gh-ff-repo: https://github.com/asciidoctor/asciidoctor-firefox-addon
+:gh-adjs-repo: https://github.com/asciidoctor/asciidoctor.js
+:gh-ad-repo: https://github.com/asciidoctor/asciidoctor
+:download-chrome-extension: https://chrome.google.com/webstore/detail/asciidoctorjs-live-previe/iaalpfgpbocpdfblpnhhgllgbdbchmia
+:download-ff-addon: https://addons.mozilla.org/fr/firefox/addon/asciidoctorjs-live-preview/
+:markitup-site: http://markitup.jaysalvat.com/
+:experimental:
+
+I'd like to introduce you to the easiest way to render any AsciiDoc file, local or remote, as HTML directly in your browser!
+All you need to do is install the {download-chrome-extension}[Chrome extension] or the {download-ff-addon}[Firefox add-on].
+Then you can preview any AsciiDoc file as HTML just by visiting it!
+
+== How it works
+
+The Chrome extension and the Firefox add-on use {gh-adjs-repo}[Asciidoctor.js] to render AsciiDoc as HTML inside your browser.
+Both provide a toggle button to switch between HTML output and AsciiDoc source.
+
+Here you can see a local AsciiDoc file rendered inside of Chrome.
+
+.Asciidoctor.js Chrome extension in action
+image::asciidoctor-js-chrome-extension.png[]
+
+TIP: You can view any AsciiDoc file on GitHub through the lens of Asciidoctor.js with this extension!
+Simply navigate to the file in the GitHub web interface (try https://github.com/asciidoctor/asciidoctor.org/blob/master/news/introducing-asciidoctor-js-live-preview.adoc[this blog post]) and click the btn:[Raw] button that appears above the file preview.
+Looks much better, doesn't it?
+
+== Future
+
+Currently, we are using {gh-adjs-repo}[Asciidoctor.js] based on {gh-ad-repo}[Asciidoctor] 0.1.2.
+We planned to cross-compile the newly-released {gh-ad-repo}[Asciidoctor] 0.1.4 to Javascript, to support the latest and greatest features!
+
+We are also working on adding some cool new features :
+
+ * browser-based editor using {markitup-site}[MarkItUp!]
+ * live reload to automatically refresh on local file changes
+ * and many more...
+
+== Contributing
+
+We're always open for patches, better documentation, feature requests, evangelizing or any help you're able to provide.
