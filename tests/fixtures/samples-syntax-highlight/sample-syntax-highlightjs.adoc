@@ -1,0 +1,4 @@
+
+:source-highlighter: highlight.js
+
+include::includes/syntax-template.adoc[]

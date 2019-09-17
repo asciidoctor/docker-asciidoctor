@@ -4,10 +4,10 @@ LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUP
 
 ARG asciidoctor_version=2.0.10
 ARG asciidoctor_confluence_version=0.0.2
-ARG asciidoctor_pdf_version=1.5.0.beta.4
+ARG asciidoctor_pdf_version=1.5.0.beta.5
 ARG asciidoctor_diagram_version=1.5.18
 ARG asciidoctor_epub3_version=1.5.0.alpha.9
-ARG asciidoctor_mathematical_version=0.3.0
+ARG asciidoctor_mathematical_version=0.3.1
 ARG asciidoctor_revealjs_version=2.0.0
 
 ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
@@ -30,13 +30,15 @@ RUN apk add --no-cache \
     inotify-tools \
     make \
     openjdk8-jre \
-    py2-pillow \
-    py-setuptools \
-    python2 \
+    python3 \
+    py3-pillow \
+    py3-setuptools \
     ruby \
     ruby-mathematical \
+    ruby-rake \
     ttf-liberation \
     ttf-dejavu \
+    tzdata \
     unzip \
     which
 
@@ -59,8 +61,6 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     epubcheck:3.0.1 \
     haml \
     kindlegen:3.0.3 \
-    pygments.rb \
-    rake \
     rouge \
     slim \
     thread_safe \
@@ -71,14 +71,12 @@ RUN apk add --no-cache --virtual .rubymakedepends \
 # functionnalities as diagrams or syntax highligthing
 RUN apk add --no-cache --virtual .pythonmakedepends \
     build-base \
-    python2-dev \
-    py2-pip \
-  && pip install --upgrade pip \
-  && pip install --no-cache-dir \
+    python3-dev \
+    py3-pip \
+  && pip3 install --no-cache-dir \
     actdiag \
     'blockdiag[pdf]' \
     nwdiag \
-    Pygments \
     seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
