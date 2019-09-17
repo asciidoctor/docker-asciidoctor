@@ -52,6 +52,23 @@ asciidoctor-epub3 -r asciidoctor-diagram sample-with-diagram.adoc
 asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
 ----
 
+* To use Asciidoctor reveal.js with local downloaded reveal.js:
+
+[source,bash]
+----
+asciidoctor-revealjs sample-slides.adoc
+asciidoctor-revealjs -r asciidoctor-diagram sample-slides.adoc
+----
+
+* To use Asciidoctor reveal.js with online reveal.js:
+
+[source,bash]
+----
+asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0 sample-slides.adoc
+asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0 -r asciidoctor-diagram sample-slides.adoc
+----
+
+
 * Batch mode. You can use it in a "batch" mode
 +
 [source, bash]
