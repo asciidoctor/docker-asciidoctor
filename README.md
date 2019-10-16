@@ -6,9 +6,9 @@ This Docker container provides:
 
   - Asciidoctor 2.0.10
 
-  - Asciidoctor Diagram 1.5.18 with Graphviz integration (supports plantuml and graphiz diagrams)
+  - Asciidoctor Diagram 1.5.19 with Graphviz integration (supports plantuml and graphiz diagrams)
 
-  - Asciidoctor PDF 1.5.0.beta.5
+  - Asciidoctor PDF 1.5.0.beta.6
 
   - Asciidoctor EPUB3 (alpha)
 
@@ -33,7 +33,7 @@ It will be directly mapped with */documents* of the container.
 Once started, you can use Asciidoctor commands to convert AsciiDoc files you created in the directory mentioned above. You can find several examples below.
 
   - To run Asciidoctor on a basic AsciiDoc file:
-    
+
     ``` bash
     asciidoctor sample.adoc
     asciidoctor-pdf sample.adoc
@@ -41,7 +41,7 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     ```
 
   - To run AsciiDoc on an AsciiDoc file that contains diagrams:
-    
+
     ``` bash
     asciidoctor -r asciidoctor-diagram sample-with-diagram.adoc
     asciidoctor-pdf -r asciidoctor-diagram sample-with-diagram.adoc
@@ -49,13 +49,13 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     ```
 
   - To use Asciidoctor Confluence:
-    
+
     ``` bash
     asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
     ```
 
   - Batch mode. You can use it in a "batch" mode
-    
+
     ``` bash
     docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
     ```
@@ -79,7 +79,7 @@ You need the following tools:
   - "bats" is used as a test suite runner. Since the ability to build is one way of testing, it is included.
 
   - You just have to run the bats test suite, from the repository root:
-    
+
     ``` bash
     make test
     ```
