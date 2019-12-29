@@ -72,6 +72,11 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" which asciidoctor-confluence
 }
 
+@test "kramdoc is installed and in the path" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" which kramdoc
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" kramdoc --version
+}
+
 @test "We can generate an HTML document from basic example" {
   docker run -t --rm \
     -v "${BATS_TEST_DIRNAME}":/documents/ \
@@ -214,4 +219,12 @@ teardown() {
     "${DOCKER_IMAGE_NAME_TO_TEST}" \
       asciidoctor-pdf -D /documents/tmp \
       /documents/fixtures/samples-syntax-highlight/*.adoc
+}
+
+@test "We can convert a Markdown file to an AsciiDoc file" {
+  docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      kramdoc /documents/fixtures/sample-markdown.md \
+      -o /documents/tmp/sample-markdown.adoc
 }
