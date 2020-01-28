@@ -56,6 +56,20 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
     ```
 
+  - To use Asciidoctor reveal.js with local downloaded reveal.js:
+
+    ``` bash
+    asciidoctor-revealjs sample-slides.adoc
+    asciidoctor-revealjs -r asciidoctor-diagram sample-slides.adoc
+    ```
+
+  - To use Asciidoctor reveal.js with online reveal.js:
+
+    ``` bash
+    asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0 sample-slides.adoc
+    asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0 -r asciidoctor-diagram sample-slides.adoc
+    ```
+
   - Batch mode. You can use it in a "batch" mode
 
     ``` bash
