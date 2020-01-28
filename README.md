@@ -14,6 +14,8 @@ This Docker container provides:
 
   - Asciidoctor Mathematical
 
+  - Asciidoctor reveal.js 3.1.0
+
   - AsciiMath
 
   - Source highlighting using Rouge or CodeRay (Pygments not supported in the default Docker image as only Python 3 is available)

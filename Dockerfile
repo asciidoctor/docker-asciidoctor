@@ -8,7 +8,7 @@ ARG asciidoctor_pdf_version=1.5.0.beta.7
 ARG asciidoctor_diagram_version=1.5.19
 ARG asciidoctor_epub3_version=1.5.0.alpha.9
 ARG asciidoctor_mathematical_version=0.3.1
-ARG asciidoctor_revealjs_version=2.0.0
+ARG asciidoctor_revealjs_version=3.1.0
 
 ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_CONFLUENCE_VERSION=${asciidoctor_confluence_version} \
