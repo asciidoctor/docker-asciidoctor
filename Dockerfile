@@ -58,9 +58,9 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}" \
     "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
     coderay \
-    epubcheck:3.0.1 \
+    epubcheck-ruby:4.2.2.0 \
     haml \
-    kindlegen:3.0.3 \
+    kindlegen:3.0.5 \
     rouge \
     slim \
     thread_safe \
