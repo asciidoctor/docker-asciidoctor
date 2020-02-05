@@ -10,7 +10,7 @@ This Docker container provides:
 
   - Asciidoctor PDF 1.5.0.rc.3
 
-  - Asciidoctor EPUB3 (alpha)
+  - Asciidoctor EPUB3 1.5.0.alpha.12
 
   - Asciidoctor Mathematical
 
