@@ -64,6 +64,11 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" java -version
 }
 
+@test "python3 is installed, in the path, and executable" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" which python3
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" python3 --version
+}
+
 @test "dot (from Graphviz) is installed and in the path" {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" which dot
 }
