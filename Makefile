@@ -34,6 +34,9 @@ build:
 test:
 	bats $(CURDIR)/tests/*.bats
 
+latest:
+	docker tag $(DOCKER_IMAGE_NAME_TO_TEST) $(DOCKERHUB_USERNAME)/$(DOCKER_IMAGE_NAME):latest
+
 deploy:
 ifdef DOCKER_HUB_TRIGGER_URL
 	curl -H "Content-Type: application/json" \
