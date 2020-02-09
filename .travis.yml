@@ -10,8 +10,6 @@ env:
 script:
 - make build
 - make test
-- make README.md
-
 
 before_deploy:
   # Set up git user name before generating README.md as part of deploy
