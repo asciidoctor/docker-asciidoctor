@@ -36,7 +36,7 @@ test:
 
 deploy:
 ifdef DOCKER_HUB_TRIGGER_URL
-	curl -H "Content-Type: application/json" \
+	curl --verbose --header "Content-Type: application/json" \
 		--data '{"source_type": "Branch", "source_name": "$(CURRENT_GIT_BRANCH)"}' \
 		-X POST $(DOCKER_HUB_TRIGGER_URL)
 else
