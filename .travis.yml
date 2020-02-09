@@ -5,11 +5,11 @@ services:
 
 env:
   global:
-    - CURRENT_GIT_BRANCH=$TRAVIS_BRANCH
+    - CURRENT_GIT_REF="${TRAVIS_BRANCH}" # Pass the tag, or target branch for a PR, or the branch
 
 script:
-- make build
-- make test
+  - make build
+  - make test
 
 before_deploy:
   # Set up git user name before generating README.md as part of deploy
