@@ -7,18 +7,20 @@ env:
   global:
     - CURRENT_GIT_REF="${TRAVIS_BRANCH}" # Pass the tag, or target branch for a PR, or the branch
 
-script:
-  - make build
-  - make test
-
-before_deploy:
-  # Set up git user name before generating README.md as part of deploy
+before_script:
+  # Set up git user name before generating README.md
   - git config --local user.name "travis-build"
   - git config --local user.email "travis@travis-ci.org"
 
+script:
+  - make build
+  - make test
+  - make README.md
+
+
 deploy:
   - provider: script
-    script: make README.md deploy
+    script: make deploy
     # Do not deploy if Pull Request
     # If a contributor want to deploy on its own DockerHub account:
     # 1 - Enable Travis on the forked repository
