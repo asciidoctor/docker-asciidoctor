@@ -3,17 +3,19 @@
 
 == The environment
 
-This Docker container provides:
+This Docker image provides:
 
 * Asciidoctor 2.0.10
 * Asciidoctor Diagram 2.0.1 with Graphviz integration (supports plantuml and graphiz diagrams)
-* Asciidoctor PDF 1.5.0.rc.3
+* Asciidoctor PDF 1.5.0
 * Asciidoctor EPUB3 1.5.0.alpha.12
 * Asciidoctor Mathematical
 * Asciidoctor reveal.js 3.1.0
 * AsciiMath
 * Source highlighting using Rouge or CodeRay (Pygments not supported in the default Docker image as only Python 3 is available)
 * Asciidoctor Confluence
+
+This image uses Alpine Linux 3.11 as base image.
 
 == How to use it
 
