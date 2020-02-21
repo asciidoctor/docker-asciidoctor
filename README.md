@@ -8,7 +8,7 @@ This Docker image provides:
 
   - Asciidoctor Diagram 2.0.1 with Graphviz integration (supports plantuml and graphiz diagrams)
 
-  - Asciidoctor PDF 1.5.1
+  - Asciidoctor PDF 1.5.2
 
   - Asciidoctor EPUB3 1.5.0.alpha.12
 
