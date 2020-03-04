@@ -32,6 +32,7 @@ RUN apk add --no-cache \
     inotify-tools \
     make \
     openjdk8-jre \
+    python2 \
     python3 \
     py3-pillow \
     py3-setuptools \
@@ -64,6 +65,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     haml \
     kindlegen:3.0.5 \
     "kramdown-asciidoc:${KRAMDOWN_ASCIIDOC_VERSION}" \
+    pygments.rb \
     rouge \
     slim \
     thread_safe \
@@ -74,8 +76,12 @@ RUN apk add --no-cache --virtual .rubymakedepends \
 # functionnalities as diagrams or syntax highligthing
 RUN apk add --no-cache --virtual .pythonmakedepends \
     build-base \
+    python2-dev \
+    py2-pip \
     python3-dev \
     py3-pip \
+  && pip2 install --no-cache-dir \
+    Pygments \
   && pip3 install --no-cache-dir \
     actdiag \
     'blockdiag[pdf]' \
