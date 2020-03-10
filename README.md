@@ -10,7 +10,7 @@ This Docker image provides:
 
   - [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 1.5.3
 
-  - [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.0.alpha.12
+  - [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.0.alpha.16
 
   - [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.1
 
@@ -39,7 +39,7 @@ It will be directly mapped with */documents* of the container.
 Once started, you can use Asciidoctor commands to convert AsciiDoc files you created in the directory mentioned above. You can find several examples below.
 
   - To run Asciidoctor on a basic AsciiDoc file:
-    
+
     ``` bash
     asciidoctor sample.adoc
     asciidoctor-pdf sample.adoc
@@ -47,7 +47,7 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     ```
 
   - To run AsciiDoc on an AsciiDoc file that contains diagrams:
-    
+
     ``` bash
     asciidoctor -r asciidoctor-diagram sample-with-diagram.adoc
     asciidoctor-pdf -r asciidoctor-diagram sample-with-diagram.adoc
@@ -55,7 +55,7 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     ```
 
   - To use Asciidoctor Confluence:
-    
+
     ``` bash
     asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
     ```
@@ -79,7 +79,7 @@ asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/revea
 ```
 
   - Batch mode. You can use it in a "batch" mode
-    
+
     ``` bash
     docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
     ```
@@ -103,7 +103,7 @@ You need the following tools:
   - "bats" is used as a test suite runner. Since the ability to build is one way of testing, it is included.
 
   - You just have to run the bats test suite, from the repository root:
-    
+
     ``` bash
     make test
     ```
