@@ -1,0 +1,55 @@
+= Sample of using asciidoctor-bibtex
+:bibtex-file: {docdir}/references.bib
+:bibtex-order: alphabetical
+:bibtex-style: ieee
+
+// adapted from https://github.com/asciidoctor/asciidoctor-bibtex/tree/master/samples/all-in-one
+
+== Samples
+
+The bibliography is searched in the folder of the document, and then in
+~/Documents.
+
+Author-year references can use different styles such as: cite:[Lane12b] or
+citenp:[Lane12a].
+
+Page numbers (locators) can be added: cite:[Lane12a(89)] or citenp:[Lane12a(89-93)].
+
+A bit of pretext can be included too: See cite:see[Lane12a(89)]
+
+We can include other files, which are also processed:
+
+To include the reference list, use the section template before title, to
+prevent problems with a2x.
+
+References can be inserted in lists, too:
+
+1. This is a complex *item* with _formats_. See cite:[Lane12a].
+2. See cite:[Anderson98].
+3. See cite:[Anderson04].
+
+Also works for unordered list:
+
+* See cite:[Lane12a].
+* See cite:[Anderson98].
+* See cite:[Anderson04].
+
+Shall also work in tables:
+
+[cols="1,1",options="header"]
+|===
+| Term
+| Citation
+
+| Item 1
+| Illustrated in cite:[Lane12a].
+|===
+
+Shall also work in a footnote footnote:[We cite cite:[Lane12a] for this.].
+
+Shall also work in block title:
+
+[sect2]
+== Bibliography
+
+bibliography::references.bib[ieee]
