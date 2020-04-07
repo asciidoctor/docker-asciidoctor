@@ -5,15 +5,16 @@
 
 This Docker image provides:
 
-* Asciidoctor 2.0.10
-* Asciidoctor Diagram 2.0.1 with Graphviz integration (supports plantuml and graphiz diagrams)
-* Asciidoctor PDF 1.5.0
-* Asciidoctor EPUB3 1.5.0.alpha.12
-* Asciidoctor Mathematical
-* Asciidoctor reveal.js 3.1.0
-* AsciiMath
-* Source highlighting using Rouge or CodeRay (Pygments not supported in the default Docker image as only Python 3 is available)
-* Asciidoctor Confluence
+* https://asciidoctor.org/[Asciidoctor] 2.0.10
+* https://asciidoctor.org/docs/asciidoctor-diagram/[Asciidoctor Diagram] 2.0.1 with Graphviz integration (supports plantuml and graphiz diagrams)
+* https://asciidoctor.org/docs/asciidoctor-pdf/[Asciidoctor PDF] 1.5.0
+* https://asciidoctor.org/docs/asciidoctor-epub3/[Asciidoctor EPUB3] 1.5.0.alpha.12
+* https://github.com/asciidoctor/asciidoctor-mathematical[Asciidoctor Mathematical] 0.3.1
+* https://asciidoctor.org/docs/asciidoctor-revealjs/[Asciidoctor reveal.js] 3.1.0
+* https://rubygems.org/gems/asciimath[AsciiMath]
+* Source highlighting using http://rouge.jneen.net[Rouge] or https://rubygems.org/gems/coderay[CodeRay] (Pygments not supported in the default Docker image as only Python 3 is available)
+* https://github.com/asciidoctor/asciidoctor-confluence[Asciidoctor Confluence] 0.0.2
+* https://github.com/asciidoctor/asciidoctor-bibtex[Asciidoctor Bibtex] 0.7.1
 
 This image uses Alpine Linux 3.11 as base image.
 
