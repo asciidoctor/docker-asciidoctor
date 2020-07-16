@@ -28,6 +28,7 @@ RUN apk add --no-cache \
     ca-certificates \
     findutils \
     font-bakoma-ttf \
+    git \
     graphviz \
     inotify-tools \
     make \
