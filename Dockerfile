@@ -4,11 +4,11 @@ LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUP
 
 ARG asciidoctor_version=2.0.10
 ARG asciidoctor_confluence_version=0.0.2
-ARG asciidoctor_pdf_version=1.5.0
+ARG asciidoctor_pdf_version=1.5.3
 ARG asciidoctor_diagram_version=2.0.1
 ARG asciidoctor_epub3_version=1.5.0.alpha.12
 ARG asciidoctor_mathematical_version=0.3.1
-ARG asciidoctor_revealjs_version=3.1.0
+ARG asciidoctor_revealjs_version=4.0.1
 ARG kramdown_asciidoc_version=1.0.1
 ARG asciidoctor_bibtex_version=0.7.1
 
