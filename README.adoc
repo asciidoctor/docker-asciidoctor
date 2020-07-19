@@ -7,10 +7,10 @@ This Docker image provides:
 
 * Asciidoctor 2.0.10
 * Asciidoctor Diagram 2.0.1 with Graphviz integration (supports plantuml and graphiz diagrams)
-* Asciidoctor PDF 1.5.0
+* Asciidoctor PDF 1.5.3
 * Asciidoctor EPUB3 1.5.0.alpha.12
 * Asciidoctor Mathematical
-* Asciidoctor reveal.js 3.1.0
+* Asciidoctor reveal.js 4.0.1
 * AsciiMath
 * Source highlighting using Rouge or CodeRay (Pygments not supported in the default Docker image as only Python 3 is available)
 * Asciidoctor Confluence
@@ -67,8 +67,8 @@ asciidoctor-revealjs -r asciidoctor-diagram sample-slides.adoc
 
 [source,bash]
 ----
-asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0 sample-slides.adoc
-asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0 -r asciidoctor-diagram sample-slides.adoc
+asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.9.2 sample-slides.adoc
+asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.9.2 -r asciidoctor-diagram sample-slides.adoc
 ----
 
 
