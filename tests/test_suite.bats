@@ -82,6 +82,11 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" kramdoc --version
 }
 
+@test "git command line tool is installed and in the path" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" which git
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" git --version
+}
+
 @test "We can generate an HTML document from basic example" {
   docker run -t --rm \
     -v "${BATS_TEST_DIRNAME}":/documents/ \
@@ -232,4 +237,15 @@ teardown() {
     "${DOCKER_IMAGE_NAME_TO_TEST}" \
       kramdoc /documents/fixtures/sample-markdown.md \
       -o /documents/tmp/sample-markdown.adoc
+}
+
+@test "We can produce a website with citations from bibtex" {
+  docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor -r asciidoctor-bibtex \
+      -o /documents/tmp/sample-with-bib.html \
+      /documents/fixtures/sample-with-bib.adoc
+
+  grep 'Mane' ${TMP_GENERATION_DIR}/sample-with-bib.html
 }
