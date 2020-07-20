@@ -4,23 +4,25 @@
 
 This Docker image provides:
 
-  - Asciidoctor 2.0.10
+  - [Asciidoctor](https://asciidoctor.org/) 2.0.10
 
-  - Asciidoctor Diagram 2.0.1 with Graphviz integration (supports plantuml and graphiz diagrams)
+  - [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.0.1 with Graphviz integration (supports plantuml and graphiz diagrams)
 
-  - Asciidoctor PDF 1.5.3
+  - [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 1.5.3
 
-  - Asciidoctor EPUB3 1.5.0.alpha.12
+  - [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.0.alpha.12
 
-  - Asciidoctor Mathematical
+  - [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.1
 
-  - Asciidoctor reveal.js 3.1.0
+  - [Asciidoctor reveal.js](https://asciidoctor.org/docs/asciidoctor-revealjs/) 3.1.0
 
-  - AsciiMath
+  - [AsciiMath](https://rubygems.org/gems/asciimath)
 
-  - Source highlighting using Rouge or CodeRay (Pygments not supported in the default Docker image as only Python 3 is available)
+  - Source highlighting using [Rouge](http://rouge.jneen.net) or [CodeRay](https://rubygems.org/gems/coderay) (Pygments not supported in the default Docker image as only Python 3 is available)
 
-  - Asciidoctor Confluence
+  - [Asciidoctor Confluence](https://github.com/asciidoctor/asciidoctor-confluence) 0.0.2
+
+  - [Asciidoctor Bibtex](https://github.com/asciidoctor/asciidoctor-bibtex) 0.7.1
 
 This image uses Alpine Linux 3.11 as base image.
 
@@ -37,7 +39,7 @@ It will be directly mapped with */documents* of the container.
 Once started, you can use Asciidoctor commands to convert AsciiDoc files you created in the directory mentioned above. You can find several examples below.
 
   - To run Asciidoctor on a basic AsciiDoc file:
-
+    
     ``` bash
     asciidoctor sample.adoc
     asciidoctor-pdf sample.adoc
@@ -45,7 +47,7 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     ```
 
   - To run AsciiDoc on an AsciiDoc file that contains diagrams:
-
+    
     ``` bash
     asciidoctor -r asciidoctor-diagram sample-with-diagram.adoc
     asciidoctor-pdf -r asciidoctor-diagram sample-with-diagram.adoc
@@ -53,7 +55,7 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     ```
 
   - To use Asciidoctor Confluence:
-
+    
     ``` bash
     asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
     ```
@@ -77,7 +79,7 @@ asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/revea
 ```
 
   - Batch mode. You can use it in a "batch" mode
-
+    
     ``` bash
     docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
     ```
@@ -101,7 +103,7 @@ You need the following tools:
   - "bats" is used as a test suite runner. Since the ability to build is one way of testing, it is included.
 
   - You just have to run the bats test suite, from the repository root:
-
+    
     ``` bash
     make test
     ```

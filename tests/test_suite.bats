@@ -238,3 +238,14 @@ teardown() {
       kramdoc /documents/fixtures/sample-markdown.md \
       -o /documents/tmp/sample-markdown.adoc
 }
+
+@test "We can produce a website with citations from bibtex" {
+  docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor -r asciidoctor-bibtex \
+      -o /documents/tmp/sample-with-bib.html \
+      /documents/fixtures/sample-with-bib.adoc
+
+  grep 'Mane' ${TMP_GENERATION_DIR}/sample-with-bib.html
+}

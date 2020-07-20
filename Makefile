@@ -12,6 +12,7 @@ ASCIIDOCTOR_EPUB3_VERSION ?= 1.5.0.alpha.12
 ASCIIDOCTOR_MATHEMATICAL_VERSION ?= 0.3.1
 ASCIIDOCTOR_REVEALJS_VERSION ?= 4.0.1
 KRAMDOWN_ASCIIDOC_VERSION ?= 1.0.1
+ASCIIDOCTOR_BIBTEX_VERSION ?= 0.7.1
 
 export DOCKER_IMAGE_NAME_TO_TEST \
   ASCIIDOCTOR_VERSION \
@@ -21,7 +22,8 @@ export DOCKER_IMAGE_NAME_TO_TEST \
   ASCIIDOCTOR_EPUB3_VERSION \
   ASCIIDOCTOR_MATHEMATICAL_VERSION \
   ASCIIDOCTOR_REVEALJS_VERSION \
-  KRAMDOWN_ASCIIDOC_VERSION
+  KRAMDOWN_ASCIIDOC_VERSION \
+  ASCIIDOCTOR_BIBTEX_VERSION
 
 all: build test deploy
 
@@ -30,6 +32,9 @@ build:
 		--tag="$(DOCKER_IMAGE_NAME_TO_TEST)" \
 		--file=Dockerfile \
 		$(CURDIR)/
+
+shell: build
+	docker run -it -v $(CURDIR)/tests/fixtures:/documents/ $(DOCKER_IMAGE_NAME_TO_TEST)
 
 test:
 	bats $(CURDIR)/tests/*.bats
@@ -57,6 +62,8 @@ cache/pandoc-2.2-linux.tar.gz: cache
 cache/pandoc-2.2/bin/pandoc: cache/pandoc-2.2-linux.tar.gz
 	tar xzf "$(CURDIR)/cache/pandoc-2.2-linux.tar.gz" -C "$(CURDIR)/cache"
 
+# GitHub renders asciidoctor but DockerHub requires markdown.
+# This recipe creates README.md from README.adoc.
 README.md: build cache/pandoc-2.2/bin/pandoc
 	docker run --rm -t -v $(CURDIR):/documents --entrypoint bash $(DOCKER_IMAGE_NAME_TO_TEST) \
 		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-2.2/bin/pandoc  --atx-headers --wrap=preserve -t gfm -f docbook - > README.md"
