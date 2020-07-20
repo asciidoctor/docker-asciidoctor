@@ -62,6 +62,8 @@ cache/pandoc-2.2-linux.tar.gz: cache
 cache/pandoc-2.2/bin/pandoc: cache/pandoc-2.2-linux.tar.gz
 	tar xzf "$(CURDIR)/cache/pandoc-2.2-linux.tar.gz" -C "$(CURDIR)/cache"
 
+# GitHub renders asciidoctor but DockerHub requires markdown.
+# This recipe creates README.md from README.adoc.
 README.md: build cache/pandoc-2.2/bin/pandoc
 	docker run --rm -t -v $(CURDIR):/documents --entrypoint bash $(DOCKER_IMAGE_NAME_TO_TEST) \
 		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-2.2/bin/pandoc  --atx-headers --wrap=preserve -t gfm -f docbook - > README.md"

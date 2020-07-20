@@ -1,6 +1,11 @@
 = Asciidoctor Docker Container
 :source-highlighter: coderay
 
+////
+GitHub renders asciidoctor natively, but DockerHub does not (it needs markdown).
+`make README.md` converts this page into markdown.
+////
+
 == The environment
 
 This Docker image provides:
