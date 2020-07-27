@@ -10,7 +10,7 @@ This Docker image provides:
 
   - [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 1.5.3
 
-  - [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.0.alpha.16
+  - [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.0.alpha.18
 
   - [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.1
 
