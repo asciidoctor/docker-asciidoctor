@@ -12,6 +12,8 @@ This Docker image provides:
 
   - [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.0.alpha.18
 
+  - [Asciidoctor FB2](https://github.com/slonopotamus/asciidoctor-fb2) 0.1.0
+
   - [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.1
 
   - [Asciidoctor reveal.js](https://asciidoctor.org/docs/asciidoctor-revealjs/) 3.1.0
