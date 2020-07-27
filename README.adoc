@@ -14,6 +14,7 @@ This Docker image provides:
 * https://asciidoctor.org/docs/asciidoctor-diagram/[Asciidoctor Diagram] 2.1.0 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
 * https://asciidoctor.org/docs/asciidoctor-pdf/[Asciidoctor PDF] 1.5.4
 * https://asciidoctor.org/docs/asciidoctor-epub3/[Asciidoctor EPUB3] 1.5.0.alpha.19
+* https://github.com/asciidoctor/asciidoctor-fb2/[Asciidoctor FB2] 0.5.0
 * https://github.com/asciidoctor/asciidoctor-mathematical[Asciidoctor Mathematical] 0.3.5
 * https://docs.asciidoctor.org/reveal.js-converter/latest/[Asciidoctor reveal.js] 4.1.0
 * https://rubygems.org/gems/asciimath[AsciiMath]
