@@ -14,7 +14,7 @@ This Docker image provides:
 
   - [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.1
 
-  - [Asciidoctor reveal.js](https://asciidoctor.org/docs/asciidoctor-revealjs/) 3.1.0
+  - [Asciidoctor reveal.js](https://asciidoctor.org/docs/asciidoctor-revealjs/) 4.0.1
 
   - [AsciiMath](https://rubygems.org/gems/asciimath)
 
@@ -24,7 +24,7 @@ This Docker image provides:
 
   - [Asciidoctor Bibtex](https://github.com/asciidoctor/asciidoctor-bibtex) 0.7.1
 
-This image uses Alpine Linux 3.11 as base image.
+This image uses Alpine Linux 3.12 as base image.
 
 ## How to use it
 
@@ -39,7 +39,7 @@ It will be directly mapped with */documents* of the container.
 Once started, you can use Asciidoctor commands to convert AsciiDoc files you created in the directory mentioned above. You can find several examples below.
 
   - To run Asciidoctor on a basic AsciiDoc file:
-
+    
     ``` bash
     asciidoctor sample.adoc
     asciidoctor-pdf sample.adoc
@@ -47,7 +47,7 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     ```
 
   - To run AsciiDoc on an AsciiDoc file that contains diagrams:
-
+    
     ``` bash
     asciidoctor -r asciidoctor-diagram sample-with-diagram.adoc
     asciidoctor-pdf -r asciidoctor-diagram sample-with-diagram.adoc
@@ -55,7 +55,7 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     ```
 
   - To use Asciidoctor Confluence:
-
+    
     ``` bash
     asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
     ```
@@ -74,12 +74,12 @@ asciidoctor-revealjs -r asciidoctor-diagram sample-slides.adoc
 <!-- end list -->
 
 ``` bash
-asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0 sample-slides.adoc
-asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0 -r asciidoctor-diagram sample-slides.adoc
+asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.9.2 sample-slides.adoc
+asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.9.2 -r asciidoctor-diagram sample-slides.adoc
 ```
 
   - Batch mode. You can use it in a "batch" mode
-
+    
     ``` bash
     docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
     ```
@@ -103,7 +103,7 @@ You need the following tools:
   - "bats" is used as a test suite runner. Since the ability to build is one way of testing, it is included.
 
   - You just have to run the bats test suite, from the repository root:
-
+    
     ``` bash
     make test
     ```
