@@ -117,3 +117,15 @@ You can use bats directly to test the image, optional you can use a custome imag
 export DOCKER_IMAGE_NAME_TO_TEST=your-image-name
 bats tests/*.bats
 ----
+
+==== Deploy
+
+The goal of "deploying" is to have the Docker image available with the right "Docker tag" in the DockerHub.
+
+As a matter of trust and transparency for the end-users, the image is rebuilt by the DockerHub itself by triggering a build.
+This only works under the hypothesis of a minimalistic variation between the docker build in the CI, and the docker build by the Dockerhub.
+
+The following environment variables are required to be set: `DOCKERHUB_SOURCE_TOKEN` and `DOCKERHUB_TRIGGER_TOKEN`.
+Their values come from a DockerHub Trigger URL: `https://hub.docker.com/api/build/v1/source/${DOCKERHUB_SOURCE_TOKEN}/trigger/${DOCKERHUB_TRIGGER_TOKEN}/call/`.
+
+You might want to set these variables as "secret" values in your CI to avoid any leaking in the output (as `curl` output for instance).

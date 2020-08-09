@@ -40,13 +40,16 @@ test:
 	bats $(CURDIR)/tests/*.bats
 
 deploy:
-ifdef DOCKER_HUB_TRIGGER_URL
-
+ifdef DOCKERHUB_SOURCE_TOKEN
+ifdef DOCKERHUB_TRIGGER_TOKEN
 	curl --verbose --header "Content-Type: application/json" \
 		--data '{"source_type": "$(shell [ -n "${TRAVIS_TAG}" ] && echo Tag || echo Branch)", "source_name": "$(CURRENT_GIT_REF)"}' \
-		-X POST $(DOCKER_HUB_TRIGGER_URL)
+		-X POST https://hub.docker.com/api/build/v1/source/$(DOCKERHUB_SOURCE_TOKEN)/trigger/$(DOCKERHUB_TRIGGER_TOKEN)/call/
 else
-	@echo 'Unable to deploy: Please define $$DOCKER_HUB_TRIGGER_URL'
+	@echo 'Unable to deploy: Please define $$DOCKERHUB_TRIGGER_TOKEN'
+endif
+else
+	@echo 'Unable to deploy: Please define $$DOCKERHUB_SOURCE_TOKEN'
 endif
 
 clean:
