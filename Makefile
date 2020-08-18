@@ -26,7 +26,7 @@ export DOCKER_IMAGE_NAME_TO_TEST \
   KRAMDOWN_ASCIIDOC_VERSION \
   ASCIIDOCTOR_BIBTEX_VERSION
 
-all: build test deploy
+all: build test README.md
 
 build:
 	docker build \
@@ -71,7 +71,9 @@ cache/pandoc-$(PANDOC_VERSION)/bin/pandoc: cache/pandoc-$(PANDOC_VERSION)-linux.
 README.md: build cache/pandoc-$(PANDOC_VERSION)/bin/pandoc
 	docker run --rm -t -v $(CURDIR):/documents --entrypoint bash $(DOCKER_IMAGE_NAME_TO_TEST) \
 		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-$(PANDOC_VERSION)/bin/pandoc  --atx-headers --wrap=preserve -t gfm -f docbook - > README.md"
+
+deploy-README.md: README.md
 	git add README.md && git commit -s -m "Updating README.md using 'make README.md command'" \
 		&& git push origin $(shell git rev-parse --abbrev-ref HEAD) || echo 'No changes to README.md'
 
-.PHONY: all build test deploy clean README.md
+.PHONY: all build test shell deploy clean README.md deploy-README.md
