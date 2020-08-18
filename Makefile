@@ -13,6 +13,7 @@ ASCIIDOCTOR_MATHEMATICAL_VERSION ?= 0.3.1
 ASCIIDOCTOR_REVEALJS_VERSION ?= 4.0.1
 KRAMDOWN_ASCIIDOC_VERSION ?= 1.0.1
 ASCIIDOCTOR_BIBTEX_VERSION ?= 0.7.1
+PANDOC_VERSION ?= 2.10.1
 
 export DOCKER_IMAGE_NAME_TO_TEST \
   ASCIIDOCTOR_VERSION \
@@ -58,18 +59,18 @@ clean:
 cache:
 	mkdir -p "$(CURDIR)/cache"
 
-cache/pandoc-2.2-linux.tar.gz: cache
-	curl -sSL -o "$(CURDIR)/cache/pandoc-2.2-linux.tar.gz" \
-	 	https://github.com/jgm/pandoc/releases/download/2.2/pandoc-2.2-linux.tar.gz
+cache/pandoc-$(PANDOC_VERSION)-linux.tar.gz: cache
+	curl -sSL -o "$(CURDIR)/cache/pandoc-$(PANDOC_VERSION)-linux.tar.gz" \
+	 	https://github.com/jgm/pandoc/releases/download/$(PANDOC_VERSION)/pandoc-$(PANDOC_VERSION)-linux-amd64.tar.gz
 
-cache/pandoc-2.2/bin/pandoc: cache/pandoc-2.2-linux.tar.gz
-	tar xzf "$(CURDIR)/cache/pandoc-2.2-linux.tar.gz" -C "$(CURDIR)/cache"
+cache/pandoc-$(PANDOC_VERSION)/bin/pandoc: cache/pandoc-$(PANDOC_VERSION)-linux.tar.gz
+	tar xzf "$(CURDIR)/cache/pandoc-$(PANDOC_VERSION)-linux.tar.gz" -C "$(CURDIR)/cache"
 
 # GitHub renders asciidoctor but DockerHub requires markdown.
 # This recipe creates README.md from README.adoc.
-README.md: build cache/pandoc-2.2/bin/pandoc
+README.md: build cache/pandoc-$(PANDOC_VERSION)/bin/pandoc
 	docker run --rm -t -v $(CURDIR):/documents --entrypoint bash $(DOCKER_IMAGE_NAME_TO_TEST) \
-		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-2.2/bin/pandoc  --atx-headers --wrap=preserve -t gfm -f docbook - > README.md"
+		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-$(PANDOC_VERSION)/bin/pandoc  --atx-headers --wrap=preserve -t gfm -f docbook - > README.md"
 	git add README.md && git commit -s -m "Updating README.md using 'make README.md command'" \
 		&& git push origin $(shell git rev-parse --abbrev-ref HEAD) || echo 'No changes to README.md'
 
