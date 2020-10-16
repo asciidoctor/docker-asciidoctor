@@ -10,17 +10,11 @@ This Docker image provides:
 
   - Asciidoctor PDF 1.5.0
 
-  - Asciidoctor EPUB3 1.5.0.alpha.12
-
-  - Asciidoctor Mathematical
-
   - Asciidoctor reveal.js 3.1.0
 
   - AsciiMath
 
   - Source highlighting using Rouge or CodeRay (Pygments not supported in the default Docker image as only Python 3 is available)
-
-  - Asciidoctor Confluence
 
 This image uses Alpine Linux 3.11 as base image.
 
@@ -41,7 +35,6 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     ``` bash
     asciidoctor sample.adoc
     asciidoctor-pdf sample.adoc
-    asciidoctor-epub3 sample.adoc
     ```
 
   - To run AsciiDoc on an AsciiDoc file that contains diagrams:
@@ -49,13 +42,6 @@ Once started, you can use Asciidoctor commands to convert AsciiDoc files you cre
     ``` bash
     asciidoctor -r asciidoctor-diagram sample-with-diagram.adoc
     asciidoctor-pdf -r asciidoctor-diagram sample-with-diagram.adoc
-    asciidoctor-epub3 -r asciidoctor-diagram sample-with-diagram.adoc
-    ```
-
-  - To use Asciidoctor Confluence:
-    
-    ``` bash
-    asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
     ```
 
   - To use Asciidoctor reveal.js with local downloaded reveal.js:
