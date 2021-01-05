@@ -39,6 +39,7 @@ RUN apk add --no-cache \
     py3-pillow \
     py3-setuptools \
     ruby \
+    ruby-bigdecimal \
     ruby-mathematical \
     ruby-rake \
     ttf-liberation \
@@ -62,7 +63,6 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     asciimath \
     "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}" \
     "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
-    bigdecimal \
     coderay \
     epubcheck-ruby:4.2.4.0 \
     haml \

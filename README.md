@@ -22,7 +22,7 @@ This Docker image provides:
 
 -   [Asciidoctor Confluence](https://github.com/asciidoctor/asciidoctor-confluence) 0.0.2
 
--   [Asciidoctor Bibtex](https://github.com/asciidoctor/asciidoctor-bibtex) 0.80.0
+-   [Asciidoctor Bibtex](https://github.com/asciidoctor/asciidoctor-bibtex) 0.8.0
 
 This image uses Alpine Linux 3.12.1 as base image.
 

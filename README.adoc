@@ -19,7 +19,7 @@ This Docker image provides:
 * https://rubygems.org/gems/asciimath[AsciiMath]
 * Source highlighting using http://rouge.jneen.net[Rouge] or https://rubygems.org/gems/coderay[CodeRay] (Pygments not supported in the default Docker image as only Python 3 is available)
 * https://github.com/asciidoctor/asciidoctor-confluence[Asciidoctor Confluence] 0.0.2
-* https://github.com/asciidoctor/asciidoctor-bibtex[Asciidoctor Bibtex] 0.80.0
+* https://github.com/asciidoctor/asciidoctor-bibtex[Asciidoctor Bibtex] 0.8.0
 
 This image uses Alpine Linux 3.12.1 as base image.
 
