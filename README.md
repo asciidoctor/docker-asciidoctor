@@ -4,15 +4,15 @@
 
 This Docker image provides:
 
--   [Asciidoctor](https://asciidoctor.org/) 2.0.10
+-   [Asciidoctor](https://asciidoctor.org/) 2.0.12
 
--   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.0.1 with Graphviz integration (supports plantuml and graphiz diagrams)
+-   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.0.5 with Graphviz integration (supports plantuml and graphiz diagrams)
 
 -   [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 1.5.3
 
 -   [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.0.alpha.19
 
--   [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.1
+-   [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.4
 
 -   [Asciidoctor reveal.js](https://asciidoctor.org/docs/asciidoctor-revealjs/) 4.0.1
 
@@ -22,7 +22,7 @@ This Docker image provides:
 
 -   [Asciidoctor Confluence](https://github.com/asciidoctor/asciidoctor-confluence) 0.0.2
 
--   [Asciidoctor Bibtex](https://github.com/asciidoctor/asciidoctor-bibtex) 0.7.1
+-   [Asciidoctor Bibtex](https://github.com/asciidoctor/asciidoctor-bibtex) 0.8.0
 
 This image uses Alpine Linux 3.12 as base image.
 
