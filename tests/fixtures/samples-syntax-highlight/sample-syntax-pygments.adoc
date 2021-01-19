@@ -1,0 +1,4 @@
+
+:source-highlighter: pygments
+
+include::includes/syntax-template.adoc[]

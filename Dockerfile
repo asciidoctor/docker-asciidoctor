@@ -67,6 +67,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     epubcheck-ruby:4.2.4.0 \
     haml \
     "kramdown-asciidoc:${KRAMDOWN_ASCIIDOC_VERSION}" \
+    pygments.rb \
     rouge \
     slim \
     thread_safe \
