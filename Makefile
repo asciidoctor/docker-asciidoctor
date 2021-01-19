@@ -48,9 +48,11 @@ ifdef DOCKERHUB_TRIGGER_TOKEN
 		-X POST https://hub.docker.com/api/build/v1/source/$(DOCKERHUB_SOURCE_TOKEN)/trigger/$(DOCKERHUB_TRIGGER_TOKEN)/call/
 else
 	@echo 'Unable to deploy: Please define $$DOCKERHUB_TRIGGER_TOKEN'
+	@exit 1
 endif
 else
 	@echo 'Unable to deploy: Please define $$DOCKERHUB_SOURCE_TOKEN'
+	@exit 1
 endif
 
 clean:
