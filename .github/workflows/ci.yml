@@ -1,0 +1,29 @@
+name: CI
+on: [ push, pull_request ]
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends bats
+      - name: Set up Git user
+        run: |
+          git config --local user.name "${GITHUB_ACTOR}"
+          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+      - name: Set up env vars
+        run: echo "CURRENT_GIT_REF='$(echo ${GITHUB_REF} | awk 'BEGIN { FS = "/" } ; { print $3 }')'" >> "${GITHUB_ENV}" # Pass the tag, or target branch for a PR, or the branch
+      - name: Build
+        run: |
+          make build
+          make test
+          make README.md
+      - name: Deploy
+        if: github.event_name != 'pull_request'
+        run: make deploy-README.md deploy
+        env:
+          DOCKERHUB_SOURCE_TOKEN: ${{ secrets.DOCKERHUB_SOURCE_TOKEN }}
+          DOCKERHUB_TRIGGER_TOKEN: ${{ secrets.DOCKERHUB_TRIGGER_TOKEN }}

@@ -2,15 +2,15 @@ FROM alpine:3.12
 
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
-ARG asciidoctor_version=2.0.10
+ARG asciidoctor_version=2.0.12
 ARG asciidoctor_confluence_version=0.0.2
 ARG asciidoctor_pdf_version=1.5.3
 ARG asciidoctor_diagram_version=2.0.5
 ARG asciidoctor_epub3_version=1.5.0.alpha.19
-ARG asciidoctor_mathematical_version=0.3.1
+ARG asciidoctor_mathematical_version=0.3.4
 ARG asciidoctor_revealjs_version=4.0.1
 ARG kramdown_asciidoc_version=1.0.1
-ARG asciidoctor_bibtex_version=0.7.1
+ARG asciidoctor_bibtex_version=0.8.0
 
 ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_CONFLUENCE_VERSION=${asciidoctor_confluence_version} \
@@ -39,6 +39,7 @@ RUN apk add --no-cache \
     py3-pillow \
     py3-setuptools \
     ruby \
+    ruby-bigdecimal \
     ruby-mathematical \
     ruby-rake \
     ttf-liberation \
@@ -63,7 +64,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}" \
     "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
     coderay \
-    epubcheck-ruby:4.2.2.0 \
+    epubcheck-ruby:4.2.4.0 \
     haml \
     "kramdown-asciidoc:${KRAMDOWN_ASCIIDOC_VERSION}" \
     rouge \
