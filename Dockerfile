@@ -64,6 +64,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     asciimath \
     "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}" \
     "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
+    bigdecimal \
     coderay \
     epubcheck-ruby:4.2.4.0 \
     haml \
@@ -73,7 +74,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     slim \
     thread_safe \
     tilt \
-    bigdecimal \
+    text-hyphen \
     "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
   && apk del -r --no-cache .rubymakedepends
 
