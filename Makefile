@@ -1,6 +1,7 @@
 
 DOCKER_IMAGE_NAME ?= docker-asciidoctor
 DOCKERHUB_USERNAME ?= asciidoctor
+export DOCKER_BUILDKIT=1
 CURRENT_GIT_REF ?= $(shell git rev-parse --abbrev-ref HEAD) # Default to current branch
 DOCKER_IMAGE_TAG ?= $(shell echo $(CURRENT_GIT_REF) | sed 's/\//-/' )
 DOCKER_IMAGE_NAME_TO_TEST ?= $(DOCKERHUB_USERNAME)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)
