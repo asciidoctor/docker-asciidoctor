@@ -17,7 +17,7 @@ This Docker image provides:
 * https://github.com/asciidoctor/asciidoctor-mathematical[Asciidoctor Mathematical] 0.3.4
 * https://asciidoctor.org/docs/asciidoctor-revealjs/[Asciidoctor reveal.js] 4.0.1
 * https://rubygems.org/gems/asciimath[AsciiMath]
-* Source highlighting using http://rouge.jneen.net[Rouge] or https://rubygems.org/gems/coderay[CodeRay] (Pygments not supported in the default Docker image as only Python 3 is available)
+* Source highlighting using http://rouge.jneen.net[Rouge], https://rubygems.org/gems/coderay[CodeRay] or https://pygments.org/[Pygments]
 * https://github.com/asciidoctor/asciidoctor-confluence[Asciidoctor Confluence] 0.0.2
 * https://github.com/asciidoctor/asciidoctor-bibtex[Asciidoctor Bibtex] 0.8.0
 

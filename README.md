@@ -18,7 +18,7 @@ This Docker image provides:
 
 -   [AsciiMath](https://rubygems.org/gems/asciimath)
 
--   Source highlighting using [Rouge](http://rouge.jneen.net) or [CodeRay](https://rubygems.org/gems/coderay) (Pygments not supported in the default Docker image as only Python 3 is available)
+-   Source highlighting using [Rouge](http://rouge.jneen.net), [CodeRay](https://rubygems.org/gems/coderay) or [Pygments](https://pygments.org/)
 
 -   [Asciidoctor Confluence](https://github.com/asciidoctor/asciidoctor-confluence) 0.0.2
 
