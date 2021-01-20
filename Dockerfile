@@ -20,7 +20,8 @@ ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_MATHEMATICAL_VERSION=${asciidoctor_mathematical_version} \
   ASCIIDOCTOR_REVEALJS_VERSION=${asciidoctor_revealjs_version} \
   KRAMDOWN_ASCIIDOC_VERSION=${kramdown_asciidoc_version} \
-  ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version}
+  ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version} \
+  PATH="/root/.cabal/bin/:${PATH}"
 
 # Installing package required for the runtime of
 # any of the asciidoctor-* functionnalities
@@ -63,10 +64,12 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     asciimath \
     "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}" \
     "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
+    bigdecimal \
     coderay \
     epubcheck-ruby:4.2.4.0 \
     haml \
     "kramdown-asciidoc:${KRAMDOWN_ASCIIDOC_VERSION}" \
+    pygments.rb \
     rouge \
     slim \
     thread_safe \
@@ -87,6 +90,24 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
     nwdiag \
     seqdiag \
   && apk del -r --no-cache .pythonmakedepends
+
+# ERD
+RUN apk add --no-cache --virtual .haskellmakedepends \
+    alpine-sdk \
+    cabal \
+    ghc-dev \
+    ghc \
+    gmp-dev \
+    gnupg \
+    libffi-dev \
+    linux-headers \
+    perl-utils \
+    wget \
+    xz \
+    zlib-dev \
+  && cabal v2-update \
+  && cabal v2-install erd \
+  && apk del -r --no-cache .haskellmakedepends
 
 WORKDIR /documents
 VOLUME /documents
