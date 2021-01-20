@@ -73,6 +73,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     slim \
     thread_safe \
     tilt \
+    bigdecimal \
     "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
   && apk del -r --no-cache .rubymakedepends
 
