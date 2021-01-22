@@ -1,4 +1,22 @@
-FROM alpine:3.13
+## Multi-stage build to allow parallel building
+FROM alpine:3.13 AS erd
+RUN apk add --no-cache --virtual .haskellmakedepends \
+    alpine-sdk \
+    cabal \
+    ghc-dev \
+    ghc \
+    gmp-dev \
+    gnupg \
+    libffi-dev \
+    linux-headers \
+    perl-utils \
+    wget \
+    xz \
+    zlib-dev \
+  && cabal v2-update \
+  && cabal v2-install erd
+
+FROM alpine:3.13 AS main
 
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
@@ -91,23 +109,8 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
     seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
-# ERD
-RUN apk add --no-cache --virtual .haskellmakedepends \
-    alpine-sdk \
-    cabal \
-    ghc-dev \
-    ghc \
-    gmp-dev \
-    gnupg \
-    libffi-dev \
-    linux-headers \
-    perl-utils \
-    wget \
-    xz \
-    zlib-dev \
-  && cabal v2-update \
-  && cabal v2-install erd \
-  && apk del -r --no-cache .haskellmakedepends
+COPY --from=erd /root/.cabal /root/.cabal
+COPY --from=erd /opt /opt
 
 WORKDIR /documents
 VOLUME /documents
