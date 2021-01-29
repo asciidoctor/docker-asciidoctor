@@ -2,8 +2,13 @@
 DOCKER_IMAGE_NAME ?= docker-asciidoctor
 DOCKERHUB_USERNAME ?= asciidoctor
 export DOCKER_BUILDKIT=1
-CURRENT_GIT_REF ?= $(shell git rev-parse --abbrev-ref HEAD) # Default to current branch
-DOCKER_IMAGE_TAG ?= $(shell echo $(CURRENT_GIT_REF) | sed 's/\//-/' )
+GIT_TAG = $(shell git describe --exact-match --tags HEAD 2>/dev/null)
+ifeq ($(strip $(GIT_TAG)),)
+GIT_REF = $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
+else
+GIT_REF = $(GIT_TAG)
+endif
+DOCKER_IMAGE_TAG ?= $(shell echo $(GIT_REF) | sed 's/\//-/' )
 DOCKER_IMAGE_NAME_TO_TEST ?= $(DOCKERHUB_USERNAME)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)
 ASCIIDOCTOR_VERSION ?= 2.0.12
 ASCIIDOCTOR_CONFLUENCE_VERSION ?= 0.0.2
@@ -45,7 +50,7 @@ deploy:
 ifdef DOCKERHUB_SOURCE_TOKEN
 ifdef DOCKERHUB_TRIGGER_TOKEN
 	curl --verbose --header "Content-Type: application/json" \
-		--data '{"source_type": "$(shell [ -n "${TRAVIS_TAG}" ] && echo Tag || echo Branch)", "source_name": "$(CURRENT_GIT_REF)"}' \
+		--data '{"source_type": "$(shell [ -n "$(GIT_TAG)" ] && echo Tag || echo Branch)", "source_name": "$(GIT_REF)"}' \
 		-X POST https://hub.docker.com/api/build/v1/source/$(DOCKERHUB_SOURCE_TOKEN)/trigger/$(DOCKERHUB_TRIGGER_TOKEN)/call/
 else
 	@echo 'Unable to deploy: Please define $$DOCKERHUB_TRIGGER_TOKEN'
