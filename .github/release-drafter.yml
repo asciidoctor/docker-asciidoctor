@@ -1,0 +1,26 @@
+# Please note that emoji usages follows this guide: https://gitmoji.dev/
+---
+categories:
+  - title: '✨ New Features/ Enhancements'
+    labels:
+      - 'feature'
+      - 'enhancement'
+      - 'feat'
+      - 'improvement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+  - title: '📝 Documentation'
+    labels:
+      - 'documentation'
+      - 'doc'
+      - 'docs'
+  - title: '💚 Chores'
+    labels:
+      - 'chores'
+      - 'chore'
+exclude-labels:
+  - 'skip-changelog'
+...
