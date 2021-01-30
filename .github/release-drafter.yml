@@ -1,5 +1,9 @@
 # Please note that emoji usages follows this guide: https://gitmoji.dev/
 ---
+template: |
+  ## What’s Changed
+
+  $CHANGES
 categories:
   - title: '✨ New Features/ Enhancements'
     labels:
