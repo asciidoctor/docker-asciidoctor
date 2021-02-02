@@ -14,7 +14,7 @@ This Docker image provides:
 
 -   [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.5
 
--   [Asciidoctor reveal.js](https://asciidoctor.org/docs/asciidoctor-revealjs/) 4.0.1
+-   [Asciidoctor reveal.js](https://docs.asciidoctor.org/reveal.js-converter/latest/) 4.1.0
 
 -   [AsciiMath](https://rubygems.org/gems/asciimath)
 
