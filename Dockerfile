@@ -1,3 +1,24 @@
+FROM alpine:3.13 AS build-erd
+
+RUN apk add --no-cache \
+    alpine-sdk \
+    cabal \
+    ghc-dev \
+    ghc \
+    gmp-dev \
+    gnupg \
+    libffi-dev \
+    linux-headers \
+    perl-utils \
+    wget \
+    xz \
+    zlib-dev
+    
+RUN cabal v2-update \
+ && cabal v2-install erd
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 FROM alpine:3.13
 
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
@@ -32,8 +53,10 @@ RUN apk add --no-cache \
     findutils \
     font-bakoma-ttf \
     git \
+    gmp \
     graphviz \
     inotify-tools \
+    libffi \
     make \
     openjdk8-jre \
     python3 \
@@ -48,6 +71,8 @@ RUN apk add --no-cache \
     tzdata \
     unzip \
     which
+    
+COPY --from=build-erd root/.cabal/bin/erd /bin/
 
 # Installing Ruby Gems needed in the image
 # including asciidoctor itself
@@ -90,24 +115,6 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
     nwdiag \
     seqdiag \
   && apk del -r --no-cache .pythonmakedepends
-
-# ERD
-RUN apk add --no-cache --virtual .haskellmakedepends \
-    alpine-sdk \
-    cabal \
-    ghc-dev \
-    ghc \
-    gmp-dev \
-    gnupg \
-    libffi-dev \
-    linux-headers \
-    perl-utils \
-    wget \
-    xz \
-    zlib-dev \
-  && cabal v2-update \
-  && cabal v2-install erd \
-  && apk del -r --no-cache .haskellmakedepends
 
 WORKDIR /documents
 VOLUME /documents
