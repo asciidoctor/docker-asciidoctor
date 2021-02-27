@@ -1,5 +1,14 @@
 name: CI
-on: [ push, pull_request ]
+on:
+  ## Events from external actor, or from code pushed (includes tags pushed)
+  push:
+  pull_request:
+  ## Events from the GitHub UI (as when publishing a release)
+  # When a release is "released" (draft or released published, no pre-release) - https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#release
+  release:
+    types: [released]
+  # When a tag or branch is created in the GitHub UI
+  create:
 jobs:
   build:
     runs-on: ubuntu-20.04
