@@ -36,6 +36,13 @@ all: build test README.md
 
 build:
 	docker build \
+		--target main-minimal \
+		--tag="$(DOCKER_IMAGE_NAME_TO_TEST)-minimal" \
+		--build-arg BUILDKIT_INLINE_CACHE=1 \
+		--cache-from="$(DOCKER_IMAGE_NAME_TO_TEST)-minimal" \
+		--file=Dockerfile \
+		$(CURDIR)/
+	docker build \
 		--target build-haskell \
 		--tag="$(DOCKER_IMAGE_NAME_TO_TEST)-build-haskell" \
 		--build-arg BUILDKIT_INLINE_CACHE=1 \
@@ -46,6 +53,7 @@ build:
 		--target main \
 		--tag="$(DOCKER_IMAGE_NAME_TO_TEST)" \
 		--build-arg BUILDKIT_INLINE_CACHE=1 \
+		--cache-from="$(DOCKER_IMAGE_NAME_TO_TEST)-minimal" \
 		--cache-from="$(DOCKER_IMAGE_NAME_TO_TEST)-build-haskell" \
 		--cache-from="$(DOCKER_IMAGE_NAME_TO_TEST)" \
 		--file=Dockerfile \
