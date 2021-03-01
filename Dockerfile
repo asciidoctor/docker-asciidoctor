@@ -1,6 +1,4 @@
-FROM alpine:3.13
-
-LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
+FROM alpine:3.13 AS base
 
 ARG asciidoctor_version=2.0.12
 ARG asciidoctor_confluence_version=0.0.2
@@ -20,8 +18,42 @@ ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_MATHEMATICAL_VERSION=${asciidoctor_mathematical_version} \
   ASCIIDOCTOR_REVEALJS_VERSION=${asciidoctor_revealjs_version} \
   KRAMDOWN_ASCIIDOC_VERSION=${kramdown_asciidoc_version} \
-  ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version} \
-  PATH="/root/.cabal/bin/:${PATH}"
+  ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version}
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Haskell build for: erd
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+FROM base AS build-haskell
+RUN echo "building Haskell dependencies" # keep here to help --cache-from along
+
+RUN apk add --no-cache \
+    alpine-sdk \
+    cabal \
+    ghc-dev \
+    ghc \
+    gmp-dev \
+    gnupg \
+    libffi-dev \
+    linux-headers \
+    perl-utils \
+    wget \
+    xz \
+    zlib-dev
+
+RUN cabal v2-update \
+ && cabal v2-install erd
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Final image
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+FROM base AS main
+RUN echo "building main image" # keep here to help --cache-from along
+
+LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
 # Installing package required for the runtime of
 # any of the asciidoctor-* functionnalities
@@ -64,7 +96,6 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     asciimath \
     "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}" \
     "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
-    bigdecimal \
     coderay \
     epubcheck-ruby:4.2.4.0 \
     haml \
@@ -91,23 +122,7 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
     seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
-# ERD
-RUN apk add --no-cache --virtual .haskellmakedepends \
-    alpine-sdk \
-    cabal \
-    ghc-dev \
-    ghc \
-    gmp-dev \
-    gnupg \
-    libffi-dev \
-    linux-headers \
-    perl-utils \
-    wget \
-    xz \
-    zlib-dev \
-  && cabal v2-update \
-  && cabal v2-install erd \
-  && apk del -r --no-cache .haskellmakedepends
+COPY --from=build-haskell root/.cabal/bin/erd     /bin/
 
 WORKDIR /documents
 VOLUME /documents
