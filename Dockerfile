@@ -20,51 +20,6 @@ ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   KRAMDOWN_ASCIIDOC_VERSION=${kramdown_asciidoc_version} \
   ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version}
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Ruby build for: asciidoctor, asciidoctor-pdf, and all kinds of associated tools
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-FROM base AS build-ruby
-RUN echo "building Ruby dependencies" # keep here to help --cache-from along
-
-RUN apk add --no-cache \
-      build-base \
-      libxml2-dev \
-      ruby-dev \
-      cmake \
-      bison \
-      flex \
-      python3 \
-      glib-dev \
-      cairo-dev \
-      pango-dev \
-      gdk-pixbuf-dev
-
-RUN gem install --no-document \
-      --install-dir /usr/lib/ruby/gems \
-      --bindir      /usr/lib/ruby/bin \
-      "asciidoctor:${ASCIIDOCTOR_VERSION}" \
-      "asciidoctor-confluence:${ASCIIDOCTOR_CONFLUENCE_VERSION}" \
-      "asciidoctor-diagram:${ASCIIDOCTOR_DIAGRAM_VERSION}" \
-      "asciidoctor-epub3:${ASCIIDOCTOR_EPUB3_VERSION}" \
-      "asciidoctor-mathematical:${ASCIIDOCTOR_MATHEMATICAL_VERSION}" \
-      asciimath \
-      "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}" \
-      "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
-      bigdecimal \
-      coderay \
-      epubcheck-ruby:4.2.4.0 \
-      haml \
-      "kramdown-asciidoc:${KRAMDOWN_ASCIIDOC_VERSION}" \
-      pygments.rb \
-      rouge \
-      slim \
-      thread_safe \
-      tilt \
-      text-hyphen \
-      "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}"
-
-RUN rm -rf /usr/lib/ruby/gems/cache/*
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Haskell build for: erd
@@ -90,6 +45,7 @@ RUN apk add --no-cache \
 RUN cabal v2-update \
  && cabal v2-install erd
 
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Final image
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -108,10 +64,8 @@ RUN apk add --no-cache \
     findutils \
     font-bakoma-ttf \
     git \
-    gmp \
     graphviz \
     inotify-tools \
-    libffi \
     make \
     openjdk8-jre \
     python3 \
@@ -127,6 +81,34 @@ RUN apk add --no-cache \
     unzip \
     which
 
+# Installing Ruby Gems needed in the image
+# including asciidoctor itself
+RUN apk add --no-cache --virtual .rubymakedepends \
+    build-base \
+    libxml2-dev \
+    ruby-dev \
+  && gem install --no-document \
+    "asciidoctor:${ASCIIDOCTOR_VERSION}" \
+    "asciidoctor-confluence:${ASCIIDOCTOR_CONFLUENCE_VERSION}" \
+    "asciidoctor-diagram:${ASCIIDOCTOR_DIAGRAM_VERSION}" \
+    "asciidoctor-epub3:${ASCIIDOCTOR_EPUB3_VERSION}" \
+    "asciidoctor-mathematical:${ASCIIDOCTOR_MATHEMATICAL_VERSION}" \
+    asciimath \
+    "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}" \
+    "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
+    coderay \
+    epubcheck-ruby:4.2.4.0 \
+    haml \
+    "kramdown-asciidoc:${KRAMDOWN_ASCIIDOC_VERSION}" \
+    pygments.rb \
+    rouge \
+    slim \
+    thread_safe \
+    tilt \
+    text-hyphen \
+    "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
+  && apk del -r --no-cache .rubymakedepends
+
 # Installing Python dependencies for additional
 # functionnalities as diagrams or syntax highligthing
 RUN apk add --no-cache --virtual .pythonmakedepends \
@@ -139,13 +121,6 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
     nwdiag \
     seqdiag \
   && apk del -r --no-cache .pythonmakedepends
-
-# --target=XYZ --> XYZ/bin --> ln -s XYZ/bin/* /bin/
-# COPY --from=build-python    /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
-
-COPY --from=build-ruby    /usr/lib/ruby/gems/     /usr/lib/ruby/gems/
-COPY --from=build-ruby    /usr/lib/ruby/bin/      /bin/
-ENV GEM_HOME=/usr/lib/ruby/gems
 
 COPY --from=build-haskell root/.cabal/bin/erd     /bin/
 
