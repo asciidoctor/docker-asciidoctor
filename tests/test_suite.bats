@@ -51,6 +51,12 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" which asciidoctor-epub3
 }
 
+@test "asciidoctor-fb2 is installed and in version ${ASCIIDOCTOR_FB2_VERSION}" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" asciidoctor-fb2 -v \
+    | grep "Asciidoctor FB2" | grep "${ASCIIDOCTOR_VERSION}" \
+    | grep "${ASCIIDOCTOR_FB2_VERSION}"
+}
+
 @test "curl is installed and in the path" {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" which curl
 }
@@ -102,6 +108,17 @@ teardown() {
     "${DOCKER_IMAGE_NAME_TO_TEST}" \
       asciidoctor-pdf -D /documents/tmp -r asciidoctor-mathematical \
       /documents/fixtures/basic-example.adoc
+}
+
+@test "We can generate an FB2 document from basic example without errors/warnings" {
+
+  docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor-fb2 -D /documents/tmp -r asciidoctor-mathematical \
+      --failure-level WARN \
+      /documents/fixtures/basic-example.adoc
+
 }
 
 @test "We can generate an HTML document with a diagram with asciidoctor-diagram as backend" {
