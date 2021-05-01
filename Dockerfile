@@ -24,6 +24,23 @@ ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Minimal image with asciidoctor
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+FROM base AS main-minimal
+RUN echo "assemble minimal main image" # keep here to help --cache-from along
+
+LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
+
+RUN apk add --no-cache \
+    ruby
+
+RUN gem install --no-document \
+    "asciidoctor:${ASCIIDOCTOR_VERSION}" \
+    "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}"
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Haskell build for: erd
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -52,13 +69,13 @@ RUN cabal v2-update \
 # Final image
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-FROM base AS main
-RUN echo "building main image" # keep here to help --cache-from along
+FROM main-minimal AS main
+RUN echo "assemble comprehensive main image" # keep here to help --cache-from along
 
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
-# Installing package required for the runtime of
-# any of the asciidoctor-* functionnalities
+# Installing packagse required for the runtime of
+# any of the asciidoctor-* functionalities
 RUN apk add --no-cache \
     bash \
     curl \
@@ -73,7 +90,6 @@ RUN apk add --no-cache \
     python3 \
     py3-pillow \
     py3-setuptools \
-    ruby \
     ruby-bigdecimal \
     ruby-mathematical \
     ruby-rake \
@@ -83,21 +99,18 @@ RUN apk add --no-cache \
     unzip \
     which
 
-# Installing Ruby Gems needed in the image
-# including asciidoctor itself
+# Installing Ruby Gems for additional functionality
 RUN apk add --no-cache --virtual .rubymakedepends \
     build-base \
     libxml2-dev \
     ruby-dev \
   && gem install --no-document \
-    "asciidoctor:${ASCIIDOCTOR_VERSION}" \
     "asciidoctor-confluence:${ASCIIDOCTOR_CONFLUENCE_VERSION}" \
     "asciidoctor-diagram:${ASCIIDOCTOR_DIAGRAM_VERSION}" \
     "asciidoctor-epub3:${ASCIIDOCTOR_EPUB3_VERSION}" \
     "asciidoctor-fb2:${ASCIIDOCTOR_FB2_VERSION}" \
     "asciidoctor-mathematical:${ASCIIDOCTOR_MATHEMATICAL_VERSION}" \
     asciimath \
-    "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}" \
     "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
     coderay \
     epubcheck-ruby:4.2.4.0 \
@@ -112,8 +125,8 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
   && apk del -r --no-cache .rubymakedepends
 
-# Installing Python dependencies for additional
-# functionnalities as diagrams or syntax highligthing
+# Installing Python dependencies for additional functionality
+# such as diagrams (blockdiag) or syntax highligthing
 RUN apk add --no-cache --virtual .pythonmakedepends \
     build-base \
     python3-dev \
