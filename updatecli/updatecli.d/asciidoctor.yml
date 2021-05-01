@@ -22,30 +22,23 @@ conditions:
       instruction:
         keyword: "ARG"
         matcher: "asciidoctor_version"
-  # testCstAsciidoctorVersion:
-  #   name: "Does the test harness checks for a label label io.jenkins-infra.tools.asciidoctor.version?"
-  #   kind: yaml
-  #   spec:
-  #     file: "cst.yml"
-  #     key: "metadataTest.labels[2].key"
-  #     value: io.jenkins-infra.tools.asciidoctor.version
 targets:
-  # updateCstGoVersion:
-  #   name: "Update the label io.jenkins-infra.tools.asciidoctor.version in the test harness"
-  #   sourceID: getAsciidoctorVersion
-  #   kind: yaml
-  #   spec:
-  #     file: "cst.yml"
-  #     key: "metadataTest.labels[2].value"
-  #   scm:
-  #     github:
-  #       user: "{{ .github.user }}"
-  #       email: "{{ .github.email }}"
-  #       owner: "{{ requiredEnv .github.owner }}"
-  #       repository: "{{ requiredEnv .github.repository }}"
-  #       token: "{{ requiredEnv .github.token }}"
-  #       username: "{{ .github.username }}"
-  #       branch: "{{ .github.branch }}"
+  updateHarnessEnvAsciidoctorVersion:
+    name: "Update the key ASCIIDOCTOR_VERSION in the test harness env_vars.yml file"
+    kind: yaml
+    sourceID: getAsciidoctorVersion
+    spec:
+      file: "tests/env_vars.yml"
+      key: "ASCIIDOCTOR_VERSION"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
   updateDockerfileArgGoVersion:
     name: "Update the value of ARG asciidoctor_version in the Dockerfile"
     sourceID: getAsciidoctorVersion
