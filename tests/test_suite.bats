@@ -1,8 +1,16 @@
 #!/usr/bin/env bats
 
 TMP_GENERATION_DIR="${BATS_TEST_DIRNAME}/tmp"
+export TMP_GENERATION_DIR
 
-export TMP_GENERATION_DIR="${BATS_TEST_DIRNAME}/tmp"
+## Load environment variables from file
+if [ -n "${TESTS_ENV_FILE}" ] && [ -f "${TESTS_ENV_FILE}" ]
+then
+  # Convert YAML to shell file
+  TMP_ENV_FILE=$(mktemp)
+  sed -e 's/:[^:\/\/]/="/g;s/$/"/g;s/ *=/=/g' "${TESTS_ENV_FILE}" > "${TMP_ENV_FILE}"
+  source "${TMP_ENV_FILE}"
+fi
 
 [ -n "${DOCKER_IMAGE_NAME_TO_TEST}" ] || export DOCKER_IMAGE_NAME_TO_TEST=asciidoctor/docker-asciidoctor
 
@@ -20,8 +28,8 @@ teardown() {
   clean_generated_files
 }
 
-@test "We can build successfully the standard Docker image" {
-  docker build -t "${DOCKER_IMAGE_NAME_TO_TEST}" "${BATS_TEST_DIRNAME}/../"
+@test "The Docker image to test is available" {
+  docker inspect "${DOCKER_IMAGE_NAME_TO_TEST}"
 }
 
 @test "asciidoctor is installed and in version ${ASCIIDOCTOR_VERSION}" {
