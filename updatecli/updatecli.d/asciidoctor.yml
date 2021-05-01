@@ -1,0 +1,66 @@
+---
+title: "Bump Asciidoctor version"
+sources:
+  getAsciidoctorVersion:
+    kind: githubRelease
+    name: "Get the latest Asciidoctor version"
+    spec:
+      owner: "asciidoctor"
+      repository: "asciidoctor"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: latest
+    transformers:
+      - trimPrefix: "v"
+conditions:
+  testDockerfileArgGoVersion:
+    name: "Does the Dockerfile have an ARG instruction which key is asciidoctor_version?"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_version"
+  # testCstAsciidoctorVersion:
+  #   name: "Does the test harness checks for a label label io.jenkins-infra.tools.asciidoctor.version?"
+  #   kind: yaml
+  #   spec:
+  #     file: "cst.yml"
+  #     key: "metadataTest.labels[2].key"
+  #     value: io.jenkins-infra.tools.asciidoctor.version
+targets:
+  # updateCstGoVersion:
+  #   name: "Update the label io.jenkins-infra.tools.asciidoctor.version in the test harness"
+  #   sourceID: getAsciidoctorVersion
+  #   kind: yaml
+  #   spec:
+  #     file: "cst.yml"
+  #     key: "metadataTest.labels[2].value"
+  #   scm:
+  #     github:
+  #       user: "{{ .github.user }}"
+  #       email: "{{ .github.email }}"
+  #       owner: "{{ requiredEnv .github.owner }}"
+  #       repository: "{{ requiredEnv .github.repository }}"
+  #       token: "{{ requiredEnv .github.token }}"
+  #       username: "{{ .github.username }}"
+  #       branch: "{{ .github.branch }}"
+  updateDockerfileArgGoVersion:
+    name: "Update the value of ARG asciidoctor_version in the Dockerfile"
+    sourceID: getAsciidoctorVersion
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"

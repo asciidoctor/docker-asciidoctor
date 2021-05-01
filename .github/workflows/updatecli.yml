@@ -1,0 +1,50 @@
+---
+name: Updatecli
+
+on:
+  ## Check for dependencies update daily, at 00:00 UTC
+  schedule:
+    - cron: '0 0 * * *'
+  ## Check for updatecli configuration with the "diff" command when new code is pushed
+  push:
+  pull_request:
+  ## When run manually for validation purpose, or "retrying a failed build"
+  workflow_dispatch:
+jobs:
+  updatecli:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Extract the repo and owner values to feed to updatecli through env. variables
+      - id: get-repo-infos
+        name: Get Repository Informations
+        run: |
+          owner=$(echo $GITHUB_REPOSITORY | cut -d'/' -f1)
+          repo=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
+          echo "::set-output name=owner::$owner"
+          echo "::set-output name=repo::$repo"
+      ## Ensure that the updatecli configurations are valid without waiting for the daily execution from the workflow "Updatecli"
+      - name: Diff
+        uses: updatecli/updatecli-action@v1
+        ## Check the updatecli syntax on each code change
+        if: github.event_name != 'schedule'
+        with:
+          command: diff
+          flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.yaml"
+        env:
+          UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{steps.get-repo-infos.outputs.repo}}
+          REPO_OWNER: ${{steps.get-repo-infos.outputs.owner}}
+      ## Open PRs to upgrade dependencies using updatecli
+      - name: Apply
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        uses: updatecli/updatecli-action@v1
+        with:
+          command: apply
+          flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.yaml"
+        env:
+          UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{steps.get-repo-infos.outputs.repo}}
+          REPO_OWNER: ${{steps.get-repo-infos.outputs.owner}}
+...
