@@ -1,0 +1,59 @@
+---
+title: "Bump Asciidoctor-Diagram version"
+sources:
+  getAsciidoctorDiagramVersion:
+    kind: githubRelease
+    name: "Get the latest Asciidoctor-Diagram version"
+    spec:
+      owner: "asciidoctor"
+      repository: "asciidoctor-diagram"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: latest
+    transformers:
+      - trimPrefix: "v"
+conditions:
+  testDockerfileArgGoVersion:
+    name: "Does the Dockerfile have an ARG instruction which key is asciidoctor_diagram_version?"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_diagram_version"
+targets:
+  updateHarnessEnvAsciidoctorDiagramVersion:
+    name: "Update the key ASCIIDOCTOR_DIAGRAM_VERSION in the test harness env_vars.yml file"
+    kind: yaml
+    sourceID: getAsciidoctorDiagramVersion
+    spec:
+      file: "tests/env_vars.yml"
+      key: "ASCIIDOCTOR_DIAGRAM_VERSION"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateDockerfileArgGoVersion:
+    name: "Update the value of ARG asciidoctor_diagram_version in the Dockerfile"
+    sourceID: getAsciidoctorDiagramVersion
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_diagram_version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
