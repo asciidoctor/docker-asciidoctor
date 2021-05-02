@@ -48,7 +48,8 @@ teardown() {
 }
 
 @test "asciidoctor-revealjs is callable without error" {
-  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" asciidoctor-revealjs -v
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" asciidoctor-revealjs -v \
+    | grep "${ASCIIDOCTOR_REVEALJS_VERSION}"
 }
 
 @test "make is installed and in the path" {
