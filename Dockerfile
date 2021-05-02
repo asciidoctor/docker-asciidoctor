@@ -3,7 +3,7 @@ FROM alpine:3.13 AS base
 ARG asciidoctor_version=2.0.15
 ARG asciidoctor_confluence_version=0.0.2
 ARG asciidoctor_pdf_version=1.5.4
-ARG asciidoctor_diagram_version=2.1.0
+ARG asciidoctor_diagram_version=2.1.2
 ARG asciidoctor_epub3_version=1.5.0.alpha.19
 ARG asciidoctor_fb2_version=0.5.1
 ARG asciidoctor_mathematical_version=0.3.5
