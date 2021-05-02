@@ -1,7 +1,9 @@
-tests
+tests/*
 .git*
-README-original.adoc
-README.adoc
-README.md
-cache
-tests
+README*.adoc
+README*.md
+cache/*
+updatecli/*
+docker-bake.hcl
+*gz
+*zip
