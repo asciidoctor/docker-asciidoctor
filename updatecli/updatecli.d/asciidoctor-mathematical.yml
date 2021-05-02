@@ -1,0 +1,59 @@
+---
+title: "Bump Asciidoctor-Mathematical version"
+sources:
+  getAsciidoctorMathematicalVersion:
+    kind: githubRelease
+    name: "Get the latest Asciidoctor-Mathematical version"
+    spec:
+      owner: "asciidoctor"
+      repository: "asciidoctor-mathematical"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: latest
+    transformers:
+      - trimPrefix: "v"
+conditions:
+  testDockerfileArgGoVersion:
+    name: "Does the Dockerfile have an ARG instruction which key is asciidoctor_mathematical_version?"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_mathematical_version"
+targets:
+  updateHarnessEnvAsciidoctorMathematicalVersion:
+    name: "Update the key ASCIIDOCTOR_MATHEMATICAL_VERSION in the test harness env_vars.yml file"
+    kind: yaml
+    sourceID: getAsciidoctorMathematicalVersion
+    spec:
+      file: "tests/env_vars.yml"
+      key: "ASCIIDOCTOR_MATHEMATICAL_VERSION"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateDockerfileArgGoVersion:
+    name: "Update the value of ARG asciidoctor_mathematical_version in the Dockerfile"
+    sourceID: getAsciidoctorMathematicalVersion
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_mathematical_version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"

@@ -1,0 +1,59 @@
+---
+title: "Bump Asciidoctor-Kramdown version"
+sources:
+  getAsciidoctorKramdownVersion:
+    kind: githubRelease
+    name: "Get the latest Asciidoctor-Kramdown version"
+    spec:
+      owner: "asciidoctor"
+      repository: "kramdown-asciidoc"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: latest
+    transformers:
+      - trimPrefix: "v"
+conditions:
+  testDockerfileArgGoVersion:
+    name: "Does the Dockerfile have an ARG instruction which key is kramdown_asciidoc_version?"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "kramdown_asciidoc_version"
+targets:
+  updateHarnessEnvAsciidoctorKramdownVersion:
+    name: "Update the key KRAMDOWN_ASCIIDOC_VERSION in the test harness env_vars.yml file"
+    kind: yaml
+    sourceID: getAsciidoctorKramdownVersion
+    spec:
+      file: "tests/env_vars.yml"
+      key: "KRAMDOWN_ASCIIDOC_VERSION"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateDockerfileArgGoVersion:
+    name: "Update the value of ARG kramdown_asciidoc_version in the Dockerfile"
+    sourceID: getAsciidoctorKramdownVersion
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "kramdown_asciidoc_version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"

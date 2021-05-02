@@ -1,0 +1,59 @@
+---
+title: "Bump Asciidoctor-Epub3 version"
+sources:
+  getAsciidoctorEpub3Version:
+    kind: githubRelease
+    name: "Get the latest Asciidoctor-Epub3 version"
+    spec:
+      owner: "asciidoctor"
+      repository: "asciidoctor-epub3"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: latest
+    transformers:
+      - trimPrefix: "v"
+conditions:
+  testDockerfileArgGoVersion:
+    name: "Does the Dockerfile have an ARG instruction which key is asciidoctor_epub3_version?"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_epub3_version"
+targets:
+  updateHarnessEnvAsciidoctorEpub3Version:
+    name: "Update the key ASCIIDOCTOR_EPUB3_VERSION in the test harness env_vars.yml file"
+    kind: yaml
+    sourceID: getAsciidoctorEpub3Version
+    spec:
+      file: "tests/env_vars.yml"
+      key: "ASCIIDOCTOR_EPUB3_VERSION"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateDockerfileArgGoVersion:
+    name: "Update the value of ARG asciidoctor_epub3_version in the Dockerfile"
+    sourceID: getAsciidoctorEpub3Version
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_epub3_version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"

@@ -1,0 +1,59 @@
+---
+title: "Bump Asciidoctor-Bibtex version"
+sources:
+  getAsciidoctorBibtexVersion:
+    kind: githubRelease
+    name: "Get the latest Asciidoctor-Bibtex version"
+    spec:
+      owner: "asciidoctor"
+      repository: "asciidoctor-bibtex"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: latest
+    transformers:
+      - trimPrefix: "v"
+conditions:
+  testDockerfileArgGoVersion:
+    name: "Does the Dockerfile have an ARG instruction which key is asciidoctor_bibtex_version?"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_bibtex_version"
+targets:
+  updateHarnessEnvAsciidoctorBibtexVersion:
+    name: "Update the key ASCIIDOCTOR_BIBTEX_VERSION in the test harness env_vars.yml file"
+    kind: yaml
+    sourceID: getAsciidoctorBibtexVersion
+    spec:
+      file: "tests/env_vars.yml"
+      key: "ASCIIDOCTOR_BIBTEX_VERSION"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateDockerfileArgGoVersion:
+    name: "Update the value of ARG asciidoctor_bibtex_version in the Dockerfile"
+    sourceID: getAsciidoctorBibtexVersion
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_bibtex_version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
