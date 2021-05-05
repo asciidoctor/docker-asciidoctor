@@ -97,7 +97,8 @@ RUN apk add --no-cache \
     ttf-dejavu \
     tzdata \
     unzip \
-    which
+    which \
+    font-noto-cjk
 
 # Installing Ruby Gems for additional functionality
 RUN apk add --no-cache --virtual .rubymakedepends \
