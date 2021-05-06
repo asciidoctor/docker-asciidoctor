@@ -152,6 +152,10 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" apk info font-bakoma-ttf
 }
 
+@test "Noto CJK Fonts are installed to render correctly the PlantUML diagram from asciidoctor-diagram" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" apk info font-noto-cjk
+}
+
 @test "DejaVu Fonts are installed to get corretly rendered PlantUML-Graphs" {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" fc-list "DejaVu Sans"
 }
