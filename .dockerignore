@@ -1,5 +1,6 @@
 tests
 .git*
+README-original.adoc
 README.adoc
 README.md
 cache
