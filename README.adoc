@@ -1,3 +1,13 @@
+:ASCIIDOCTOR_VERSION: 2.0.15
+:ASCIIDOCTOR_CONFLUENCE_VERSION: 0.0.2
+:ASCIIDOCTOR_PDF_VERSION: 1.5.4
+:ASCIIDOCTOR_DIAGRAM_VERSION: 2.1.2
+:ASCIIDOCTOR_EPUB3_VERSION: 1.5.1
+:ASCIIDOCTOR_FB2_VERSION: 0.5.1
+:ASCIIDOCTOR_MATHEMATICAL_VERSION: 0.3.5
+:ASCIIDOCTOR_REVEALJS_VERSION: 4.1.0
+:KRAMDOWN_ASCIIDOC_VERSION: 1.0.1
+:ASCIIDOCTOR_BIBTEX_VERSION: 0.8.0
 = Asciidoctor Docker Container
 :source-highlighter: coderay
 
@@ -10,17 +20,17 @@ GitHub renders asciidoctor natively, but DockerHub does not (it needs markdown).
 
 This Docker image provides:
 
-* https://asciidoctor.org/[Asciidoctor] 2.0.12
-* https://asciidoctor.org/docs/asciidoctor-diagram/[Asciidoctor Diagram] 2.1.0 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
-* https://asciidoctor.org/docs/asciidoctor-pdf/[Asciidoctor PDF] 1.5.4
-* https://asciidoctor.org/docs/asciidoctor-epub3/[Asciidoctor EPUB3] 1.5.0.alpha.19
-* https://github.com/asciidoctor/asciidoctor-fb2/[Asciidoctor FB2] 0.5.1
-* https://github.com/asciidoctor/asciidoctor-mathematical[Asciidoctor Mathematical] 0.3.5
-* https://docs.asciidoctor.org/reveal.js-converter/latest/[Asciidoctor reveal.js] 4.1.0
+* https://asciidoctor.org/[Asciidoctor] {ASCIIDOCTOR_VERSION}
+* https://asciidoctor.org/docs/asciidoctor-diagram/[Asciidoctor Diagram] {ASCIIDOCTOR_DIAGRAM_VERSION} with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
+* https://asciidoctor.org/docs/asciidoctor-pdf/[Asciidoctor PDF] {ASCIIDOCTOR_PDF_VERSION}
+* https://asciidoctor.org/docs/asciidoctor-epub3/[Asciidoctor EPUB3] {ASCIIDOCTOR_EPUB3_VERSION}
+* https://github.com/asciidoctor/asciidoctor-fb2/[Asciidoctor FB2] {ASCIIDOCTOR_FB2_VERSION}
+* https://github.com/asciidoctor/asciidoctor-mathematical[Asciidoctor Mathematical] {ASCIIDOCTOR_MATHEMATICAL_VERSION}
+* https://docs.asciidoctor.org/reveal.js-converter/latest/[Asciidoctor reveal.js] {ASCIIDOCTOR_REVEALJS_VERSION}
 * https://rubygems.org/gems/asciimath[AsciiMath]
 * Source highlighting using http://rouge.jneen.net[Rouge], https://rubygems.org/gems/coderay[CodeRay] or https://pygments.org/[Pygments]
-* https://github.com/asciidoctor/asciidoctor-confluence[Asciidoctor Confluence] 0.0.2
-* https://github.com/asciidoctor/asciidoctor-bibtex[Asciidoctor Bibtex] 0.8.0
+* https://github.com/asciidoctor/asciidoctor-confluence[Asciidoctor Confluence] {ASCIIDOCTOR_CONFLUENCE_VERSION}
+* https://github.com/asciidoctor/asciidoctor-bibtex[Asciidoctor Bibtex] {ASCIIDOCTOR_BIBTEX_VERSION}
 
 This image uses Alpine Linux 3.13 as base image.
 
