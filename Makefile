@@ -17,7 +17,7 @@ export TESTS_ENV_FILE
 
 PANDOC_VERSION ?= 2.10.1
 
-all: build test README.md
+all: build test README
 
 build:
 	docker build \
@@ -79,13 +79,15 @@ cache/pandoc-$(PANDOC_VERSION)/bin/pandoc: cache/pandoc-$(PANDOC_VERSION)-linux.
 	tar xzf "$(CURDIR)/cache/pandoc-$(PANDOC_VERSION)-linux.tar.gz" -C "$(CURDIR)/cache"
 
 # GitHub renders asciidoctor but DockerHub requires markdown.
-# This recipe creates README.md from README.adoc.
-README.md: build cache/pandoc-$(PANDOC_VERSION)/bin/pandoc
+# This recipe creates README.md and README.adoc from README-original.adoc and env_vars.yml.
+README: build cache/pandoc-$(PANDOC_VERSION)/bin/pandoc
+	cat tests/env_vars.yml | sed -e 's/^[A-Z]/:&/' | sed '/^#/d' > "$(CURDIR)/cache/env_vars.adoc"
+	cat "$(CURDIR)/cache/env_vars.adoc" README-original.adoc > README.adoc
 	docker run --rm -t -v $(CURDIR):/documents --entrypoint bash $(DOCKER_IMAGE_NAME_TO_TEST) \
 		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-$(PANDOC_VERSION)/bin/pandoc  --atx-headers --wrap=preserve -t gfm -f docbook - > README.md"
 
-deploy-README.md: README.md
-	git add README.md && git commit -s -m "Updating README.md using 'make README.md command'" \
-		&& git push origin $(shell git rev-parse --abbrev-ref HEAD) || echo 'No changes to README.md'
+deploy-README: README
+	git add README.adoc README.md && git commit -s -m "Updating README files using 'make README command'" \
+		&& git push origin $(shell git rev-parse --abbrev-ref HEAD) || echo 'No changes to README files'
 
-.PHONY: all build test shell deploy clean README.md deploy-README.md
+.PHONY: all build test shell deploy clean README deploy-README
