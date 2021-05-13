@@ -14,11 +14,13 @@ all: build test README
 build: asciidoctor-minimal.build build-haskell.build asciidoctor.build
 
 %.build:
+	docker buildx bake $(*) --load --set '*.cache-to=""' --print
 	docker buildx bake $(*) --load --set '*.cache-to=""'
 
 docker-cache: asciidoctor-minimal.docker-cache build-haskell.docker-cache asciidoctor.docker-cache
 
 %.docker-cache:
+	docker buildx bake $(*) --print
 	docker buildx bake $(*)
 
 test: asciidoctor.test
@@ -26,20 +28,11 @@ test: asciidoctor.test
 %.test:
 	bats $(CURDIR)/tests/$(*).bats
 
-deploy:
-ifdef DOCKERHUB_SOURCE_TOKEN
-ifdef DOCKERHUB_TRIGGER_TOKEN
-	curl --verbose --header "Content-Type: application/json" \
-		--data '{"source_type": "$(shell [ -n "$(GIT_TAG)" ] && echo Tag || echo Branch)", "source_name": "$(GIT_REF)"}' \
-		-X POST https://hub.docker.com/api/build/v1/source/$(DOCKERHUB_SOURCE_TOKEN)/trigger/$(DOCKERHUB_TRIGGER_TOKEN)/call/
-else
-	@echo 'Unable to deploy: Please define $$DOCKERHUB_TRIGGER_TOKEN'
-	@exit 1
-endif
-else
-	@echo 'Unable to deploy: Please define $$DOCKERHUB_SOURCE_TOKEN'
-	@exit 1
-endif
+deploy: asciidoctor.deploy
+
+%.deploy:
+	docker buildx bake $(*) --push --print
+	docker buildx bake $(*) --push
 
 clean:
 	rm -rf "$(CURDIR)/cache"
@@ -49,7 +42,7 @@ cache:
 
 cache/pandoc-$(PANDOC_VERSION)-linux.tar.gz: cache
 	curl -sSL -o "$(CURDIR)/cache/pandoc-$(PANDOC_VERSION)-linux.tar.gz" \
-	 	https://github.com/jgm/pandoc/releases/download/$(PANDOC_VERSION)/pandoc-$(PANDOC_VERSION)-linux-amd64.tar.gz
+		https://github.com/jgm/pandoc/releases/download/$(PANDOC_VERSION)/pandoc-$(PANDOC_VERSION)-linux-amd64.tar.gz
 
 cache/pandoc-$(PANDOC_VERSION)/bin/pandoc: cache/pandoc-$(PANDOC_VERSION)-linux.tar.gz
 	tar xzf "$(CURDIR)/cache/pandoc-$(PANDOC_VERSION)-linux.tar.gz" -C "$(CURDIR)/cache"

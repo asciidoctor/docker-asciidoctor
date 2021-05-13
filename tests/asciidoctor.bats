@@ -2,7 +2,7 @@
 
 TMP_GENERATION_DIR="${BATS_TEST_DIRNAME}/tmp"
 TESTS_ENV_FILE="${BATS_TEST_DIRNAME}/env_vars.yml"
-DOCKER_IMAGE_NAME_TO_TEST="asciidoctor"
+DOCKER_IMAGE_NAME_TO_TEST="${IMAGE_NAME:-asciidoctor}"
 
 ## Load environment variables from file
 if [ -n "${TESTS_ENV_FILE}" ] && [ -f "${TESTS_ENV_FILE}" ]
@@ -12,8 +12,6 @@ then
   sed -e 's/:[^:\/\/]/="/g;s/$/"/g;s/ *=/=/g' "${TESTS_ENV_FILE}" > "${TMP_ENV_FILE}"
   source "${TMP_ENV_FILE}"
 fi
-
-[ -n "${DOCKER_IMAGE_NAME_TO_TEST}" ] || export DOCKER_IMAGE_NAME_TO_TEST=asciidoctor/docker-asciidoctor
 
 clean_generated_files() {
   docker run -t --rm -v "${BATS_TEST_DIRNAME}:${BATS_TEST_DIRNAME}" alpine \
