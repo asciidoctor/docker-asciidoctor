@@ -12,25 +12,46 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    env:
+      CACHE_REGISTRY: ghcr.io
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install dependencies
+      - name: Define custom env variables
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends bats
-      - name: Set up Git user
-        run: |
-          git config --local user.name "${GITHUB_ACTOR}"
-          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          echo "CACHE_REGISTRY_PREFIX=${CACHE_REGISTRY}/asciidoctor" >> $GITHUB_ENV
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.CACHE_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build
         run: |
           make build
-          make test
-          make README
+      - name: Deploy Cache
+        # Only upstream has the cache registry credential as PRs cannot be trusted
+        if: github.event_name != 'pull_request'
+        run: |
+          make docker-cache
+      - name: Install dependencies for Tests
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends bats
+      - name: Test
+        run: make test
+      - name: Set up Git user for deploy and custom README
+        run: |
+          git config --local user.name "${GITHUB_ACTOR}"
+          git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+      - name: Generate README
+        run: make README
       - name: Deploy
         if: github.event_name != 'pull_request'
-        run: make deploy-README deploy
         env:
           DOCKERHUB_SOURCE_TOKEN: ${{ secrets.DOCKERHUB_SOURCE_TOKEN }}
           DOCKERHUB_TRIGGER_TOKEN: ${{ secrets.DOCKERHUB_TRIGGER_TOKEN }}
+          DOCKERHUB_FINAL_IMAGE_NAME: "${GITHUB_ACTOR}"
+        run: make deploy-README deploy

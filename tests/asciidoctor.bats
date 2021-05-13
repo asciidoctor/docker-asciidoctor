@@ -1,7 +1,8 @@
 #!/usr/bin/env bats
 
 TMP_GENERATION_DIR="${BATS_TEST_DIRNAME}/tmp"
-export TMP_GENERATION_DIR
+TESTS_ENV_FILE="${BATS_TEST_DIRNAME}/env_vars.yml"
+DOCKER_IMAGE_NAME_TO_TEST="asciidoctor"
 
 ## Load environment variables from file
 if [ -n "${TESTS_ENV_FILE}" ] && [ -f "${TESTS_ENV_FILE}" ]

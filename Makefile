@@ -1,6 +1,4 @@
 
-DOCKER_IMAGE_NAME ?= docker-asciidoctor
-DOCKERHUB_USERNAME ?= asciidoctor
 export DOCKER_BUILDKIT=1
 GIT_TAG = $(shell git describe --exact-match --tags HEAD 2>/dev/null)
 ifeq ($(strip $(GIT_TAG)),)
@@ -8,47 +6,25 @@ GIT_REF = $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
 else
 GIT_REF = $(GIT_TAG)
 endif
-DOCKER_IMAGE_TAG ?= $(shell echo $(GIT_REF) | sed 's/\//-/' )
-DOCKER_IMAGE_NAME_TO_TEST ?= $(DOCKERHUB_USERNAME)/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)
-export DOCKER_IMAGE_NAME_TO_TEST
-
-TESTS_ENV_FILE ?= $(CURDIR)/tests/env_vars.yml
-export TESTS_ENV_FILE
 
 PANDOC_VERSION ?= 2.10.1
 
 all: build test README
 
-build:
-	docker build \
-		--target main-minimal \
-		--tag="$(DOCKER_IMAGE_NAME_TO_TEST)-minimal" \
-		--build-arg BUILDKIT_INLINE_CACHE=1 \
-		--cache-from="$(DOCKER_IMAGE_NAME_TO_TEST)-minimal" \
-		--file=Dockerfile \
-		$(CURDIR)/
-	docker build \
-		--target build-haskell \
-		--tag="$(DOCKER_IMAGE_NAME_TO_TEST)-build-haskell" \
-		--build-arg BUILDKIT_INLINE_CACHE=1 \
-		--cache-from="$(DOCKER_IMAGE_NAME_TO_TEST)-build-haskell" \
-		--file=Dockerfile \
-		$(CURDIR)/
-	docker build \
-		--target main \
-		--tag="$(DOCKER_IMAGE_NAME_TO_TEST)" \
-		--build-arg BUILDKIT_INLINE_CACHE=1 \
-		--cache-from="$(DOCKER_IMAGE_NAME_TO_TEST)-minimal" \
-		--cache-from="$(DOCKER_IMAGE_NAME_TO_TEST)-build-haskell" \
-		--cache-from="$(DOCKER_IMAGE_NAME_TO_TEST)" \
-		--file=Dockerfile \
-		$(CURDIR)/
+build: asciidoctor-minimal.build build-haskell.build asciidoctor.build
 
-shell: build
-	docker run -it -v $(CURDIR)/tests/fixtures:/documents/ $(DOCKER_IMAGE_NAME_TO_TEST)
+%.build:
+	docker buildx bake $(*) --load --set '*.cache-to=""'
 
-test:
-	bats $(CURDIR)/tests/*.bats
+docker-cache: asciidoctor-minimal.cache build-haskell.cache asciidoctor.cache
+
+%.docker-cache:
+	docker buildx bake $(*)
+
+test: asciidoctor.test
+
+%.test:
+	bats $(CURDIR)/tests/$(*).bats
 
 deploy:
 ifdef DOCKERHUB_SOURCE_TOKEN
@@ -80,14 +56,14 @@ cache/pandoc-$(PANDOC_VERSION)/bin/pandoc: cache/pandoc-$(PANDOC_VERSION)-linux.
 
 # GitHub renders asciidoctor but DockerHub requires markdown.
 # This recipe creates README.md and README.adoc from README-original.adoc and env_vars.yml.
-README: build cache/pandoc-$(PANDOC_VERSION)/bin/pandoc
+README: asciidoctor.build cache/pandoc-$(PANDOC_VERSION)/bin/pandoc
 	cat tests/env_vars.yml | sed -e 's/^[A-Z]/:&/' | sed '/^#/d' > "$(CURDIR)/cache/env_vars.adoc"
 	cat "$(CURDIR)/cache/env_vars.adoc" README-original.adoc > README.adoc
-	docker run --rm -t -v $(CURDIR):/documents --entrypoint bash $(DOCKER_IMAGE_NAME_TO_TEST) \
+	docker run --rm -t -v $(CURDIR):/documents --entrypoint bash asciidoctor \
 		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-$(PANDOC_VERSION)/bin/pandoc  --atx-headers --wrap=preserve -t gfm -f docbook - > README.md"
 
 deploy-README: README
 	git add README.adoc README.md && git commit -s -m "Updating README files using 'make README command'" \
 		&& git push origin $(shell git rev-parse --abbrev-ref HEAD) || echo 'No changes to README files'
 
-.PHONY: all build test shell deploy clean README deploy-README
+.PHONY: all build test deploy clean README deploy-README docker-cache
