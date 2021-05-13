@@ -16,7 +16,7 @@ build: asciidoctor-minimal.build build-haskell.build asciidoctor.build
 %.build:
 	docker buildx bake $(*) --load --set '*.cache-to=""'
 
-docker-cache: asciidoctor-minimal.cache build-haskell.cache asciidoctor.cache
+docker-cache: asciidoctor-minimal.docker-cache build-haskell.docker-cache asciidoctor.docker-cache
 
 %.docker-cache:
 	docker buildx bake $(*)
