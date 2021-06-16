@@ -2,6 +2,14 @@ variable "CACHE_REGISTRY_PREFIX" {
   default = "ghcr.io/asciidoctor"
 }
 
+variable "IMAGE_VERSION" {
+  default = ""
+}
+
+variable "IMAGE_NAME" {
+  default = "asciidoctor"
+}
+
 group "all" {
   targets = [
     "asciidoctor-minimal",
@@ -14,9 +22,6 @@ target "asciidoctor-minimal" {
   dockerfile = "Dockerfile"
   context = "."
   target = "main-minimal"
-  tags = [
-    "asciidoctor-minimal", // Required for test harness
-  ]
   cache-from = [
     "${CACHE_REGISTRY_PREFIX}/asciidoctor-minimal:cache",
   ]
@@ -43,7 +48,10 @@ target "asciidoctor" {
   context = "."
   target = "main"
   tags = [
-    "asciidoctor", // Required for test harness
+    "${IMAGE_NAME}",
+    notequal("", IMAGE_VERSION) ? "${IMAGE_NAME}:${IMAGE_VERSION}" : "", // Only used when deploying on a tag
+    notequal("", IMAGE_VERSION) ? "${IMAGE_NAME}:${element(split(".", IMAGE_VERSION), 0)}" : "", // Only used when deploying on a tag (1 digit)
+    notequal("", IMAGE_VERSION) ? "${IMAGE_NAME}:${element(split(".", IMAGE_VERSION), 0)}.${element(split(".", IMAGE_VERSION), 1)}" : "", // Only used when deploying on a tag (2 digits)
   ]
   cache-from = [
     "${CACHE_REGISTRY_PREFIX}/asciidoctor:cache",

@@ -1,5 +1,5 @@
 ---
-name: Updatecli
+name: "Check for Dependencies Updates"
 
 on:
   ## Check for dependencies update daily, at 00:00 UTC
