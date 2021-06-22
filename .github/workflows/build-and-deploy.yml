@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Define custom env variables
         run: |
-          echo "CACHE_REGISTRY_PREFIX=${CACHE_REGISTRY}/${GITHUB_ACTOR}" >> $GITHUB_ENV
+          echo "CACHE_REGISTRY_PREFIX=${CACHE_REGISTRY}/asciidoctor" >> $GITHUB_ENV
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to Cache Registry
