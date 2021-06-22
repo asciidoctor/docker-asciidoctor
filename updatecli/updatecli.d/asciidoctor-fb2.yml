@@ -14,7 +14,7 @@ sources:
     transformers:
       - trimPrefix: "v"
 conditions:
-  testDockerfileArgGoVersion:
+  testDockerfileArgVersion:
     name: "Does the Dockerfile have an ARG instruction which key is asciidoctor_fb2_version?"
     kind: dockerfile
     spec:
@@ -39,7 +39,7 @@ targets:
         token: "{{ requiredEnv .github.token }}"
         username: "{{ .github.username }}"
         branch: "{{ .github.branch }}"
-  updateDockerfileArgGoVersion:
+  updateDockerfileArgVersion:
     name: "Update the value of ARG asciidoctor_fb2_version in the Dockerfile"
     sourceID: getAsciidoctorFb2Version
     kind: dockerfile
