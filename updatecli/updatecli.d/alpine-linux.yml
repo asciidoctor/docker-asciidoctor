@@ -1,0 +1,48 @@
+---
+title: "Bump Alpine Linux Version"
+sources:
+  getAlpineLinuxVersion:
+    kind: githubRelease
+    name: "Get the latest Alpine Linux version"
+    spec:
+      owner: "alpinelinux"
+      repository: "aports" # Its release process follows Alpine's
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: latest
+    transformers:
+      - trimPrefix: "v"
+conditions:
+  testDockerfileFrom:
+    name: "Does the Dockerfile have a FROM instruction which image is alpine?"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "FROM"
+        matcher: "alpine"
+  testDockerImageExists:
+    name: "Does the Docker Image exists on the Docker Hub?"
+    kind: dockerImage
+    spec:
+      image: "alpine"
+targets:
+  updateDockerfileArgVersion:
+    name: "Update the value of the base image (FROM) in the Dockerfile"
+    sourceID: getAlpineLinuxVersion
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "FROM"
+        matcher: "alpine"
+    # scm:
+    #   github:
+    #     user: "{{ .github.user }}"
+    #     email: "{{ .github.email }}"
+    #     owner: "{{ requiredEnv .github.owner }}"
+    #     repository: "{{ requiredEnv .github.repository }}"
+    #     token: "{{ requiredEnv .github.token }}"
+    #     username: "{{ .github.username }}"
+    #     branch: "{{ .github.branch }}"
