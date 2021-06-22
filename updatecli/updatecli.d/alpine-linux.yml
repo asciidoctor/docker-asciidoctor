@@ -37,12 +37,12 @@ targets:
       instruction:
         keyword: "FROM"
         matcher: "alpine"
-    # scm:
-    #   github:
-    #     user: "{{ .github.user }}"
-    #     email: "{{ .github.email }}"
-    #     owner: "{{ requiredEnv .github.owner }}"
-    #     repository: "{{ requiredEnv .github.repository }}"
-    #     token: "{{ requiredEnv .github.token }}"
-    #     username: "{{ .github.username }}"
-    #     branch: "{{ .github.branch }}"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
