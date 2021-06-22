@@ -1,4 +1,4 @@
-FROM alpine:3.13 AS base
+FROM alpine:3.14.0 AS base
 
 ARG asciidoctor_version=2.0.15
 ARG asciidoctor_confluence_version=0.0.2
