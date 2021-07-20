@@ -59,11 +59,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Deploy
         if: github.event_name != 'pull_request'
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
           export IMAGE_VERSION="$(echo ${GITHUB_REF#refs/tags/} | grep -v 'refs/heads')"
-          export IMAGE_NAME="${DOCKERHUB_USERNAME}/docker-asciidoctor"
+          export IMAGE_NAME="asciidoctor/docker-asciidoctor"
           git config --local user.name "${GITHUB_ACTOR}"
           git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           make deploy-README deploy
