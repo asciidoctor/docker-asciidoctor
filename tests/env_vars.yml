@@ -1,5 +1,6 @@
 ## This file holds the environement variables for the test harness
 # Only key/value at level 0 are allowed
+ALPINE_VERSION: 3.13.5
 ASCIIDOCTOR_VERSION: 2.0.15
 ASCIIDOCTOR_CONFLUENCE_VERSION: 0.0.2
 ASCIIDOCTOR_PDF_VERSION: 1.6.0

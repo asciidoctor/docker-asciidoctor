@@ -1,3 +1,4 @@
+:ALPINE_VERSION: 3.13.5
 :ASCIIDOCTOR_VERSION: 2.0.15
 :ASCIIDOCTOR_CONFLUENCE_VERSION: 0.0.2
 :ASCIIDOCTOR_PDF_VERSION: 1.6.0
@@ -6,7 +7,7 @@
 :ASCIIDOCTOR_FB2_VERSION: 0.5.1
 :ASCIIDOCTOR_MATHEMATICAL_VERSION: 0.3.5
 :ASCIIDOCTOR_REVEALJS_VERSION: 4.1.0
-:KRAMDOWN_ASCIIDOC_VERSION: 1.0.1
+:KRAMDOWN_ASCIIDOC_VERSION: 2.0.0
 :ASCIIDOCTOR_BIBTEX_VERSION: 0.8.0
 = Asciidoctor Docker Container
 :source-highlighter: coderay
@@ -32,7 +33,7 @@ This Docker image provides:
 * https://github.com/asciidoctor/asciidoctor-confluence[Asciidoctor Confluence] {ASCIIDOCTOR_CONFLUENCE_VERSION}
 * https://github.com/asciidoctor/asciidoctor-bibtex[Asciidoctor Bibtex] {ASCIIDOCTOR_BIBTEX_VERSION}
 
-This image uses Alpine Linux 3.13 as base image.
+This image uses Alpine Linux {ALPINE_VERSION} as base image.
 
 == How to use it
 

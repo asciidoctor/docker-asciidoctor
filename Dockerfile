@@ -1,4 +1,5 @@
-FROM alpine:3.14.0 AS base
+ARG alpine_version=3.13.5
+FROM alpine:${alpine_version} AS base
 
 ARG asciidoctor_version=2.0.15
 ARG asciidoctor_confluence_version=0.0.2
@@ -62,7 +63,7 @@ RUN apk add --no-cache \
     zlib-dev
 
 RUN cabal v2-update \
- && cabal v2-install erd
+  && cabal v2-install erd
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

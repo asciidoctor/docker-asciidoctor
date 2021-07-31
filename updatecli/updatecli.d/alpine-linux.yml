@@ -10,18 +10,19 @@ sources:
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       versionFilter:
-        kind: latest
+        kind: regex
+        pattern: '3.13.(\d*)'
     transformers:
       - trimPrefix: "v"
 conditions:
-  testDockerfileFrom:
-    name: "Does the Dockerfile have a FROM instruction which image is alpine?"
+  testDockerfileArg:
+    name: "Does the Dockerfile have an ARG instruction for the Alpine Linux version?"
     kind: dockerfile
     spec:
       file: Dockerfile
       instruction:
-        keyword: "FROM"
-        matcher: "alpine"
+        keyword: "ARG"
+        matcher: "alpine_version"
   testDockerImageExists:
     name: "Does the Docker Image exists on the Docker Hub?"
     kind: dockerImage
@@ -29,14 +30,30 @@ conditions:
       image: "alpine"
 targets:
   updateDockerfileArgVersion:
-    name: "Update the value of the base image (FROM) in the Dockerfile"
+    name: "Update the value of the base image (ARG alpine_version) in the Dockerfile"
     sourceID: getAlpineLinuxVersion
     kind: dockerfile
     spec:
       file: Dockerfile
       instruction:
-        keyword: "FROM"
-        matcher: "alpine"
+        keyword: "ARG"
+        matcher: "alpine_version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateHarnessEnvAlpineVersion:
+    name: "Update the key ALPINE_VERSION in the test harness env_vars.yml file"
+    kind: yaml
+    sourceID: getAlpineLinuxVersion
+    spec:
+      file: "tests/env_vars.yml"
+      key: "ALPINE_VERSION"
     scm:
       github:
         user: "{{ .github.user }}"
