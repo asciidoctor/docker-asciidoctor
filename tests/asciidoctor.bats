@@ -148,6 +148,24 @@ teardown() {
   [ "$(echo ${output} | grep -c -i error)" -eq 0 ]
 }
 
+@test "We can generate an HTML document with a diagram with asciidoctor-kroki as backend" {
+  run docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor -D /documents/tmp -r asciidoctor-kroki \
+      /documents/fixtures/sample-with-diagram.adoc
+
+  # Even when in ERROR with the module, asciidoctor return 0 because a document
+  # has been generated
+  [ "${status}" -eq 0 ]
+
+  echo "-- Output of command:"
+  echo "${output}"
+  echo "--"
+
+  [ "$(echo ${output} | grep -c -i error)" -eq 0 ]
+}
+
 @test "Bakoma Fonts are installed to render correctly the square root from asciidoctor-mathematical" {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" apk info font-bakoma-ttf
 }

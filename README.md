@@ -26,7 +26,9 @@ This Docker image provides:
 
 -   [Asciidoctor Bibtex](https://github.com/asciidoctor/asciidoctor-bibtex) 0.8.0
 
-This image uses Alpine Linux 3.13.6 as base image.
+-   [Asciidoctor Kroki](https://github.com/Mogztter/asciidoctor-kroki) 0.5.0
+
+This image uses Alpine Linux 3.13.5 as base image.
 
 ## How to use it
 
