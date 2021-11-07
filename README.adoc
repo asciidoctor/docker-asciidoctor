@@ -9,6 +9,7 @@
 :ASCIIDOCTOR_REVEALJS_VERSION: 4.1.0
 :KRAMDOWN_ASCIIDOC_VERSION: 2.0.0
 :ASCIIDOCTOR_BIBTEX_VERSION: 0.8.0
+:ASCIIDOCTOR_KROKI_VERSION: 0.5.0
 = Asciidoctor Docker Container
 :source-highlighter: coderay
 
@@ -32,6 +33,8 @@ This Docker image provides:
 * Source highlighting using http://rouge.jneen.net[Rouge], https://rubygems.org/gems/coderay[CodeRay] or https://pygments.org/[Pygments]
 * https://github.com/asciidoctor/asciidoctor-confluence[Asciidoctor Confluence] {ASCIIDOCTOR_CONFLUENCE_VERSION}
 * https://github.com/asciidoctor/asciidoctor-bibtex[Asciidoctor Bibtex] {ASCIIDOCTOR_BIBTEX_VERSION}
+* https://github.com/Mogztter/asciidoctor-kroki[Asciidoctor Kroki] {ASCIIDOCTOR_KROKI_VERSION}
+
 
 This image uses Alpine Linux {ALPINE_VERSION} as base image.
 

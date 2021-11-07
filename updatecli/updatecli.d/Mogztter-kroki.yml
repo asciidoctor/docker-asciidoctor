@@ -1,0 +1,60 @@
+---
+title: "Bump Asciidoctor-Kroki version"
+sources:
+  getAsciidoctorKrokiVersion:
+    kind: githubRelease
+    name: "Get the latest Asciidoctor-Kroki version"
+    spec:
+      owner: "Mogztter"
+      repository: "asciidoctor-kroki"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: regex
+        pattern: 'ruby-*'
+    transformers:
+      - trimPrefix: "ruby-v"
+conditions:
+  testDockerfileArgVersion:
+    name: "Does the Dockerfile have an ARG instruction which key is asciidoctor_kroki_version?"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_kroki_version"
+targets:
+  updateHarnessEnvAsciidoctorKrokiVersion:
+    name: "Update the key ASCIIDOCTOR_KROKI_VERSION in the test harness env_vars.yml file"
+    kind: yaml
+    sourceID: getAsciidoctorKrokiVersion
+    spec:
+      file: "tests/env_vars.yml"
+      key: "ASCIIDOCTOR_KROKI_VERSION"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateDockerfileArgVersion:
+    name: "Update the value of ARG asciidoctor_kroki_version in the Dockerfile"
+    sourceID: getAsciidoctorKrokiVersion
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_kroki_version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"

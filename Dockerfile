@@ -11,6 +11,7 @@ ARG asciidoctor_mathematical_version=0.3.5
 ARG asciidoctor_revealjs_version=4.1.0
 ARG kramdown_asciidoc_version=2.0.0
 ARG asciidoctor_bibtex_version=0.8.0
+ARG asciidoctor_kroki_version=0.5.0
 
 ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_CONFLUENCE_VERSION=${asciidoctor_confluence_version} \
@@ -21,8 +22,8 @@ ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_MATHEMATICAL_VERSION=${asciidoctor_mathematical_version} \
   ASCIIDOCTOR_REVEALJS_VERSION=${asciidoctor_revealjs_version} \
   KRAMDOWN_ASCIIDOC_VERSION=${kramdown_asciidoc_version} \
-  ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version}
-
+  ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version} \
+  ASCIIDOCTOR_KROKI_VERSION=${asciidoctor_kroki_version}
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Minimal image with asciidoctor
@@ -125,6 +126,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     tilt \
     text-hyphen \
     "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
+    "asciidoctor-kroki:${ASCIIDOCTOR_KROKI_VERSION}" \
   && apk del -r --no-cache .rubymakedepends
 
 # Installing Python dependencies for additional functionality
