@@ -1,7 +1,7 @@
 ---
 title: "Bump Alpine Linux Version"
 sources:
-  getAlpineLinuxVersion:
+  default:
     kind: githubRelease
     name: "Get the latest Alpine Linux version"
     spec:
@@ -11,6 +11,7 @@ sources:
       username: "{{ .github.username }}"
       versionFilter:
         kind: regex
+        # Stay on Alpine 3.13 mainline because of https://github.com/asciidoctor/docker-asciidoctor/pull/216
         pattern: '3.13.(\d*)'
     transformers:
       - trimPrefix: "v"
@@ -28,10 +29,21 @@ conditions:
     kind: dockerImage
     spec:
       image: "alpine"
+  testVersionInReadme:
+    name: "Does the README.adoc have a variable ALPINE_VERSION"
+    kind: file
+    spec:
+      file: README.adoc
+      matchPattern: '(?m:^:ALPINE_VERSION:.*)'
+  testVersionInTestHarness:
+    name: "Does the test harness have variable ALPINE_VERSION"
+    kind: file
+    spec:
+      file: tests/asciidoctor.bats
+      matchPattern: '(?m:^ALPINE_VERSION=.*)'
 targets:
-  updateDockerfileArgVersion:
+  updateDockerfile:
     name: "Update the value of the base image (ARG alpine_version) in the Dockerfile"
-    sourceID: getAlpineLinuxVersion
     kind: dockerfile
     spec:
       file: Dockerfile
@@ -47,13 +59,29 @@ targets:
         token: "{{ requiredEnv .github.token }}"
         username: "{{ .github.username }}"
         branch: "{{ .github.branch }}"
-  updateHarnessEnvAlpineVersion:
-    name: "Update the key ALPINE_VERSION in the test harness env_vars.yml file"
-    kind: yaml
-    sourceID: getAlpineLinuxVersion
+  updateTestHarness:
+    name: "Update the key ALPINE_VERSION in the test harness"
+    kind: file
     spec:
-      file: "tests/env_vars.yml"
-      key: "ALPINE_VERSION"
+      file: tests/asciidoctor.bats
+      matchPattern: '(?m:^ALPINE_VERSION=.*)'
+      content: 'ALPINE_VERSION={{ source `default` }}'
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateReadme:
+    name: "Update the key ALPINE_VERSION in the README.adoc file"
+    kind: file
+    spec:
+      file: README.adoc
+      matchPattern: '(?m:^:ALPINE_VERSION:.*)'
+      content: ':ALPINE_VERSION: {{ source `default` }}'
     scm:
       github:
         user: "{{ .github.user }}"

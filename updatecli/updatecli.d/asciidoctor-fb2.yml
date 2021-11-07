@@ -1,9 +1,9 @@
 ---
 title: "Bump Asciidoctor-Fb2 version"
 sources:
-  getAsciidoctorFb2Version:
+  default:
     kind: githubRelease
-    name: "Get the latest Asciidoctor-Fb2 version"
+    name: "Get the latest asciidoctor-fb2 version"
     spec:
       owner: "asciidoctor"
       repository: "asciidoctor-fb2"
@@ -22,14 +22,27 @@ conditions:
       instruction:
         keyword: "ARG"
         matcher: "asciidoctor_fb2_version"
-targets:
-  updateHarnessEnvAsciidoctorFb2Version:
-    name: "Update the key ASCIIDOCTOR_FB2_VERSION in the test harness env_vars.yml file"
-    kind: yaml
-    sourceID: getAsciidoctorFb2Version
+  testVersionInReadme:
+    name: "Does the README.adoc have a variable ASCIIDOCTOR_FB2_VERSION"
+    kind: file
     spec:
-      file: "tests/env_vars.yml"
-      key: "ASCIIDOCTOR_FB2_VERSION"
+      file: README.adoc
+      matchPattern: '(?m:^:ASCIIDOCTOR_FB2_VERSION:.*)'
+  testVersionInTestHarness:
+    name: "Does the test harness have variable ASCIIDOCTOR_FB2_VERSION"
+    kind: file
+    spec:
+      file: tests/asciidoctor.bats
+      matchPattern: '(?m:^ASCIIDOCTOR_FB2_VERSION=.*)'
+targets:
+  updateDockerfile:
+    name: "Update the value of ARG asciidoctor_fb2_version in the Dockerfile"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_fb2_version"
     scm:
       github:
         user: "{{ .github.user }}"
@@ -39,15 +52,29 @@ targets:
         token: "{{ requiredEnv .github.token }}"
         username: "{{ .github.username }}"
         branch: "{{ .github.branch }}"
-  updateDockerfileArgVersion:
-    name: "Update the value of ARG asciidoctor_fb2_version in the Dockerfile"
-    sourceID: getAsciidoctorFb2Version
-    kind: dockerfile
+  updateTestHarness:
+    name: "Update the key ASCIIDOCTOR_FB2_VERSION in the test harness"
+    kind: file
     spec:
-      file: Dockerfile
-      instruction:
-        keyword: "ARG"
-        matcher: "asciidoctor_fb2_version"
+      file: tests/asciidoctor.bats
+      matchPattern: '(?m:^ASCIIDOCTOR_FB2_VERSION=.*)'
+      content: 'ASCIIDOCTOR_FB2_VERSION={{ source `default` }}'
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateReadme:
+    name: "Update the key ASCIIDOCTOR_FB2_VERSION in the README.adoc file"
+    kind: file
+    spec:
+      file: README.adoc
+      matchPattern: '(?m:^:ASCIIDOCTOR_FB2_VERSION:.*)'
+      content: ':ASCIIDOCTOR_FB2_VERSION: {{ source `default` }}'
     scm:
       github:
         user: "{{ .github.user }}"

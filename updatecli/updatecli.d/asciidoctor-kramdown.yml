@@ -1,7 +1,7 @@
 ---
 title: "Bump Asciidoctor-Kramdown version"
 sources:
-  getAsciidoctorKramdownVersion:
+  default:
     kind: githubRelease
     name: "Get the latest Asciidoctor-Kramdown version"
     spec:
@@ -22,14 +22,27 @@ conditions:
       instruction:
         keyword: "ARG"
         matcher: "kramdown_asciidoc_version"
-targets:
-  updateHarnessEnvAsciidoctorKramdownVersion:
-    name: "Update the key KRAMDOWN_ASCIIDOC_VERSION in the test harness env_vars.yml file"
-    kind: yaml
-    sourceID: getAsciidoctorKramdownVersion
+  testVersionInReadme:
+    name: "Does the README.adoc have a variable KRAMDOWN_ASCIIDOC_VERSION"
+    kind: file
     spec:
-      file: "tests/env_vars.yml"
-      key: "KRAMDOWN_ASCIIDOC_VERSION"
+      file: README.adoc
+      matchPattern: '(?m:^:KRAMDOWN_ASCIIDOC_VERSION:.*)'
+  testVersionInTestHarness:
+    name: "Does the test harness have variable KRAMDOWN_ASCIIDOC_VERSION"
+    kind: file
+    spec:
+      file: tests/asciidoctor.bats
+      matchPattern: '(?m:^KRAMDOWN_ASCIIDOC_VERSION=.*)'
+targets:
+  updateDockerfile:
+    name: "Update the value of ARG kramdown_asciidoc_version in the Dockerfile"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "kramdown_asciidoc_version"
     scm:
       github:
         user: "{{ .github.user }}"
@@ -39,15 +52,29 @@ targets:
         token: "{{ requiredEnv .github.token }}"
         username: "{{ .github.username }}"
         branch: "{{ .github.branch }}"
-  updateDockerfileArgVersion:
-    name: "Update the value of ARG kramdown_asciidoc_version in the Dockerfile"
-    sourceID: getAsciidoctorKramdownVersion
-    kind: dockerfile
+  updateTestHarness:
+    name: "Update the key KRAMDOWN_ASCIIDOC_VERSION in the test harness"
+    kind: file
     spec:
-      file: Dockerfile
-      instruction:
-        keyword: "ARG"
-        matcher: "kramdown_asciidoc_version"
+      file: tests/asciidoctor.bats
+      matchPattern: '(?m:^KRAMDOWN_ASCIIDOC_VERSION=.*)'
+      content: 'KRAMDOWN_ASCIIDOC_VERSION={{ source `default` }}'
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateReadme:
+    name: "Update the key KRAMDOWN_ASCIIDOC_VERSION in the README.adoc file"
+    kind: file
+    spec:
+      file: README.adoc
+      matchPattern: '(?m:^:KRAMDOWN_ASCIIDOC_VERSION:.*)'
+      content: ':KRAMDOWN_ASCIIDOC_VERSION: {{ source `default` }}'
     scm:
       github:
         user: "{{ .github.user }}"

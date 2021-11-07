@@ -1,7 +1,7 @@
 ---
 title: "Bump Asciidoctor-PDF version"
 sources:
-  getAsciidoctorPDFVersion:
+  default:
     kind: githubRelease
     name: "Get the latest Asciidoctor-PDF version"
     spec:
@@ -22,14 +22,27 @@ conditions:
       instruction:
         keyword: "ARG"
         matcher: "asciidoctor_pdf_version"
-targets:
-  updateHarnessEnvAsciidoctorPDFVersion:
-    name: "Update the key ASCIIDOCTOR_PDF_VERSION in the test harness env_vars.yml file"
-    kind: yaml
-    sourceID: getAsciidoctorPDFVersion
+  testVersionInReadme:
+    name: "Does the README.adoc have a variable ASCIIDOCTOR_PDF_VERSION"
+    kind: file
     spec:
-      file: "tests/env_vars.yml"
-      key: "ASCIIDOCTOR_PDF_VERSION"
+      file: README.adoc
+      matchPattern: '(?m:^:ASCIIDOCTOR_PDF_VERSION:.*)'
+  testVersionInTestHarness:
+    name: "Does the test harness have variable ASCIIDOCTOR_PDF_VERSION"
+    kind: file
+    spec:
+      file: tests/asciidoctor.bats
+      matchPattern: '(?m:^ASCIIDOCTOR_PDF_VERSION=.*)'
+targets:
+  updateDockerfile:
+    name: "Update the value of ARG asciidoctor_pdf_version in the Dockerfile"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "asciidoctor_pdf_version"
     scm:
       github:
         user: "{{ .github.user }}"
@@ -39,15 +52,29 @@ targets:
         token: "{{ requiredEnv .github.token }}"
         username: "{{ .github.username }}"
         branch: "{{ .github.branch }}"
-  updateDockerfileArgVersion:
-    name: "Update the value of ARG asciidoctor_pdf_version in the Dockerfile"
-    sourceID: getAsciidoctorPDFVersion
-    kind: dockerfile
+  updateTestHarness:
+    name: "Update the key ASCIIDOCTOR_PDF_VERSION in the test harness"
+    kind: file
     spec:
-      file: Dockerfile
-      instruction:
-        keyword: "ARG"
-        matcher: "asciidoctor_pdf_version"
+      file: tests/asciidoctor.bats
+      matchPattern: '(?m:^ASCIIDOCTOR_PDF_VERSION=.*)'
+      content: 'ASCIIDOCTOR_PDF_VERSION={{ source `default` }}'
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ requiredEnv .github.owner }}"
+        repository: "{{ requiredEnv .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  updateReadme:
+    name: "Update the key ASCIIDOCTOR_PDF_VERSION in the README.adoc file"
+    kind: file
+    spec:
+      file: README.adoc
+      matchPattern: '(?m:^:ASCIIDOCTOR_PDF_VERSION:.*)'
+      content: ':ASCIIDOCTOR_PDF_VERSION: {{ source `default` }}'
     scm:
       github:
         user: "{{ .github.user }}"
