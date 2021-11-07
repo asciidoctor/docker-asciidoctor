@@ -12,6 +12,7 @@ ASCIIDOCTOR_MATHEMATICAL_VERSION=0.3.5
 ASCIIDOCTOR_REVEALJS_VERSION=4.1.0
 KRAMDOWN_ASCIIDOC_VERSION=2.0.0
 ASCIIDOCTOR_BIBTEX_VERSION=0.8.0
+ASCIIDOCTOR_KROKI_VERSION=0.5.0
 DOCKER_IMAGE_NAME_TO_TEST="${IMAGE_NAME:-asciidoctor}"
 
 clean_generated_files() {
@@ -146,6 +147,11 @@ teardown() {
   echo "--"
 
   [ "$(echo ${output} | grep -c -i error)" -eq 0 ]
+}
+
+@test "asciidoctor-kroki is installed as a gem with the version ${ASCIIDOCTOR_KROKI_VERSION}" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" gem list \
+    | grep "asciidoctor-kroki" | grep "${ASCIIDOCTOR_KROKI_VERSION}"
 }
 
 @test "We can generate an HTML document with a diagram with asciidoctor-kroki as backend" {
