@@ -1,7 +1,20 @@
 ---
 title: "Bump Asciidoctor-Kroki version"
-sources:
+
+scms:
   default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ requiredEnv .github.owner }}"
+      repository: "{{ requiredEnv .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  latestVersion:
     kind: githubRelease
     name: "Get the latest Asciidoctor-Kroki version"
     spec:
@@ -14,6 +27,7 @@ sources:
         pattern: 'ruby-*'
     transformers:
       - trimPrefix: "ruby-v"
+
 conditions:
   testDockerfileArgVersion:
     name: "Does the Dockerfile have an ARG instruction which key is asciidoctor_kroki_version?"
@@ -35,6 +49,7 @@ conditions:
     spec:
       file: tests/asciidoctor.bats
       matchPattern: '(?m:^ASCIIDOCTOR_KROKI_VERSION=.*)'
+
 targets:
   updateDockerfile:
     name: "Update the value of ARG asciidoctor_kroki_version in the Dockerfile"
@@ -44,44 +59,33 @@ targets:
       instruction:
         keyword: "ARG"
         matcher: "asciidoctor_kroki_version"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ requiredEnv .github.owner }}"
-        repository: "{{ requiredEnv .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   updateTestHarness:
     name: "Update the key ASCIIDOCTOR_KROKI_VERSION in the test harness"
     kind: file
     spec:
       file: tests/asciidoctor.bats
       matchPattern: '(?m:^ASCIIDOCTOR_KROKI_VERSION=.*)'
-      content: 'ASCIIDOCTOR_KROKI_VERSION={{ source `default` }}'
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ requiredEnv .github.owner }}"
-        repository: "{{ requiredEnv .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+      content: 'ASCIIDOCTOR_KROKI_VERSION={{ source `latestVersion` }}'
+    scmID: default
   updateReadme:
     name: "Update the key ASCIIDOCTOR_KROKI_VERSION in the README.adoc file"
     kind: file
     spec:
       file: README.adoc
       matchPattern: '(?m:^:ASCIIDOCTOR_KROKI_VERSION:.*)'
-      content: ':ASCIIDOCTOR_KROKI_VERSION: {{ source `default` }}'
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ requiredEnv .github.owner }}"
-        repository: "{{ requiredEnv .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+      content: ':ASCIIDOCTOR_KROKI_VERSION: {{ source `latestVersion` }}'
+    scmID: default
+
+pullrequests:
+  default:
+    kind: github
+    scmID: default
+    targets:
+      - updateDockerfile
+      - updateTestHarness
+      - updateReadme
+    spec:
+      labels:
+        - chore
+        - dependencies
