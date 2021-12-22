@@ -26,7 +26,7 @@ jobs:
           echo "::set-output name=repo::$repo"
       ## Ensure that the updatecli configurations are valid without waiting for the daily execution from the workflow "Updatecli"
       - name: Diff
-        uses: updatecli/updatecli-action@v1.17.0
+        uses: updatecli/updatecli-action@v1.18.0
         ## Check the updatecli syntax on each code change
         if: github.event_name != 'schedule'
         with:
@@ -39,7 +39,7 @@ jobs:
       ## Open PRs to upgrade dependencies using updatecli
       - name: Apply
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-        uses: updatecli/updatecli-action@v1.17.0
+        uses: updatecli/updatecli-action@v1.18.0
         with:
           command: apply
           flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.yaml"
