@@ -30,6 +30,10 @@ categories:
       - 'documentation'
       - 'doc'
       - 'docs'
+  - title: '🧩 Dependencies'
+    labels:
+      - 'dependencies'
+      - 'dependency'
   - title: '💚 Chores'
     labels:
       - 'chores'
@@ -48,12 +52,13 @@ version-resolver:
       - 'enhancement'
       - 'feat'
       - 'improvement'
+      - 'dependencies'
+      - 'dependency'
   patch:
     labels:
       - 'documentation'
       - 'doc'
       - 'docs'
-      - 'dependencies'
       - 'patch'
       - 'fix'
       - 'bugfix'
