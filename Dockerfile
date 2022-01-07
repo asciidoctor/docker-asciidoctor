@@ -1,7 +1,7 @@
 ARG alpine_version=3.13.7
 FROM alpine:${alpine_version} AS base
 
-ARG asciidoctor_version=2.0.16
+ARG asciidoctor_version=2.0.17
 ARG asciidoctor_confluence_version=0.0.2
 ARG asciidoctor_pdf_version=1.6.2
 ARG asciidoctor_diagram_version=2.2.1
