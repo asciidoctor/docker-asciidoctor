@@ -33,18 +33,27 @@ jobs:
           command: diff
           flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.yaml"
         env:
+          ## Use GITHUB_TOKEN for diff as any external contributor will have one allowed to read GitHub API
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_NAME: ${{steps.get-repo-infos.outputs.repo}}
           REPO_OWNER: ${{steps.get-repo-infos.outputs.owner}}
-      ## Open PRs to upgrade dependencies using updatecli
+      ## When on principal branch, generate a temporary token to allow starting/modifying workflows
+      # Not using a PAT to avoid depending on a GitHub account
+      - uses: tibdex/github-app-token@v1.5
+        id: generate_token
+        if: github.ref == 'refs/heads/main'
+        with:
+          app_id: ${{ secrets.UPDATECLIBOT_APP_ID }}
+          private_key: ${{ secrets.UPDATECLIBOT_APP_PRIVKEY }}
       - name: Apply
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        if: github.ref == 'refs/heads/main'
         uses: updatecli/updatecli-action@v1.19.0
         with:
           command: apply
           flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.yaml"
         env:
-          UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ## Use generated token to allow writes on the GitHub API / starting fresh PRs workflows
+          UPDATECLI_GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           REPO_NAME: ${{steps.get-repo-infos.outputs.repo}}
           REPO_OWNER: ${{steps.get-repo-infos.outputs.owner}}
 ...
