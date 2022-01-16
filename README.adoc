@@ -70,6 +70,15 @@ asciidoctor-pdf -r asciidoctor-diagram sample-with-diagram.adoc
 asciidoctor-epub3 -r asciidoctor-diagram sample-with-diagram.adoc
 ----
 
+* To run AsciiDoc on an AsciiDoc file that contains latexmath and stem blocks:
++
+[source,bash]
+----
+asciidoctor -r asciidoctor-mathematical sample-with-diagram.adoc
+asciidoctor-pdf -r asciidoctor-mathematical sample-with-diagram.adoc
+asciidoctor-epub3 -r asciidoctor-mathematical sample-with-diagram.adoc
+----
+
 * To use Asciidoctor Confluence:
 +
 [source, bash]
