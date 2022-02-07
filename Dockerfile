@@ -1,4 +1,4 @@
-ARG alpine_version=3.13.7
+ARG alpine_version=3.15.0
 FROM alpine:${alpine_version} AS base
 
 ARG asciidoctor_version=2.0.17
@@ -88,7 +88,7 @@ RUN apk add --no-cache \
     graphviz \
     inotify-tools \
     make \
-    openjdk8-jre \
+    openjdk17-jre \
     python3 \
     py3-pillow \
     py3-setuptools \
