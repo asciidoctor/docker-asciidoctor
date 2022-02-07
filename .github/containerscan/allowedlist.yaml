@@ -1,0 +1,2 @@
+general:
+  vulnerabilities: [] # List of excluded CVEs (e.g: CVE-2021-3711)
