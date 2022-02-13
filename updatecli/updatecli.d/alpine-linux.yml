@@ -22,8 +22,8 @@ sources:
       repository: "aports" # Its release process follows Alpine's
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
-        kind: semver
+    versionFilter:
+      kind: semver
     transformers:
       - trimPrefix: "v"
 
