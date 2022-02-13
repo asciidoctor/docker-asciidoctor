@@ -23,9 +23,7 @@ sources:
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       versionFilter:
-        kind: regex
-        # Stay on Alpine 3.13 mainline because of https://github.com/asciidoctor/docker-asciidoctor/pull/216
-        pattern: '3.13.(\d*)'
+        kind: semver
     transformers:
       - trimPrefix: "v"
 
