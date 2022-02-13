@@ -119,6 +119,7 @@ You need the following tools:
 * link:http://man7.org/linux/man-pages/man1/make.1.html[GNU make]
 * link:https://github.com/sstephenson/bats[Bats] installed and in your bash PATH
 * Docker installed and in your path
+* link:https://github.com/aquasecurity/trivy[Trivy] cli in case you want to scan images for vulnerabilities
 
 === How to build and test?
 
@@ -142,6 +143,21 @@ Optionally, you can specify a custom image name:
 export DOCKER_IMAGE_NAME_TO_TEST=your-image-name
 bats tests/*.bats
 ----
+
+=== How to scan for vulnerabilities?
+
+* Trivy scans a docker image looking for software versions containing known vulnerabilities (CVEs).
+It's always a good idea to scan the image to ensure no new issues are introduced.
+
+* Run the following command to replicate the repo's `CVE Scan` pipeline on an image build locally.
+Note the pipeline runs nightly on the latest release version, so it can display issues solved in main branch.
++
+[source,bash]
+----
+trivy image --severity HIGH,CRITICAL asciidoctor:latest
+----
+
+
 
 ==== Deploy
 
