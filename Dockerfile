@@ -12,6 +12,8 @@ ARG asciidoctor_revealjs_version=4.1.0
 ARG kramdown_asciidoc_version=2.0.0
 ARG asciidoctor_bibtex_version=0.8.0
 ARG asciidoctor_kroki_version=0.5.0
+ARG asciidoctor_web_pdf_version=1.0.0-alpha.14
+ARG asciidoctor_kroki_npm_version=0.15.4
 
 ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_CONFLUENCE_VERSION=${asciidoctor_confluence_version} \
@@ -23,7 +25,9 @@ ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_REVEALJS_VERSION=${asciidoctor_revealjs_version} \
   KRAMDOWN_ASCIIDOC_VERSION=${kramdown_asciidoc_version} \
   ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version} \
-  ASCIIDOCTOR_KROKI_VERSION=${asciidoctor_kroki_version}
+  ASCIIDOCTOR_KROKI_VERSION=${asciidoctor_kroki_version} \
+  ASCIIDOCTOR_WEB_PDF_VERSION=${asciidoctor_web_pdf_version} \
+  ASCIIDOCTOR_KROKI_NPM_VERSION=${asciidoctor_kroki_npm_version}
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Minimal image with asciidoctor
@@ -100,7 +104,8 @@ RUN apk add --no-cache \
     tzdata \
     unzip \
     which \
-    font-noto-cjk
+    font-noto-cjk \
+    nodejs
 
 # Installing Ruby Gems for additional functionality
 RUN apk add --no-cache --virtual .rubymakedepends \
@@ -141,6 +146,11 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
     nwdiag \
     seqdiag \
   && apk del -r --no-cache .pythonmakedepends
+
+# Installing Nodejs dependencies for additional functionality
+RUN npm install --global @asciidoctor/core \
+    asciidoctor-pdf@${ASCIIDOCTOR_WEB_PDF_VERSION} \
+    asciidoctor-kroki@${ASCIIDOCTOR_KROKI_NPM_VERSION}
 
 COPY --from=build-haskell root/.cabal/bin/erd     /bin/
 
