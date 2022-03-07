@@ -12,6 +12,7 @@ ARG asciidoctor_revealjs_version=4.1.0
 ARG kramdown_asciidoc_version=2.0.0
 ARG asciidoctor_bibtex_version=0.8.0
 ARG asciidoctor_kroki_version=0.5.0
+ARG nodejs_version=16.14.0-r0
 ARG asciidoctor_web_pdf_version=1.0.0-alpha.14
 ARG asciidoctor_kroki_npm_version=0.15.4
 
@@ -26,6 +27,7 @@ ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   KRAMDOWN_ASCIIDOC_VERSION=${kramdown_asciidoc_version} \
   ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version} \
   ASCIIDOCTOR_KROKI_VERSION=${asciidoctor_kroki_version} \
+  NODEJS_VERSION=${nodejs_version} \
   ASCIIDOCTOR_WEB_PDF_VERSION=${asciidoctor_web_pdf_version} \
   ASCIIDOCTOR_KROKI_NPM_VERSION=${asciidoctor_kroki_npm_version}
 

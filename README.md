@@ -28,7 +28,7 @@ This Docker image provides:
 
 -   [Asciidoctor Kroki](https://github.com/Mogztter/asciidoctor-kroki) 0.5.0
 
--   [Asciidoctor Web PDF](https://github.com/Mogztter/asciidoctor-web-pdf) 1.0.0-alpha.14
+-   [Asciidoctor Web PDF](https://github.com/Mogztter/asciidoctor-web-pdf) 1.0.0-alpha.14  -- This is an unofficial project.
 
 This image uses Alpine Linux 3.13.5 as base image.
 

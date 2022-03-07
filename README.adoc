@@ -10,6 +10,7 @@
 :KRAMDOWN_ASCIIDOC_VERSION: 2.0.0
 :ASCIIDOCTOR_BIBTEX_VERSION: 0.8.0
 :ASCIIDOCTOR_KROKI_VERSION: 0.5.0
+:NODEJS_VERSION: 16.14.0
 :ASCIIDOCTOR_WEB_PDF_VERSION: 1.0.0-alpha.14
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -42,7 +43,7 @@ This Docker image provides:
 * https://github.com/asciidoctor/asciidoctor-confluence[Asciidoctor Confluence] {ASCIIDOCTOR_CONFLUENCE_VERSION}
 * https://github.com/asciidoctor/asciidoctor-bibtex[Asciidoctor Bibtex] {ASCIIDOCTOR_BIBTEX_VERSION}
 * https://github.com/Mogztter/asciidoctor-kroki[Asciidoctor Kroki] {ASCIIDOCTOR_KROKI_VERSION}
-* https://github.com/Mogztter/asciidoctor-web-pdf[Asciidoctor Web PDF] {ASCIIDOCTOR_WEB_PDF_VERSION}
+* https://github.com/Mogztter/asciidoctor-web-pdf[Asciidoctor Web PDF] {ASCIIDOCTOR_WEB_PDF_VERSION} -- This is an unofficial project.
 
 
 This image uses Alpine Linux {ALPINE_VERSION} as base image.

@@ -13,6 +13,7 @@ ASCIIDOCTOR_REVEALJS_VERSION=4.1.0
 KRAMDOWN_ASCIIDOC_VERSION=2.0.0
 ASCIIDOCTOR_BIBTEX_VERSION=0.8.0
 ASCIIDOCTOR_KROKI_VERSION=0.5.0
+NODEJS_VERSION=16.14.0
 ASCIIDOCTOR_WEB_PDF_VERSION=1.0.0-alpha.14
 DOCKER_IMAGE_NAME_TO_TEST="${IMAGE_NAME:-asciidoctor}"
 
@@ -53,6 +54,11 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" asciidoctor-web-pdf -v \
     | grep "Asciidoctor Web PDF" | grep "${ASCIIDOCTOR_VERSION}" \
     | grep "${ASCIIDOCTOR_WEB_PDF_VERSION}"
+}
+
+@test "Node.js is installed and in version ${NODEJS_VERSION}" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" node -v \
+    | grep "${NODEJS_VERSION}"
 }
 
 @test "asciidoctor-revealjs is callable without error" {
