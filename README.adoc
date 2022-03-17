@@ -49,7 +49,16 @@ Just run:
 docker run -it -v <your directory>:/documents/ asciidoctor/docker-asciidoctor
 ----
 
-Docker maps your directory with [path]_/documents_ directory in the container.
+or the following for https://podman.io/[Podman]:
+
+[source,bash]
+----
+podman run -it -v <your directory>:/documents/ docker.io/asciidoctor/docker-asciidoctor
+----
+
+Docker/Podman maps your directory with [path]_/documents_ directory in the container.
+
+NOTE: You might need to add the option `:z` or `:Z` like `<your directory>:/documents/:z` or `<your directory>:/documents/:Z` if you are using selinux. See https://docs.docker.com/storage/bind-mounts/#configure-the-selinux-label[Docker docs] or https://docs.podman.io/en/latest/markdown/podman-run.1.html#volume-v-source-volume-host-dir-container-dir-options[Podman docs].
 
 After you start the container, you can use Asciidoctor commands to convert AsciiDoc files that you created in the directory mentioned above.
 You can find several examples below.
