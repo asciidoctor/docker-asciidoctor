@@ -58,7 +58,7 @@ podman run -it -v <your directory>:/documents/ docker.io/asciidoctor/docker-asci
 
 Docker/Podman maps your directory with [path]_/documents_ directory in the container.
 
-NOTE: You might need to add the option `:z` or `:Z` like `<your directory>:/documents/:z` or `<your directory>:/documents/:Z` if you are using selinux. See https://docs.docker.com/storage/bind-mounts/#configure-the-selinux-label[Docker docs] or https://docs.podman.io/en/latest/markdown/podman-run.1.html#volume-v-source-volume-host-dir-container-dir-options[Podman docs].
+NOTE: You might need to add the option `:z` or `:Z` like `<your directory>:/documents/:z` or `<your directory>:/documents/:Z` if you are using SELinux. See https://docs.docker.com/storage/bind-mounts/#configure-the-selinux-label[Docker docs] or https://docs.podman.io/en/latest/markdown/podman-run.1.html#volume-v-source-volume-host-dir-container-dir-options[Podman docs].
 
 After you start the container, you can use Asciidoctor commands to convert AsciiDoc files that you created in the directory mentioned above.
 You can find several examples below.
@@ -118,6 +118,13 @@ asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/revea
 [source, bash]
 ----
 docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
+----
++
+or:
++
+[source, bash]
+----
+podman run --rm -v $(pwd):/documents/ docker.io/asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
 ----
 
 == How to contribute / do it yourself?
