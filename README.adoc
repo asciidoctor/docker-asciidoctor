@@ -92,7 +92,7 @@ asciidoctor-epub3 -r asciidoctor-mathematical sample-with-diagram.adoc
 
 * To use Asciidoctor Confluence:
 +
-[source, bash]
+[source,bash]
 ----
 asciidoctor-confluence --host HOSTNAME --spaceKey SPACEKEY --title TITLE --username USER --password PASSWORD sample.adoc
 ----
@@ -115,14 +115,14 @@ asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/revea
 
 * To convert files in batch:
 +
-[source, bash]
+[source,bash]
 ----
 docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
 ----
 +
 or:
 +
-[source, bash]
+[source,bash]
 ----
 podman run --rm -v $(pwd):/documents/ docker.io/asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
 ----
