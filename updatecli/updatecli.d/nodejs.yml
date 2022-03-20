@@ -23,8 +23,9 @@ sources:
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       versionFilter:
-        kind: regex
-        pattern: '*LTS*'
+        kind: semver
+        # As per https://nodejs.org/en/about/releases/, the LTS line for nodejs is v16.x.y. Semantic version fixes the major version and get the latest minor . patch
+        pattern: ~16
     transformers:
       - trimPrefix: "v"
 
