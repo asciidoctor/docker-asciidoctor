@@ -22,8 +22,9 @@ sources:
       repository: "aports" # Its release process follows Alpine's
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-    versionFilter:
-      kind: semver
+      versionFilter:
+        kind: semver
+        pattern: "~3.15"
     transformers:
       - trimPrefix: "v"
 
@@ -31,6 +32,7 @@ conditions:
   testDockerfileArg:
     name: "Does the Dockerfile have an ARG instruction for the Alpine Linux version?"
     kind: dockerfile
+    sourceId: latestVersion
     spec:
       file: Dockerfile
       instruction:
@@ -39,17 +41,22 @@ conditions:
   testDockerImageExists:
     name: "Does the Docker Image exists on the Docker Hub?"
     kind: dockerImage
+    sourceId: latestVersion
     spec:
       image: "alpine"
+      # tag come from the source
+      architecture: amd64
   testVersionInReadme:
     name: "Does the README.adoc have a variable ALPINE_VERSION"
     kind: file
+    sourceId: latestVersion
     spec:
       file: README.adoc
       matchPattern: '(?m:^:ALPINE_VERSION:.*)'
   testVersionInTestHarness:
     name: "Does the test harness have variable ALPINE_VERSION"
     kind: file
+    sourceId: latestVersion
     spec:
       file: tests/asciidoctor.bats
       matchPattern: '(?m:^ALPINE_VERSION=.*)'
