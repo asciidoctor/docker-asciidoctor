@@ -28,6 +28,8 @@ This Docker image provides:
 
 -   [Asciidoctor Kroki](https://github.com/Mogztter/asciidoctor-kroki) 0.5.0
 
+-   [Asciidoctor Web PDF](https://github.com/Mogztter/asciidoctor-web-pdf) 1.0.0-alpha.14  -- This is an unofficial project.
+
 This image uses Alpine Linux 3.13.5 as base image.
 
 ## How to use it
@@ -70,6 +72,17 @@ You can find several examples below.
 -   To convert files in batch:
 
         docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
+
+-   To convert files with Asciidoctor Web PDF:
+
+        # 1. generate a PDF document from basic example
+        asciidoctor-web-pdf document.adoc
+        # Generate the file `document.pdf`
+        
+        # 2. generate an PDF document with a diagram
+        asciidoctor-web-pdf --require asciidoctor-kroki document-with-diagram.adoc
+        # Generate the file `document-with-diagram.pdf`
+
 
 ## How to contribute / do it yourself?
 

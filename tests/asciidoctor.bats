@@ -13,6 +13,8 @@ ASCIIDOCTOR_REVEALJS_VERSION=4.1.0
 KRAMDOWN_ASCIIDOC_VERSION=2.0.0
 ASCIIDOCTOR_BIBTEX_VERSION=0.8.0
 ASCIIDOCTOR_KROKI_VERSION=0.5.0
+NODEJS_VERSION=16.14.0
+ASCIIDOCTOR_WEB_PDF_VERSION=1.0.0-alpha.14
 DOCKER_IMAGE_NAME_TO_TEST="${IMAGE_NAME:-asciidoctor}"
 
 clean_generated_files() {
@@ -46,6 +48,17 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" asciidoctor-pdf -v \
     | grep "Asciidoctor PDF" | grep "${ASCIIDOCTOR_VERSION}" \
     | grep "${ASCIIDOCTOR_PDF_VERSION}"
+}
+
+@test "asciidoctor-web-pdf is installed and in version ${ASCIIDOCTOR_WEB_PDF_VERSION}" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" asciidoctor-web-pdf -v \
+    | grep "Asciidoctor Web PDF" | grep "${ASCIIDOCTOR_VERSION}" \
+    | grep "${ASCIIDOCTOR_WEB_PDF_VERSION}"
+}
+
+@test "Node.js is installed and in version ${NODEJS_VERSION}" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" node -v \
+    | grep "${NODEJS_VERSION}"
 }
 
 @test "asciidoctor-revealjs is callable without error" {
@@ -118,6 +131,13 @@ teardown() {
     "${DOCKER_IMAGE_NAME_TO_TEST}" \
       asciidoctor-pdf -D /documents/tmp -r asciidoctor-mathematical \
       /documents/fixtures/basic-example.adoc
+}
+
+@test "We can generate a PDF document from basic example(Asciidoctor Web PDF)" {
+  docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor-web-pdf -D /documents/tmp /documents/fixtures/basic-example.adoc
 }
 
 @test "We can generate an FB2 document from basic example without errors/warnings" {
@@ -282,6 +302,14 @@ teardown() {
     -v "${BATS_TEST_DIRNAME}":/documents/ \
     "${DOCKER_IMAGE_NAME_TO_TEST}" \
       asciidoctor-pdf -D /documents/tmp \
+      /documents/fixtures/samples-syntax-highlight/*.adoc
+}
+
+@test "We can generate PDF documents with different syntax-colored codes(Asciidoctor Web PDF)" {
+  docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor-web-pdf -D /documents/tmp \
       /documents/fixtures/samples-syntax-highlight/*.adoc
 }
 

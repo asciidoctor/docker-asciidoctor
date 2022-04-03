@@ -1,0 +1,92 @@
+---
+title: "Bump Node.js version"
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ requiredEnv .github.owner }}"
+      repository: "{{ requiredEnv .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  latestVersion:
+    kind: githubRelease
+    name: "Get the latest Node.js version"
+    spec:
+      owner: "nodejs"
+      repository: "node"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: semver
+        # As per https://nodejs.org/en/about/releases/, the LTS line for nodejs is v16.x.y. Semantic version fixes the major version and get the latest minor . patch
+        pattern: ~16
+    transformers:
+      - trimPrefix: "v"
+
+conditions:
+  testDockerfileArgVersion:
+    name: "Does the Dockerfile have an ARG instruction which key is nodejs_version?"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "nodejs_version"
+  testVersionInReadme:
+    name: "Does the README.adoc have a variable NODEJS_VERSION"
+    kind: file
+    spec:
+      file: README.adoc
+      matchPattern: '(?m:^:NODEJS_VERSION:.*)'
+  testVersionInTestHarness:
+    name: "Does the test harness have variable NODEJS_VERSION"
+    kind: file
+    spec:
+      file: tests/asciidoctor.bats
+      matchPattern: '(?m:^NODEJS_VERSION=.*)'
+
+targets:
+  updateDockerfile:
+    name: "Update the value of ARG nodejs_version in the Dockerfile"
+    kind: dockerfile
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "nodejs_version"
+    scmID: default
+  updateTestHarness:
+    name: "Update the key NODEJS_VERSION in the test harness"
+    kind: file
+    spec:
+      file: tests/asciidoctor.bats
+      matchPattern: '(?m:^NODEJS_VERSION=.*)'
+      content: 'NODEJS_VERSION={{ source `latestVersion` }}'
+    scmID: default
+  updateReadme:
+    name: "Update the key NODEJS_VERSION in the README.adoc file"
+    kind: file
+    spec:
+      file: README.adoc
+      matchPattern: '(?m:^:NODEJS_VERSION:.*)'
+      content: ':NODEJS_VERSION: {{ source `latestVersion` }}'
+    scmID: default
+
+pullrequests:
+  default:
+    kind: github
+    scmID: default
+    targets:
+      - updateDockerfile
+      - updateTestHarness
+      - updateReadme
+    spec:
+      labels:
+        - chore
+        - dependencies
