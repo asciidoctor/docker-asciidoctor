@@ -4,11 +4,11 @@
 
 This Docker image provides:
 
--   [Asciidoctor](https://asciidoctor.org/) 2.0.16
+-   [Asciidoctor](https://asciidoctor.org/) 2.0.17
 
 -   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.2.1 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
 
--   [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 1.6.1
+-   [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 1.6.2
 
 -   [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.1
 
@@ -28,7 +28,13 @@ This Docker image provides:
 
 -   [Asciidoctor Kroki](https://github.com/Mogztter/asciidoctor-kroki) 0.5.0
 
-This image uses Alpine Linux 3.13.5 as base image.
+This image uses Alpine Linux 3.15.4 as base image.
+
+<div class="note">
+
+Docker Engine [20.10](https://docs.docker.com/engine/release-notes/#20100) or later is required (or any container engine supporting [Alpine 3.14](https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.14.0)) to avoid unexpected `No such file or directory` errors (such as [\#214](https://github.com/asciidoctor/docker-asciidoctor/issues/214) or [\#215](https://github.com/asciidoctor/docker-asciidoctor/issues/215)).
+
+</div>
 
 ## How to use it
 
@@ -36,7 +42,17 @@ Just run:
 
     docker run -it -v <your directory>:/documents/ asciidoctor/docker-asciidoctor
 
-Docker maps your directory with */documents* directory in the container.
+or the following for [Podman](https://podman.io/):
+
+    podman run -it -v <your directory>:/documents/ docker.io/asciidoctor/docker-asciidoctor
+
+Docker/Podman maps your directory with */documents* directory in the container.
+
+<div class="note">
+
+You might need to add the option `:z` or `:Z` like `<your directory>:/documents/:z` or `<your directory>:/documents/:Z` if you are using SELinux. See [Docker docs](https://docs.docker.com/storage/bind-mounts/#configure-the-selinux-label) or [Podman docs](https://docs.podman.io/en/latest/markdown/podman-run.1.html#volume-v-source-volume-host-dir-container-dir-options).
+
+</div>
 
 After you start the container, you can use Asciidoctor commands to convert AsciiDoc files that you created in the directory mentioned above.
 You can find several examples below.
@@ -52,6 +68,12 @@ You can find several examples below.
         asciidoctor -r asciidoctor-diagram sample-with-diagram.adoc
         asciidoctor-pdf -r asciidoctor-diagram sample-with-diagram.adoc
         asciidoctor-epub3 -r asciidoctor-diagram sample-with-diagram.adoc
+
+-   To run AsciiDoc on an AsciiDoc file that contains latexmath and stem blocks:
+
+        asciidoctor -r asciidoctor-mathematical sample-with-diagram.adoc
+        asciidoctor-pdf -r asciidoctor-mathematical sample-with-diagram.adoc
+        asciidoctor-epub3 -r asciidoctor-mathematical sample-with-diagram.adoc
 
 -   To use Asciidoctor Confluence:
 
@@ -71,6 +93,10 @@ You can find several examples below.
 
         docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
 
+    or:
+
+        podman run --rm -v $(pwd):/documents/ docker.io/asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
+
 ## How to contribute / do it yourself?
 
 ### Requirements
@@ -84,6 +110,8 @@ You need the following tools:
 -   [Bats](https://github.com/sstephenson/bats) installed and in your bash PATH
 
 -   Docker installed and in your path
+
+-   [Trivy](https://github.com/aquasecurity/trivy) cli in case you want to scan images for vulnerabilities
 
 ### How to build and test?
 
@@ -101,6 +129,16 @@ Optionally, you can specify a custom image name:
     # If you want to use a custom name for the image, OPTIONAL
     export DOCKER_IMAGE_NAME_TO_TEST=your-image-name
     bats tests/*.bats
+
+### How to scan for vulnerabilities?
+
+-   Trivy scans a docker image looking for software versions containing known vulnerabilities (CVEs).
+    It’s always a good idea to scan the image to ensure no new issues are introduced.
+
+-   Run the following command to replicate the repo’s `CVE Scan` pipeline on an image build locally.
+    Note the pipeline runs nightly on the latest release version, so it can display issues solved in main branch.
+
+        trivy image --severity HIGH,CRITICAL asciidoctor:latest
 
 #### Deploy
 
