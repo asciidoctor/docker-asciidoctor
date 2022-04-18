@@ -26,7 +26,7 @@ jobs:
           echo "::set-output name=repo::$repo"
       ## Ensure that the updatecli configurations are valid without waiting for the daily execution from the workflow "Updatecli"
       - name: Diff
-        uses: updatecli/updatecli-action@v1.28.0
+        uses: updatecli/updatecli-action@v1.31.0
         ## Check the updatecli syntax on each code change
         if: github.event_name != 'schedule'
         with:
@@ -47,7 +47,7 @@ jobs:
           private_key: ${{ secrets.UPDATECLIBOT_APP_PRIVKEY }}
       - name: Apply
         if: github.ref == 'refs/heads/main'
-        uses: updatecli/updatecli-action@v1.28.0
+        uses: updatecli/updatecli-action@v1.31.0
         with:
           command: apply
           flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.yaml"
