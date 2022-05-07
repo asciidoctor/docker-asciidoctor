@@ -1,3 +1,4 @@
+
 ARG alpine_version=3.15.4
 FROM alpine:${alpine_version} AS base
 
@@ -144,6 +145,14 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
 
 COPY --from=build-haskell root/.cabal/bin/erd     /bin/
 
+#mermaid
+RUN apk add chromium font-noto-cjk font-noto-emoji \
+    terminus-font ttf-dejavu ttf-freefont ttf-font-awesome \
+    ttf-inconsolata ttf-linux-libertine \
+    && fc-cache -f
+RUN apk --no-cache add nodejs yarn --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+RUN yarn add @mermaid-js/mermaid-cli@$VERSION
+RUN ln -sf /node_modules/.bin/mmdc /bin/mmdc
 WORKDIR /documents
 VOLUME /documents
 
