@@ -13,6 +13,7 @@ ASCIIDOCTOR_REVEALJS_VERSION=4.1.0
 KRAMDOWN_ASCIIDOC_VERSION=2.0.0
 ASCIIDOCTOR_BIBTEX_VERSION=0.8.0
 ASCIIDOCTOR_KROKI_VERSION=0.5.0
+ASCIIDOCTOR_LISTS_VERSION=1.0.7
 DOCKER_IMAGE_NAME_TO_TEST="${IMAGE_NAME:-asciidoctor}"
 
 clean_generated_files() {
@@ -302,4 +303,13 @@ teardown() {
       /documents/fixtures/sample-with-bib.adoc
 
   grep 'Mane' ${TMP_GENERATION_DIR}/sample-with-bib.html
+}
+
+@test "We can use asciidoctor-lists" {
+  docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor -r asciidoctor-lists \
+      -o /documents/tmp/sample-with-lists.html \
+      /documents/fixtures/sample-with-lists.adoc
 }

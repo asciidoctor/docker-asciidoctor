@@ -4,29 +4,31 @@
 
 This Docker image provides:
 
--   [Asciidoctor](https://asciidoctor.org/) 2.0.17
+- [Asciidoctor](https://asciidoctor.org/) 2.0.17
 
--   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.2.1 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
+- [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.2.1 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
 
--   [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 1.6.2
+- [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 1.6.2
 
--   [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.1
+- [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.1
 
--   [Asciidoctor FB2](https://github.com/asciidoctor/asciidoctor-fb2/) 0.5.1
+- [Asciidoctor FB2](https://github.com/asciidoctor/asciidoctor-fb2/) 0.5.1
 
--   [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.5
+- [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.5
 
--   [Asciidoctor reveal.js](https://docs.asciidoctor.org/reveal.js-converter/latest/) 4.1.0
+- [Asciidoctor reveal.js](https://docs.asciidoctor.org/reveal.js-converter/latest/) 4.1.0
 
--   [AsciiMath](https://rubygems.org/gems/asciimath)
+- [AsciiMath](https://rubygems.org/gems/asciimath)
 
--   Source highlighting using [Rouge](http://rouge.jneen.net), [CodeRay](https://rubygems.org/gems/coderay) or [Pygments](https://pygments.org/)
+- Source highlighting using [Rouge](http://rouge.jneen.net), [CodeRay](https://rubygems.org/gems/coderay) or [Pygments](https://pygments.org/)
 
--   [Asciidoctor Confluence](https://github.com/asciidoctor/asciidoctor-confluence) 0.0.2
+- [Asciidoctor Confluence](https://github.com/asciidoctor/asciidoctor-confluence) 0.0.2
 
--   [Asciidoctor Bibtex](https://github.com/asciidoctor/asciidoctor-bibtex) 0.8.0
+- [Asciidoctor Bibtex](https://github.com/asciidoctor/asciidoctor-bibtex) 0.8.0
 
--   [Asciidoctor Kroki](https://github.com/Mogztter/asciidoctor-kroki) 0.5.0
+- [Asciidoctor Kroki](https://github.com/Mogztter/asciidoctor-kroki) 0.5.0
+
+- [Asciidoctor Lists](https://github.com/Alwinator/asciidoctor-lists) 1.0.7
 
 This image uses Alpine Linux 3.15.4 as base image.
 
