@@ -312,4 +312,11 @@ teardown() {
       asciidoctor -r asciidoctor-lists \
       -o /documents/tmp/sample-with-lists.html \
       /documents/fixtures/sample-with-lists.adoc
+
+  docker run -t --rm \
+      -v "${BATS_TEST_DIRNAME}":/documents/ \
+      "${DOCKER_IMAGE_NAME_TO_TEST}" \
+        asciidoctor-pdf -r asciidoctor-lists \
+        -o /documents/tmp/sample-with-lists.pdf \
+        /documents/fixtures/sample-with-lists.adoc
 }
