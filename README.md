@@ -20,7 +20,7 @@ This Docker image provides:
 
 -   [AsciiMath](https://rubygems.org/gems/asciimath)
 
-- Source highlighting using [Rouge](http://rouge.jneen.net), [CodeRay](https://rubygems.org/gems/coderay) or [Pygments](https://pygments.org/)
+-   Source highlighting using [Rouge](http://rouge.jneen.net), [CodeRay](https://rubygems.org/gems/coderay) or [Pygments](https://pygments.org/)
 
 -   [Asciidoctor Confluence](https://github.com/asciidoctor/asciidoctor-confluence) 0.0.2
 
