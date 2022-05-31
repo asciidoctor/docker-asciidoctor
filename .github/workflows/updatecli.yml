@@ -24,14 +24,14 @@ jobs:
           repo=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
           echo "::set-output name=owner::$owner"
           echo "::set-output name=repo::$repo"
+      - name: Setup Updatecli
+        uses: updatecli/updatecli-action@v2.0.0
+
       ## Ensure that the updatecli configurations are valid without waiting for the daily execution from the workflow "Updatecli"
       - name: Diff
-        uses: updatecli/updatecli-action@v2.0.0
         ## Check the updatecli syntax on each code change
         if: github.event_name != 'schedule'
-        with:
-          command: diff
-          flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.yaml"
+        run: updatecli diff --config ./updatecli/updatecli.d --values ./updatecli/values.yaml
         env:
           ## Use GITHUB_TOKEN for diff as any external contributor will have one allowed to read GitHub API
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -47,10 +47,7 @@ jobs:
           private_key: ${{ secrets.UPDATECLIBOT_APP_PRIVKEY }}
       - name: Apply
         if: github.ref == 'refs/heads/main'
-        uses: updatecli/updatecli-action@v2.0.0
-        with:
-          command: apply
-          flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.yaml"
+        run: updatecli apply --config ./updatecli/updatecli.d --values ./updatecli/values.yaml
         env:
           ## Use generated token to allow writes on the GitHub API / starting fresh PRs workflows
           UPDATECLI_GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
