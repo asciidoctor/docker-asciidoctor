@@ -15,24 +15,24 @@ scms:
 
 sources:
   latestVersion:
-    kind: githubRelease
+    kind: githubrelease
     name: "Get the latest Alpine Linux version"
     spec:
       owner: "alpinelinux"
       repository: "aports" # Its release process follows Alpine's
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
+      versionfilter:
         kind: semver
         pattern: "~3.15"
     transformers:
-      - trimPrefix: "v"
+      - trimprefix: "v"
 
 conditions:
   testDockerfileArg:
     name: "Does the Dockerfile have an ARG instruction for the Alpine Linux version?"
     kind: dockerfile
-    sourceId: latestVersion
+    disablesourceinput: true
     spec:
       file: Dockerfile
       instruction:
@@ -40,8 +40,8 @@ conditions:
         matcher: "alpine_version"
   testDockerImageExists:
     name: "Does the Docker Image exists on the Docker Hub?"
-    kind: dockerImage
-    sourceId: latestVersion
+    kind: dockerimage
+    sourceid: latestVersion
     spec:
       image: "alpine"
       # tag come from the source
@@ -49,17 +49,17 @@ conditions:
   testVersionInReadme:
     name: "Does the README.adoc have a variable ALPINE_VERSION"
     kind: file
-    sourceId: latestVersion
+    disablesourceinput: true
     spec:
       file: README.adoc
-      matchPattern: '(?m:^:ALPINE_VERSION:.*)'
+      matchpattern: "(?m:^:ALPINE_VERSION:.*)"
   testVersionInTestHarness:
     name: "Does the test harness have variable ALPINE_VERSION"
     kind: file
-    sourceId: latestVersion
+    disablesourceinput: true
     spec:
       file: tests/asciidoctor.bats
-      matchPattern: '(?m:^ALPINE_VERSION=.*)'
+      matchpattern: "(?m:^ALPINE_VERSION=.*)"
 
 targets:
   updateDockerfile:
@@ -70,28 +70,28 @@ targets:
       instruction:
         keyword: "ARG"
         matcher: "alpine_version"
-    scmID: default
+    scmid: default
   updateTestHarness:
     name: "Update the key ALPINE_VERSION in the test harness"
     kind: file
     spec:
       file: tests/asciidoctor.bats
-      matchPattern: '(?m:^ALPINE_VERSION=.*)'
-      content: 'ALPINE_VERSION={{ source `latestVersion` }}'
-    scmID: default
+      matchpattern: "(?m:^ALPINE_VERSION=.*)"
+      content: 'ALPINE_VERSION={{ source "latestVersion" }}'
+    scmid: default
   updateReadme:
     name: "Update the key ALPINE_VERSION in the README.adoc file"
     kind: file
     spec:
       file: README.adoc
-      matchPattern: '(?m:^:ALPINE_VERSION:.*)'
-      content: ':ALPINE_VERSION: {{ source `latestVersion` }}'
-    scmID: default
+      matchpattern: "(?m:^:ALPINE_VERSION:.*)"
+      content: ':ALPINE_VERSION: {{ source "latestVersion" }}'
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - updateDockerfile
       - updateTestHarness

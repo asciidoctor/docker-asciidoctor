@@ -15,22 +15,23 @@ scms:
 
 sources:
   latestVersion:
-    kind: githubRelease
+    kind: githubrelease
     name: "Get the latest Asciidoctor version"
     spec:
       owner: "asciidoctor"
       repository: "asciidoctor"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
+      versionfilter:
         kind: latest
     transformers:
-      - trimPrefix: "v"
+      - trimprefix: "v"
 
 conditions:
   testDockerfileArgVersion:
     name: "Does the Dockerfile have an ARG instruction which key is asciidoctor_version?"
     kind: dockerfile
+    disablesourceinput: true
     spec:
       file: Dockerfile
       instruction:
@@ -39,15 +40,17 @@ conditions:
   testVersionInReadme:
     name: "Does the README.adoc have a variable ASCIIDOCTOR_VERSION"
     kind: file
+    disablesourceinput: true
     spec:
       file: README.adoc
-      matchPattern: '(?m:^:ASCIIDOCTOR_VERSION:.*)'
+      matchpattern: '(?m:^:ASCIIDOCTOR_VERSION:.*)'
   testVersionInTestHarness:
     name: "Does the test harness have variable ASCIIDOCTOR_VERSION"
     kind: file
+    disablesourceinput: true
     spec:
       file: tests/asciidoctor.bats
-      matchPattern: '(?m:^ASCIIDOCTOR_VERSION=.*)'
+      matchpattern: '(?m:^ASCIIDOCTOR_VERSION=.*)'
 
 targets:
   updateDockerfile:
@@ -58,28 +61,28 @@ targets:
       instruction:
         keyword: "ARG"
         matcher: "asciidoctor_version"
-    scmID: default
+    scmid: default
   updateTestHarness:
     name: "Update the key ASCIIDOCTOR_VERSION in the test harness"
     kind: file
     spec:
       file: tests/asciidoctor.bats
-      matchPattern: '(?m:^ASCIIDOCTOR_VERSION=.*)'
+      matchpattern: '(?m:^ASCIIDOCTOR_VERSION=.*)'
       content: 'ASCIIDOCTOR_VERSION={{ source `latestVersion` }}'
-    scmID: default
+    scmid: default
   updateReadme:
     name: "Update the key ASCIIDOCTOR_VERSION in the README.adoc file"
     kind: file
     spec:
       file: README.adoc
-      matchPattern: '(?m:^:ASCIIDOCTOR_VERSION:.*)'
+      matchpattern: '(?m:^:ASCIIDOCTOR_VERSION:.*)'
       content: ':ASCIIDOCTOR_VERSION: {{ source `latestVersion` }}'
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - updateDockerfile
       - updateTestHarness
