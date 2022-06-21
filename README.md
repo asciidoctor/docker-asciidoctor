@@ -28,6 +28,8 @@ This Docker image provides:
 
 -   [Asciidoctor Kroki](https://github.com/Mogztter/asciidoctor-kroki) 0.5.0
 
+-   [Asciidoctor Lists](https://github.com/Alwinator/asciidoctor-lists) 1.0.8
+
 This image uses Alpine Linux 3.15.4 as base image.
 
 <div class="note">
