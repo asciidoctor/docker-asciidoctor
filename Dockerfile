@@ -9,7 +9,7 @@ ARG asciidoctor_epub3_version=1.5.1
 ARG asciidoctor_fb2_version=0.5.1
 ARG asciidoctor_mathematical_version=0.3.5
 ARG asciidoctor_revealjs_version=4.1.0
-ARG kramdown_asciidoc_version=2.0.0
+ARG kramdown_asciidoc_version=2.0.1
 ARG asciidoctor_bibtex_version=0.8.0
 ARG asciidoctor_kroki_version=0.6.0
 
