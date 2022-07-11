@@ -89,5 +89,4 @@ pullrequests:
       - updateReadme
     spec:
       labels:
-        - chore
         - dependencies
