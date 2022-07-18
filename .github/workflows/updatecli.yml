@@ -39,7 +39,7 @@ jobs:
           REPO_OWNER: ${{steps.get-repo-infos.outputs.owner}}
       ## When on principal branch, generate a temporary token to allow starting/modifying workflows
       # Not using a PAT to avoid depending on a GitHub account
-      - uses: tibdex/github-app-token@v1.5
+      - uses: tibdex/github-app-token@v1.6
         id: generate_token
         if: github.ref == 'refs/heads/main'
         with:
