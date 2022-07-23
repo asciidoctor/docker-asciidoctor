@@ -32,23 +32,23 @@ ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
 FROM base AS main-minimal
 RUN echo "assemble minimal main image" # keep here to help --cache-from along
 
-LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
+LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
-RUN apk add --no-cache \
-  ruby
-
-RUN gem install --no-document \
+## Always use the latest Ruby version available for the current Alpine distribution
+# hadolint ignore=DL3018
+RUN apk add --no-cache ruby \
+  && gem install --no-document \
   "asciidoctor:${ASCIIDOCTOR_VERSION}" \
   "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}"
-
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Haskell build for: erd
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 FROM base AS build-haskell
-RUN echo "building Haskell dependencies" # keep here to help --cache-from along
 
+## Always use the latest Cabal (and dependencies) versions available for the current Alpine distribution
+# hadolint ignore=DL3018
 RUN apk add --no-cache \
   alpine-sdk \
   cabal \
@@ -61,11 +61,9 @@ RUN apk add --no-cache \
   perl-utils \
   wget \
   xz \
-  zlib-dev
-
-RUN cabal v2-update \
+  zlib-dev \
+  && cabal v2-update \
   && cabal v2-install erd
-
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Final image
@@ -74,10 +72,10 @@ RUN cabal v2-update \
 FROM main-minimal AS main
 RUN echo "assemble comprehensive main image" # keep here to help --cache-from along
 
-LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
+LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
-# Installing packagse required for the runtime of
-# any of the asciidoctor-* functionalities
+## Always use the latest dependencies versions available for the current Alpine distribution
+# hadolint ignore=DL3018,DL3013,DL3028
 RUN apk add --no-cache \
   bash \
   curl \
@@ -100,10 +98,8 @@ RUN apk add --no-cache \
   tzdata \
   unzip \
   which \
-  font-noto-cjk
-
-# Installing Ruby Gems for additional functionality
-RUN apk add --no-cache --virtual .rubymakedepends \
+  font-noto-cjk \
+  && apk add --no-cache --virtual .rubymakedepends \
   build-base \
   libxml2-dev \
   ruby-dev \
@@ -127,11 +123,8 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   text-hyphen \
   "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
   "asciidoctor-kroki:${ASCIIDOCTOR_KROKI_VERSION}" \
-  && apk del -r --no-cache .rubymakedepends
-
-# Installing Python dependencies for additional functionality
-# such as diagrams (blockdiag) or syntax highligthing
-RUN apk add --no-cache --virtual .pythonmakedepends \
+  && apk del -r --no-cache .rubymakedepends \
+  && apk add --no-cache --virtual .pythonmakedepends \
   build-base \
   freetype-dev \
   python3-dev \
