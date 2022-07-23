@@ -133,6 +133,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
 # such as diagrams (blockdiag) or syntax highligthing
 RUN apk add --no-cache --virtual .pythonmakedepends \
     build-base \
+    freetype-dev \
     python3-dev \
     py3-pip \
   && pip3 install --no-cache-dir \
