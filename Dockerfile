@@ -35,11 +35,11 @@ RUN echo "assemble minimal main image" # keep here to help --cache-from along
 LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
 RUN apk add --no-cache \
-    ruby
+  ruby
 
 RUN gem install --no-document \
-    "asciidoctor:${ASCIIDOCTOR_VERSION}" \
-    "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}"
+  "asciidoctor:${ASCIIDOCTOR_VERSION}" \
+  "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}"
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -50,18 +50,18 @@ FROM base AS build-haskell
 RUN echo "building Haskell dependencies" # keep here to help --cache-from along
 
 RUN apk add --no-cache \
-    alpine-sdk \
-    cabal \
-    ghc-dev \
-    ghc \
-    gmp-dev \
-    gnupg \
-    libffi-dev \
-    linux-headers \
-    perl-utils \
-    wget \
-    xz \
-    zlib-dev
+  alpine-sdk \
+  cabal \
+  ghc-dev \
+  ghc \
+  gmp-dev \
+  gnupg \
+  libffi-dev \
+  linux-headers \
+  perl-utils \
+  wget \
+  xz \
+  zlib-dev
 
 RUN cabal v2-update \
   && cabal v2-install erd
@@ -79,68 +79,68 @@ LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUP
 # Installing packagse required for the runtime of
 # any of the asciidoctor-* functionalities
 RUN apk add --no-cache \
-    bash \
-    curl \
-    ca-certificates \
-    findutils \
-    font-bakoma-ttf \
-    git \
-    graphviz \
-    inotify-tools \
-    make \
-    openjdk17-jre \
-    python3 \
-    py3-pillow \
-    py3-setuptools \
-    ruby-bigdecimal \
-    ruby-mathematical \
-    ruby-rake \
-    ttf-liberation \
-    ttf-dejavu \
-    tzdata \
-    unzip \
-    which \
-    font-noto-cjk
+  bash \
+  curl \
+  ca-certificates \
+  findutils \
+  font-bakoma-ttf \
+  git \
+  graphviz \
+  inotify-tools \
+  make \
+  openjdk17-jre \
+  python3 \
+  py3-pillow \
+  py3-setuptools \
+  ruby-bigdecimal \
+  ruby-mathematical \
+  ruby-rake \
+  ttf-liberation \
+  ttf-dejavu \
+  tzdata \
+  unzip \
+  which \
+  font-noto-cjk
 
 # Installing Ruby Gems for additional functionality
 RUN apk add --no-cache --virtual .rubymakedepends \
-    build-base \
-    libxml2-dev \
-    ruby-dev \
+  build-base \
+  libxml2-dev \
+  ruby-dev \
   && gem install --no-document \
-    "asciidoctor-confluence:${ASCIIDOCTOR_CONFLUENCE_VERSION}" \
-    "asciidoctor-diagram:${ASCIIDOCTOR_DIAGRAM_VERSION}" \
-    "asciidoctor-epub3:${ASCIIDOCTOR_EPUB3_VERSION}" \
-    "asciidoctor-fb2:${ASCIIDOCTOR_FB2_VERSION}" \
-    "asciidoctor-mathematical:${ASCIIDOCTOR_MATHEMATICAL_VERSION}" \
-    asciimath \
-    "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
-    coderay \
-    epubcheck-ruby:4.2.4.0 \
-    haml \
-    "kramdown-asciidoc:${KRAMDOWN_ASCIIDOC_VERSION}" \
-    pygments.rb \
-    rouge \
-    slim \
-    thread_safe \
-    tilt \
-    text-hyphen \
-    "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
-    "asciidoctor-kroki:${ASCIIDOCTOR_KROKI_VERSION}" \
+  "asciidoctor-confluence:${ASCIIDOCTOR_CONFLUENCE_VERSION}" \
+  "asciidoctor-diagram:${ASCIIDOCTOR_DIAGRAM_VERSION}" \
+  "asciidoctor-epub3:${ASCIIDOCTOR_EPUB3_VERSION}" \
+  "asciidoctor-fb2:${ASCIIDOCTOR_FB2_VERSION}" \
+  "asciidoctor-mathematical:${ASCIIDOCTOR_MATHEMATICAL_VERSION}" \
+  asciimath \
+  "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
+  coderay \
+  epubcheck-ruby:4.2.4.0 \
+  haml \
+  "kramdown-asciidoc:${KRAMDOWN_ASCIIDOC_VERSION}" \
+  pygments.rb \
+  rouge \
+  slim \
+  thread_safe \
+  tilt \
+  text-hyphen \
+  "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
+  "asciidoctor-kroki:${ASCIIDOCTOR_KROKI_VERSION}" \
   && apk del -r --no-cache .rubymakedepends
 
 # Installing Python dependencies for additional functionality
 # such as diagrams (blockdiag) or syntax highligthing
 RUN apk add --no-cache --virtual .pythonmakedepends \
-    build-base \
-    freetype-dev \
-    python3-dev \
-    py3-pip \
+  build-base \
+  freetype-dev \
+  python3-dev \
+  py3-pip \
   && pip3 install --no-cache-dir \
-    actdiag \
-    'blockdiag[pdf]' \
-    nwdiag \
-    seqdiag \
+  actdiag \
+  'blockdiag[pdf]' \
+  nwdiag \
+  seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
 COPY --from=build-haskell root/.cabal/bin/erd     /bin/
