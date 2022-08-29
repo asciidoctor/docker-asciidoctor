@@ -25,7 +25,7 @@ jobs:
           echo "::set-output name=owner::$owner"
           echo "::set-output name=repo::$repo"
       - name: Setup Updatecli
-        uses: updatecli/updatecli-action@v2.3.0
+        uses: updatecli/updatecli-action@v2.6.0
 
       ## Ensure that the updatecli configurations are valid without waiting for the daily execution from the workflow "Updatecli"
       - name: Diff
