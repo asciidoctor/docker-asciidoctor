@@ -4,11 +4,11 @@
 
 This Docker image provides:
 
--   [Asciidoctor](https://asciidoctor.org/) 2.0.17
+-   [Asciidoctor](https://asciidoctor.org/) 2.0.18
 
 -   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.2.1 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
 
--   [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 2.3.0
+-   [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 2.3.2
 
 -   [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.1
 
