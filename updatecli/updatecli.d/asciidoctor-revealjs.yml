@@ -1,5 +1,5 @@
 ---
-title: "Bump Asciidoctor-Revealjs version"
+name: "Bump Asciidoctor-Revealjs version"
 
 scms:
   default:
@@ -83,10 +83,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    targets:
-      - updateDockerfile
-      - updateTestHarness
-      - updateReadme
+    title: Bump Asciidoctor-Revealjs version to {{ source "latestVersion" }}
     spec:
       labels:
         - chore

@@ -1,5 +1,5 @@
 ---
-title: "Bump Asciidoctor-Diagram version"
+name: "Bump Asciidoctor-Diagram version"
 
 scms:
   default:
@@ -83,10 +83,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    targets:
-      - updateDockerfile
-      - updateTestHarness
-      - updateReadme
+    title: Bump Asciidoctor-Diagram version {{ source "latestVersion" }}
     spec:
       labels:
         - chore

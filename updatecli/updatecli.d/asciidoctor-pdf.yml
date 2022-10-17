@@ -1,5 +1,5 @@
 ---
-title: "Bump Asciidoctor-PDF version"
+name: "Bump Asciidoctor-PDF version"
 
 scms:
   default:
@@ -83,10 +83,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    targets:
-      - updateDockerfile
-      - updateTestHarness
-      - updateReadme
+    title: Bump Asciidoctor-PDF version to {{ source "latestVersion" }}
     spec:
       labels:
         - dependencies
