@@ -1,5 +1,5 @@
 ---
-title: "Bump Asciidoctor-Kroki version"
+name: "Bump Asciidoctor-Kroki version"
 
 scms:
   default:
@@ -84,10 +84,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    targets:
-      - updateDockerfile
-      - updateTestHarness
-      - updateReadme
+    title: Bump Asciidoctor-Kroki version to {{ source "latestVersion" }}
     spec:
       labels:
         - chore

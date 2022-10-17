@@ -1,5 +1,5 @@
 ---
-title: "Bump Alpine Linux Version"
+name: "Bump Alpine Linux Version"
 
 scms:
   default:
@@ -92,10 +92,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    targets:
-      - updateDockerfile
-      - updateTestHarness
-      - updateReadme
+    title: Bump Alpine Linux Version to {{ source "latestVersion" }}
     spec:
       labels:
         - chore
