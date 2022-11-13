@@ -23,8 +23,8 @@ jobs:
         run: |
           owner=$(echo $GITHUB_REPOSITORY | cut -d'/' -f1)
           repo=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
-          echo "::set-output name=owner::$owner"
-          echo "::set-output name=repo::$repo"
+          echo "owner=$owner" >> $GITHUB_OUTPUT
+          echo "repo=$repo" >> $GITHUB_OUTPUT
       - name: Setup Updatecli
         uses: updatecli/updatecli-action@v2.13.0
 
