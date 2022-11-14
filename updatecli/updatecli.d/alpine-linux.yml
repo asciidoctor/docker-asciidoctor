@@ -95,5 +95,4 @@ pullrequests:
     title: Bump Alpine Linux Version to {{ source "latestVersion" }}
     spec:
       labels:
-        - chore
         - dependencies
