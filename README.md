@@ -12,7 +12,7 @@ This Docker image provides:
 
 -   [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.1
 
--   [Asciidoctor FB2](https://github.com/asciidoctor/asciidoctor-fb2/) 0.5.1
+-   [Asciidoctor FB2](https://github.com/asciidoctor/asciidoctor-fb2/) 0.6.0
 
 -   [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.5
 
@@ -30,7 +30,7 @@ This Docker image provides:
 
 -   [Asciidoctor Reducer](https://github.com/asciidoctor/asciidoctor-reducer) 1.0.2
 
-This image uses Alpine Linux 3.16.2 as base image.
+This image uses Alpine Linux 3.16.3 as base image.
 
 <div class="note">
 
