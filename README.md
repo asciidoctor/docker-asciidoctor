@@ -12,7 +12,7 @@ This Docker image provides:
 
 -   [Asciidoctor EPUB3](https://asciidoctor.org/docs/asciidoctor-epub3/) 1.5.1
 
--   [Asciidoctor FB2](https://github.com/asciidoctor/asciidoctor-fb2/) 0.6.0
+-   [Asciidoctor FB2](https://github.com/asciidoctor/asciidoctor-fb2/) 0.7.0
 
 -   [Asciidoctor Mathematical](https://github.com/asciidoctor/asciidoctor-mathematical) 0.3.5
 
