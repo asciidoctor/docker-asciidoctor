@@ -13,7 +13,7 @@ variable "IMAGE_NAME" {
 group "all" {
   targets = [
     "asciidoctor-minimal",
-    "build-haskell",
+    "erd-builder",
     "asciidoctor"
   ]
 }
@@ -31,15 +31,15 @@ target "asciidoctor-minimal" {
 }
 
 // This image is only used for intermediate steps
-target "build-haskell" {
+target "erd-builder" {
   dockerfile = "Dockerfile"
   context = "."
-  target = "build-haskell"
+  target = "erd-builder"
   cache-from = [
-    "${CACHE_REGISTRY_PREFIX}/build-haskell:cache",
+    "${CACHE_REGISTRY_PREFIX}/erd-builder:cache",
   ]
   cache-to = [
-    "${CACHE_REGISTRY_PREFIX}/build-haskell:cache",
+    "${CACHE_REGISTRY_PREFIX}/erd-builder:cache",
   ]
 }
 

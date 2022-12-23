@@ -11,13 +11,13 @@ PANDOC_VERSION ?= 2.10.1
 
 all: build test README
 
-build: asciidoctor-minimal.build build-haskell.build asciidoctor.build
+build: asciidoctor-minimal.build erd-builder.build asciidoctor.build
 
 %.build:
 	docker buildx bake $(*) --load --set '*.cache-to=""' --print
 	docker buildx bake $(*) --load --set '*.cache-to=""'
 
-docker-cache: asciidoctor-minimal.docker-cache build-haskell.docker-cache asciidoctor.docker-cache
+docker-cache: asciidoctor-minimal.docker-cache erd-builder.docker-cache asciidoctor.docker-cache
 
 %.docker-cache:
 	docker buildx bake $(*) --print
