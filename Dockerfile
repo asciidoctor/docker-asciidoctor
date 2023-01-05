@@ -1,4 +1,4 @@
-ARG alpine_version=3.16.3
+ARG alpine_version=3.17.0
 FROM alpine:${alpine_version} AS base
 
 ARG asciidoctor_version=2.0.18
@@ -46,10 +46,10 @@ RUN apk add --no-cache ruby \
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Haskell build for: erd
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Alpine 3.16 is the last known working version for building erd (dynamic linking)
+FROM alpine:3.16 AS erd-builder
 
-FROM base AS build-haskell
-
-## Always use the latest Cabal (and dependencies) versions available for the current Alpine distribution
+## Always use the latest dependencies available for the current Alpine distribution
 # hadolint ignore=DL3018
 RUN apk add --no-cache \
   alpine-sdk \
@@ -70,7 +70,6 @@ RUN apk add --no-cache \
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Final image
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
 FROM main-minimal AS main
 RUN echo "assemble comprehensive main image" # keep here to help --cache-from along
 
@@ -139,7 +138,7 @@ RUN apk add --no-cache \
   seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
-COPY --from=build-haskell root/.cabal/bin/erd     /bin/
+COPY --from=erd-builder /root/.cabal/bin/erd /bin/
 
 WORKDIR /documents
 VOLUME /documents
