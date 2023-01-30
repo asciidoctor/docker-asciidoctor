@@ -35,6 +35,7 @@ FROM base AS main-minimal
 RUN echo "assemble minimal main image" # keep here to help --cache-from along
 
 LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
+LABEL org.opencontainers.image.source="https://github.com/asciidoctor/docker-asciidoctor"
 
 ## Always use the latest Ruby version available for the current Alpine distribution
 # hadolint ignore=DL3018
