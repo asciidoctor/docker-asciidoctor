@@ -30,7 +30,7 @@ This Docker image provides:
 
 -   [Asciidoctor Reducer](https://github.com/asciidoctor/asciidoctor-reducer) 1.0.2
 
-This image uses Alpine Linux 3.16.3 as base image.
+This image uses Alpine Linux 3.17.1 as base image.
 
 <div class="note">
 
