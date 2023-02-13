@@ -12,22 +12,30 @@ scms:
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       branch: "{{ .github.branch }}"
+  asciidoctor-diagram:
+    kind: git
+    spec:
+      url: https://github.com/asciidoctor/asciidoctor-diagram
+      branch: master
 
 sources:
   latestVersion:
-    kind: githubrelease
-    name: "Get the latest Asciidoctor-Diagram version"
+    kind: gittag
+    name: "Get the latest Asciidoctor-Diagram version from latest git tag (no GitHub release)"
+    scmid: asciidoctor-diagram
     spec:
-      owner: "asciidoctor"
-      repository: "asciidoctor-diagram"
-      token: "{{ requiredEnv .github.token }}"
-      username: "{{ .github.username }}"
       versionfilter:
         kind: latest
     transformers:
       - trimprefix: "v"
 
 conditions:
+  checkIfGemIsPublished:
+    name: "Check if the Gem is published"
+    kind: shell
+    disablesourceinput: true
+    spec:
+      command: curl --fail --location --output /dev/null https://rubygems.org/downloads/asciidoctor-diagram-{{ source "latestVersion" }}.gem
   testDockerfileArgVersion:
     name: "Does the Dockerfile have an ARG instruction which key is asciidoctor_diagram_version?"
     kind: dockerfile
@@ -86,5 +94,5 @@ actions:
     title: Bump Asciidoctor-Diagram version {{ source "latestVersion" }}
     spec:
       labels:
-        - chore
         - dependencies
+        - asciidoctor-diagram
