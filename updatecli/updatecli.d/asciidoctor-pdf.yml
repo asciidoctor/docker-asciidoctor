@@ -79,9 +79,9 @@ targets:
       content: ':ASCIIDOCTOR_PDF_VERSION: {{ source `latestVersion` }}'
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump Asciidoctor-PDF version to {{ source "latestVersion" }}
     spec:

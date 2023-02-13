@@ -79,9 +79,9 @@ targets:
       content: ':ASCIIDOCTOR_FB2_VERSION: {{ source `latestVersion` }}'
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump Asciidoctor-Fb2 version to {{ source "latestVersion" }}
     spec:
