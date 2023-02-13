@@ -88,9 +88,9 @@ targets:
       content: ':ALPINE_VERSION: {{ source "latestVersion" }}'
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump Alpine Linux Version to {{ source "latestVersion" }}
     spec:

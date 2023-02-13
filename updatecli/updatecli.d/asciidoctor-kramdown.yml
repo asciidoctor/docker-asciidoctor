@@ -79,9 +79,9 @@ targets:
       content: ':KRAMDOWN_ASCIIDOC_VERSION: {{ source `latestVersion` }}'
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump Asciidoctor-Kramdown version to {{ source "latestVersion" }}
     spec:
