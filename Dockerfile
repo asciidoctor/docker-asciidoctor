@@ -1,4 +1,4 @@
-ARG alpine_version=3.17.1
+ARG alpine_version=3.17.2
 FROM alpine:${alpine_version} AS base
 
 ARG asciidoctor_version=2.0.18
