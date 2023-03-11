@@ -11,7 +11,7 @@ ARG asciidoctor_mathematical_version=0.3.5
 ARG asciidoctor_revealjs_version=4.1.0
 ARG kramdown_asciidoc_version=2.1.0
 ARG asciidoctor_bibtex_version=0.8.0
-ARG asciidoctor_kroki_version=0.7.0
+ARG asciidoctor_kroki_version=0.8.0
 ARG asciidoctor_reducer_version=1.0.2
 
 ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
