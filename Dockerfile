@@ -45,30 +45,13 @@ RUN apk add --no-cache ruby \
   "asciidoctor-pdf:${ASCIIDOCTOR_PDF_VERSION}"
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Haskell build for: erd
+# Install erd-go (https://github.com/kaishuu0123/erd-go) as replacement for erd (https://github.com/BurntSushi/erd)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Alpine 3.16 is the last known working version for building erd (dynamic linking)
-FROM alpine:3.16 AS erd-builder
+FROM golang:alpine as erd-builder
+RUN apk add git \
+    && go install github.com/kaishuu0123/erd-go@latest
 
-## Always use the latest dependencies available for the current Alpine distribution
-# hadolint ignore=DL3018
-RUN apk add --no-cache \
-  alpine-sdk \
-  cabal \
-  ghc-dev \
-  ghc \
-  gmp-dev \
-  gnupg \
-  libffi-dev \
-  linux-headers \
-  perl-utils \
-  wget \
-  xz \
-  zlib-dev \
-  && cabal v2-update \
-  && cabal v2-install erd
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # \
 # Final image
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 FROM main-minimal AS main
@@ -139,7 +122,9 @@ RUN apk add --no-cache \
   seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
-COPY --from=erd-builder /root/.cabal/bin/erd /bin/
+COPY --from=erd-builder /go/bin/erd-go /usr/local/bin/
+# for backward compatibility
+RUN ln -snf /usr/local/bin/erd-go /usr/local/bin/erd
 
 WORKDIR /documents
 VOLUME /documents
