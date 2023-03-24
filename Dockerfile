@@ -49,7 +49,7 @@ RUN apk add --no-cache ruby \
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 FROM golang:alpine as erd-builder
 RUN apk add git \
-    && go install github.com/kaishuu0123/erd-go@latest
+    && go install github.com/kaishuu0123/erd-go@v2.0.0
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # \
 # Final image
