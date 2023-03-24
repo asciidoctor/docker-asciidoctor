@@ -48,7 +48,7 @@ RUN apk add --no-cache ruby \
 # Install erd-go (https://github.com/kaishuu0123/erd-go) as replacement for erd (https://github.com/BurntSushi/erd)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 FROM golang:1.12-alpine as erd-builder
-RUN apk add git \
+RUN apk add --no-cache git \
     && go install github.com/kaishuu0123/erd-go/v2@v2.0.0
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # \
