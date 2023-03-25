@@ -1,3 +1,5 @@
+# Golang version defined in https://github.com/kaishuu0123/erd-go/blob/${ERD_VERSION}/go.mod#L3
+ARG ERD_GOLANG_VERSION=1.15
 ARG alpine_version=3.17.2
 FROM alpine:${alpine_version} AS base
 
@@ -47,9 +49,17 @@ RUN apk add --no-cache ruby \
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Install erd-go (https://github.com/kaishuu0123/erd-go) as replacement for erd (https://github.com/BurntSushi/erd)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-FROM golang:1.12-alpine as erd-builder
+FROM golang:${ERD_GOLANG_VERSION}-alpine as erd-builder
+ARG ERD_VERSION=v2.0.0
+## Always use the latest git package
+# go install or go get cannot be used the go.mod syntax of erd-go is not following the Golang semver properties,
+# leading to errors whatever method is used.
+# This fixes it by using a go build method to generate the binary instead.
+# hadolint ignore=DL3018
 RUN apk add --no-cache git \
-    && go install github.com/kaishuu0123/erd-go/v2@v2.0.0
+  && git clone https://github.com/kaishuu0123/erd-go -b "${ERD_VERSION}" /app
+WORKDIR /app
+RUN CGO_ENABLED=0 GOOS=linux go build
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # \
 # Final image
@@ -122,7 +132,7 @@ RUN apk add --no-cache \
   seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
-COPY --from=erd-builder /go/bin/erd-go /usr/local/bin/
+COPY --from=erd-builder /app/erd-go /usr/local/bin/
 # for backward compatibility
 RUN ln -snf /usr/local/bin/erd-go /usr/local/bin/erd
 
