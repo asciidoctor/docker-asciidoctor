@@ -38,6 +38,12 @@ Docker Engine [20.10](https://docs.docker.com/engine/release-notes/#20100) or la
 
 </div>
 
+<div class="note">
+
+This image uses the Go-based [erd-go](https://github.com/kaishuu0123/erd-go/) instead of the original Haskell-based [erd](https://github.com/BurntSushi/erd) to allow the Docker image to be provided as a multi-platform image.
+
+</div>
+
 ## How to use it
 
 Just run:

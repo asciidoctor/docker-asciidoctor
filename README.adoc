@@ -41,6 +41,8 @@ This image uses Alpine Linux {ALPINE_VERSION} as base image.
 
 NOTE: Docker Engine link:https://docs.docker.com/engine/release-notes/#20100[20.10] or later is required (or any container engine supporting link:https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.14.0[Alpine 3.14]) to avoid unexpected `No such file or directory` errors (such as link:https://github.com/asciidoctor/docker-asciidoctor/issues/214[#214] or link:https://github.com/asciidoctor/docker-asciidoctor/issues/215[#215]).
 
+NOTE: This image uses the Go-based https://github.com/kaishuu0123/erd-go/[erd-go] instead of the original Haskell-based https://github.com/BurntSushi/erd[erd] to allow the Docker image to be provided as a multi-platform image.
+
 == How to use it
 
 Just run:
