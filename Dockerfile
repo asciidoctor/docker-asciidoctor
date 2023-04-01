@@ -5,7 +5,7 @@ FROM alpine:${alpine_version} AS base
 
 ARG asciidoctor_version=2.0.18
 ARG asciidoctor_confluence_version=0.0.2
-ARG asciidoctor_pdf_version=2.3.4
+ARG asciidoctor_pdf_version=2.3.5
 ARG asciidoctor_diagram_version=2.2.6
 ARG asciidoctor_epub3_version=1.5.1
 ARG asciidoctor_fb2_version=0.7.0
