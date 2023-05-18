@@ -3,32 +3,6 @@ ARG ERD_GOLANG_VERSION=1.15
 ARG alpine_version=3.17.3
 FROM alpine:${alpine_version} AS base
 
-ARG asciidoctor_version=2.0.18
-ARG asciidoctor_confluence_version=0.0.2
-ARG asciidoctor_pdf_version=2.3.7
-ARG asciidoctor_diagram_version=2.2.8
-ARG asciidoctor_epub3_version=1.5.1
-ARG asciidoctor_fb2_version=0.7.0
-ARG asciidoctor_mathematical_version=0.3.5
-ARG asciidoctor_revealjs_version=4.1.0
-ARG kramdown_asciidoc_version=2.1.0
-ARG asciidoctor_bibtex_version=0.8.0
-ARG asciidoctor_kroki_version=0.8.0
-ARG asciidoctor_reducer_version=1.0.2
-
-ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
-  ASCIIDOCTOR_CONFLUENCE_VERSION=${asciidoctor_confluence_version} \
-  ASCIIDOCTOR_PDF_VERSION=${asciidoctor_pdf_version} \
-  ASCIIDOCTOR_DIAGRAM_VERSION=${asciidoctor_diagram_version} \
-  ASCIIDOCTOR_EPUB3_VERSION=${asciidoctor_epub3_version} \
-  ASCIIDOCTOR_FB2_VERSION=${asciidoctor_fb2_version} \
-  ASCIIDOCTOR_MATHEMATICAL_VERSION=${asciidoctor_mathematical_version} \
-  ASCIIDOCTOR_REVEALJS_VERSION=${asciidoctor_revealjs_version} \
-  KRAMDOWN_ASCIIDOC_VERSION=${kramdown_asciidoc_version} \
-  ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version} \
-  ASCIIDOCTOR_KROKI_VERSION=${asciidoctor_kroki_version} \
-  ASCIIDOCTOR_REDUCER_VERSION=${asciidoctor_reducer_version}
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Minimal image with asciidoctor
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -39,6 +13,11 @@ RUN echo "assemble minimal main image" # keep here to help --cache-from along
 LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 LABEL org.opencontainers.image.source="https://github.com/asciidoctor/docker-asciidoctor"
 
+ARG asciidoctor_version=2.0.18
+ARG asciidoctor_pdf_version=2.3.7
+
+ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
+  ASCIIDOCTOR_PDF_VERSION=${asciidoctor_pdf_version}
 ## Always use the latest Ruby version available for the current Alpine distribution
 # hadolint ignore=DL3018
 RUN apk add --no-cache ruby \
@@ -70,7 +49,7 @@ RUN echo "assemble comprehensive main image" # keep here to help --cache-from al
 LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
 ## Always use the latest dependencies versions available for the current Alpine distribution
-# hadolint ignore=DL3018,DL3013,DL3028
+# hadolint ignore=DL3018
 RUN apk add --no-cache \
   bash \
   curl \
@@ -83,6 +62,7 @@ RUN apk add --no-cache \
   make \
   openjdk17-jre \
   python3 \
+  py3-cairo \
   py3-pillow \
   py3-setuptools \
   ruby-bigdecimal \
@@ -93,8 +73,33 @@ RUN apk add --no-cache \
   tzdata \
   unzip \
   which \
-  font-noto-cjk \
-  && apk add --no-cache --virtual .rubymakedepends \
+  font-noto-cjk
+
+ARG asciidoctor_confluence_version=0.0.2
+ARG asciidoctor_diagram_version=2.2.8
+ARG asciidoctor_epub3_version=1.5.1
+ARG asciidoctor_fb2_version=0.7.0
+ARG asciidoctor_mathematical_version=0.3.5
+ARG asciidoctor_revealjs_version=4.1.0
+ARG kramdown_asciidoc_version=2.1.0
+ARG asciidoctor_bibtex_version=0.8.0
+ARG asciidoctor_kroki_version=0.8.0
+ARG asciidoctor_reducer_version=1.0.2
+
+ENV ASCIIDOCTOR_CONFLUENCE_VERSION=${asciidoctor_confluence_version} \
+  ASCIIDOCTOR_DIAGRAM_VERSION=${asciidoctor_diagram_version} \
+  ASCIIDOCTOR_EPUB3_VERSION=${asciidoctor_epub3_version} \
+  ASCIIDOCTOR_FB2_VERSION=${asciidoctor_fb2_version} \
+  ASCIIDOCTOR_MATHEMATICAL_VERSION=${asciidoctor_mathematical_version} \
+  ASCIIDOCTOR_REVEALJS_VERSION=${asciidoctor_revealjs_version} \
+  KRAMDOWN_ASCIIDOC_VERSION=${kramdown_asciidoc_version} \
+  ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version} \
+  ASCIIDOCTOR_KROKI_VERSION=${asciidoctor_kroki_version} \
+  ASCIIDOCTOR_REDUCER_VERSION=${asciidoctor_reducer_version}
+
+## Always use the latest dependencies versions available for the current Alpine distribution
+# hadolint ignore=DL3018,DL3028
+RUN apk add --no-cache --virtual .rubymakedepends \
   build-base \
   libxml2-dev \
   ruby-dev \
@@ -119,8 +124,11 @@ RUN apk add --no-cache \
   "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
   "asciidoctor-kroki:${ASCIIDOCTOR_KROKI_VERSION}" \
   "asciidoctor-reducer:${ASCIIDOCTOR_REDUCER_VERSION}" \
-  && apk del -r --no-cache .rubymakedepends \
-  && apk add --no-cache --virtual .pythonmakedepends \
+  && apk del -r --no-cache .rubymakedepends
+
+## Always use the latest dependencies versions available for the current Alpine distribution
+# hadolint ignore=DL3018,DL3013
+RUN apk add --no-cache --virtual .pythonmakedepends \
   build-base \
   freetype-dev \
   python3-dev \
