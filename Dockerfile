@@ -8,7 +8,6 @@ FROM alpine:${alpine_version} AS base
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 FROM base AS main-minimal
-RUN echo "assemble minimal main image" # keep here to help --cache-from along
 
 LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 LABEL org.opencontainers.image.source="https://github.com/asciidoctor/docker-asciidoctor"
@@ -44,8 +43,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build
 # Final image
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 FROM main-minimal AS main
-RUN echo "assemble comprehensive main image" # keep here to help --cache-from along
-
 LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
 ## Always use the latest dependencies versions available for the current Alpine distribution
