@@ -3,7 +3,7 @@ ARG ERD_GOLANG_VERSION=1.15
 ARG alpine_version=3.17.3
 FROM alpine:${alpine_version} AS base
 
-ARG asciidoctor_version=2.0.18
+ARG asciidoctor_version=2.0.19
 ARG asciidoctor_confluence_version=0.0.2
 ARG asciidoctor_pdf_version=2.3.7
 ARG asciidoctor_diagram_version=2.2.8
