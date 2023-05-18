@@ -24,7 +24,6 @@ sources:
       username: "{{ .github.username }}"
       versionfilter:
         kind: semver
-        pattern: "~3.17"
     transformers:
       - trimprefix: "v"
 
