@@ -4,9 +4,9 @@
 
 This Docker image provides:
 
--   [Asciidoctor](https://asciidoctor.org/) 2.0.18
+-   [Asciidoctor](https://asciidoctor.org/) 2.0.20
 
--   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.2.8 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
+-   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.2.9 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
 
 -   [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 2.3.7
 
@@ -30,7 +30,7 @@ This Docker image provides:
 
 -   [Asciidoctor Reducer](https://github.com/asciidoctor/asciidoctor-reducer) 1.0.2
 
-This image uses Alpine Linux 3.17.3 as base image.
+This image uses Alpine Linux 3.18.0 as base image.
 
 <div class="note">
 
