@@ -52,6 +52,21 @@ digraph g {
 }
 ----
 
+== ASCIIToSVG
+[a2s, format="svg"]
+....
+.-------------------------.
+|                         |
+| .---.-. .-----. .-----. |
+| | .-. | +-->  | |  <--| |
+| | '-' | |  <--| +-->  | |
+| '---'-' '-----' '-----' |
+|  ascii     2      svg   |
+|                         |
+'-------------------------'
+....
+
+
 == Plantuml from external file...
 [plantuml,activity,svg,align="center"]
 ----

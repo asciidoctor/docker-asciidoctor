@@ -41,7 +41,7 @@ WORKDIR /app
 RUN CGO_ENABLED=0 GOOS=linux go build
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Install https://docs.asciidoctor.org/diagram-extension/latest/diagram_types/a2s/
+# Install ASCIIToSVG https://github.com/asciitosvg/asciitosvg
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 FROM golang:${A2S_GOLANG_VERSION}-alpine as a2s-builder
 ARG A2S_VERSION=ca82a5c

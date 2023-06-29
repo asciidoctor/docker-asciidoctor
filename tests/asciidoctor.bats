@@ -98,6 +98,10 @@ teardown() {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" kramdoc --version
 }
 
+@test "a2s is installed and in the path" {
+  docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" which a2s
+}
+
 @test "git command line tool is installed and in the path" {
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" which git
   docker run -t --rm "${DOCKER_IMAGE_NAME_TO_TEST}" git --version
