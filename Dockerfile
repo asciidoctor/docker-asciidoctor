@@ -1,5 +1,6 @@
 # Golang version defined in https://github.com/kaishuu0123/erd-go/blob/${ERD_VERSION}/go.mod#L3
 ARG ERD_GOLANG_VERSION=1.15
+ARG A2S_GOLANG_VERSION=1.20
 ARG alpine_version=3.18.2
 FROM alpine:${alpine_version} AS base
 
@@ -38,6 +39,13 @@ RUN apk add --no-cache git \
   && git clone https://github.com/kaishuu0123/erd-go -b "${ERD_VERSION}" /app
 WORKDIR /app
 RUN CGO_ENABLED=0 GOOS=linux go build
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Install https://docs.asciidoctor.org/diagram-extension/latest/diagram_types/a2s/
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+FROM golang:${A2S_GOLANG_VERSION}-alpine as a2s-builder
+ARG A2S_VERSION=ca82a5c
+RUN GOBIN=/app go install github.com/asciitosvg/asciitosvg/cmd/a2s@${A2S_VERSION}
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # \
 # Final image
@@ -137,6 +145,7 @@ RUN apk add --no-cache --virtual .pythonmakedepends \
   seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
+COPY --from=a2s-builder /app/a2s /usr/local/bin/
 COPY --from=erd-builder /app/erd-go /usr/local/bin/
 # for backward compatibility
 RUN ln -snf /usr/local/bin/erd-go /usr/local/bin/erd
