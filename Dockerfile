@@ -1,6 +1,6 @@
 # Golang version defined in https://github.com/kaishuu0123/erd-go/blob/${ERD_VERSION}/go.mod#L3
-ARG ERD_GOLANG_VERSION=1.15
-ARG A2S_GOLANG_VERSION=1.20
+ARG ERD_GOLANG_BUILDER_TAG=1.15-alpine
+ARG A2S_GOLANG_BUILDER_TAG=1.20-alpine3.18
 ARG alpine_version=3.18.2
 FROM alpine:${alpine_version} AS base
 
@@ -28,7 +28,7 @@ RUN apk add --no-cache ruby \
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Install erd-go (https://github.com/kaishuu0123/erd-go) as replacement for erd (https://github.com/BurntSushi/erd)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-FROM golang:${ERD_GOLANG_VERSION}-alpine as erd-builder
+FROM golang:${ERD_GOLANG_BUILDER_TAG} as erd-builder
 ARG ERD_VERSION=v2.0.0
 ## Always use the latest git package
 # go install or go get cannot be used the go.mod syntax of erd-go is not following the Golang semver properties,
@@ -43,7 +43,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Install ASCIIToSVG https://github.com/asciitosvg/asciitosvg
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-FROM golang:${A2S_GOLANG_VERSION}-alpine as a2s-builder
+FROM golang:${A2S_GOLANG_BUILDER_TAG} as a2s-builder
 ARG A2S_VERSION=ca82a5c
 RUN GOBIN=/app go install github.com/asciitosvg/asciitosvg/cmd/a2s@${A2S_VERSION}
 
