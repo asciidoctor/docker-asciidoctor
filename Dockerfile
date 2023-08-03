@@ -44,6 +44,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build
 # Install ASCIIToSVG https://github.com/asciitosvg/asciitosvg
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 FROM golang:${A2S_GOLANG_BUILDER_TAG} as a2s-builder
+# Expects a git reference as there are no tags in the A2S repository
 ARG A2S_VERSION=ca82a5c
 RUN GOBIN=/app go install github.com/asciitosvg/asciitosvg/cmd/a2s@"${A2S_VERSION}"
 
