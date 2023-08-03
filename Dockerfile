@@ -45,7 +45,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 FROM golang:${A2S_GOLANG_BUILDER_TAG} as a2s-builder
 ARG A2S_VERSION=ca82a5c
-RUN GOBIN=/app go install github.com/asciitosvg/asciitosvg/cmd/a2s@${A2S_VERSION}
+RUN GOBIN=/app go install github.com/asciitosvg/asciitosvg/cmd/a2s@"${A2S_VERSION}"
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # \
 # Final image
