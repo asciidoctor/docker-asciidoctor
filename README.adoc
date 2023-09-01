@@ -49,7 +49,7 @@ Just run:
 
 [source,bash]
 ----
-docker run -it -v <your directory>:/documents/ asciidoctor/docker-asciidoctor
+docker run -it -u $(id -u):$(id -g) -v <your directory>:/documents/ asciidoctor/docker-asciidoctor
 ----
 
 or the following for https://podman.io/[Podman]:
@@ -120,7 +120,7 @@ asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/revea
 +
 [source,bash]
 ----
-docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
+docker run --rm -u $(id -u):$(id -g) -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
 ----
 +
 or:
