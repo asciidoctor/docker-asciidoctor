@@ -6,7 +6,7 @@ This Docker image provides:
 
 -   [Asciidoctor](https://asciidoctor.org/) 2.0.20
 
--   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.2.11 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
+-   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.2.12 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
 
 -   [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 2.3.9
 
@@ -48,7 +48,7 @@ This image uses the Go-based [erd-go](https://github.com/kaishuu0123/erd-go/) in
 
 Just run:
 
-    docker run -it -v <your directory>:/documents/ asciidoctor/docker-asciidoctor
+    docker run -it -u $(id -u):$(id -g) -v <your directory>:/documents/ asciidoctor/docker-asciidoctor
 
 or the following for [Podman](https://podman.io/):
 
@@ -99,7 +99,7 @@ You can find several examples below.
 
 -   To convert files in batch:
 
-        docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
+        docker run --rm -u $(id -u):$(id -g) -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf index.adoc
 
     or:
 
