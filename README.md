@@ -6,7 +6,7 @@ This Docker image provides:
 
 -   [Asciidoctor](https://asciidoctor.org/) 2.0.20
 
--   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.2.13 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
+-   [Asciidoctor Diagram](https://asciidoctor.org/docs/asciidoctor-diagram/) 2.2.14 with ERD and Graphviz integration (supports plantuml and graphiz diagrams)
 
 -   [Asciidoctor PDF](https://asciidoctor.org/docs/asciidoctor-pdf/) 2.3.9
 
@@ -26,11 +26,11 @@ This Docker image provides:
 
 -   [Asciidoctor Bibtex](https://github.com/asciidoctor/asciidoctor-bibtex) 0.8.0
 
--   [Asciidoctor Kroki](https://github.com/Mogztter/asciidoctor-kroki) 0.8.0
+-   [Asciidoctor Kroki](https://github.com/Mogztter/asciidoctor-kroki) 0.9.1
 
 -   [Asciidoctor Reducer](https://github.com/asciidoctor/asciidoctor-reducer) 1.0.2
 
-This image uses Alpine Linux 3.18.3 as base image.
+This image uses Alpine Linux 3.18.5 as base image.
 
 <div class="note">
 
