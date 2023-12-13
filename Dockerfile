@@ -137,13 +137,13 @@ RUN apk add --no-cache --virtual .rubymakedepends \
 RUN apk add --no-cache --virtual .pythonmakedepends \
   build-base \
   freetype-dev \
+  pipx \
   python3-dev \
   py3-pip \
-  && pip3 install --no-cache-dir \
-  actdiag \
-  'blockdiag[pdf]' \
-  nwdiag \
-  seqdiag \
+  && pipx install --pip-args='--no-cache-dir' actdiag \
+  && pipx install --pip-args='--no-cache-dir' 'blockdiag[pdf]' \
+  && pipx install --pip-args='--no-cache-dir' nwdiag \
+  && pipx install --pip-args='--no-cache-dir' seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
 COPY --from=a2s-builder /app/a2s /usr/local/bin/
