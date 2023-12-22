@@ -54,6 +54,8 @@ RUN GOBIN=/app go install github.com/asciitosvg/asciitosvg/cmd/a2s@"${A2S_VERSIO
 FROM main-minimal AS main
 LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
+ARG TARGETARCH
+
 ## Always use the latest dependencies versions available for the current Alpine distribution
 # hadolint ignore=DL3018
 RUN apk add --no-cache \
@@ -162,6 +164,9 @@ COPY --from=a2s-builder /app/a2s /usr/local/bin/
 COPY --from=erd-builder /app/erd-go /usr/local/bin/
 # for backward compatibility
 RUN ln -snf /usr/local/bin/erd-go /usr/local/bin/erd
+
+# Fixes an issue with 2 nokogiri versions breaking asciidoctor-epub3 on arm64
+RUN if [[ ${TARGETARCH} == arm64 ]]; then gem uninstall nokogiri -v '1.15.5'; fi
 
 WORKDIR /documents
 VOLUME /documents
