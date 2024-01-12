@@ -132,18 +132,25 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   "asciidoctor-reducer:${ASCIIDOCTOR_REDUCER_VERSION}" \
   && apk del -r --no-cache .rubymakedepends
 
+# Specific pipx environement variables to ensure binaries (and docs, etc.) are available for all users
+# See https://github.com/pypa/pipx/blob/main/docs/installation.md#installation-options
+ENV PIPX_HOME=/opt/pipx
+ENV PIPX_BIN_DIR=/usr/local/bin
+ENV PIPX_MAN_DIR=/usr/local/share/man
+
 ## Always use the latest dependencies versions available for the current Alpine distribution
 # hadolint ignore=DL3018,DL3013
-RUN apk add --no-cache --virtual .pythonmakedepends \
-  build-base \
-  freetype-dev \
-  pipx \
-  python3-dev \
-  py3-pip \
-  && pipx install --pip-args='--no-cache-dir' actdiag \
-  && pipx install --pip-args='--no-cache-dir' 'blockdiag[pdf]' \
-  && pipx install --pip-args='--no-cache-dir' nwdiag \
-  && pipx install --pip-args='--no-cache-dir' seqdiag \
+RUN apk add --no-cache \
+    pipx \
+    py3-pip \
+  && apk add --no-cache --virtual .pythonmakedepends \
+    build-base \
+    freetype-dev \
+    python3-dev \
+  && pipx install --system-site-packages --pip-args='--no-cache-dir' actdiag \
+  && pipx install --system-site-packages --pip-args='--no-cache-dir' 'blockdiag[pdf]' \
+  && pipx install --system-site-packages --pip-args='--no-cache-dir' nwdiag \
+  && pipx install --system-site-packages --pip-args='--no-cache-dir' seqdiag \
   && apk del -r --no-cache .pythonmakedepends
 
 COPY --from=a2s-builder /app/a2s /usr/local/bin/
