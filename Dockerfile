@@ -69,7 +69,6 @@ RUN apk add --no-cache \
   openjdk17-jre \
   python3 \
   py3-cairo \
-  py3-pillow \
   py3-setuptools \
   ruby-bigdecimal \
   ruby-mathematical \
@@ -147,11 +146,14 @@ RUN apk add --no-cache \
     build-base \
     freetype-dev \
     python3-dev \
-  && pipx install --system-site-packages --pip-args='--no-cache-dir' actdiag \
-  && pipx install --system-site-packages --pip-args='--no-cache-dir' 'blockdiag[pdf]' \
-  && pipx install --system-site-packages --pip-args='--no-cache-dir' nwdiag \
-  && pipx install --system-site-packages --pip-args='--no-cache-dir' seqdiag \
-  && apk del -r --no-cache .pythonmakedepends
+  && for pipx_app in \
+    actdiag \
+    'blockdiag[pdf]' \
+    nwdiag \
+    seqdiag \
+  ;do pipx install --system-site-packages --pip-args='--no-cache-dir' "${pipx_app}"; \
+  pipx runpip "$(echo "$pipx_app" | cut -d'[' -f1)" install Pillow==9.5.0; done \
+&& apk del -r --no-cache .pythonmakedepends
 
 COPY --from=a2s-builder /app/a2s /usr/local/bin/
 COPY --from=erd-builder /app/erd-go /usr/local/bin/
