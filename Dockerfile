@@ -1,7 +1,7 @@
 # Golang version defined in https://github.com/kaishuu0123/erd-go/blob/${ERD_VERSION}/go.mod#L3
 ARG ERD_GOLANG_BUILDER_TAG=1.15-alpine
 ARG A2S_GOLANG_BUILDER_TAG=1.20-alpine3.18
-ARG alpine_version=3.18.5
+ARG alpine_version=3.19.0
 FROM alpine:${alpine_version} AS base
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -69,7 +69,6 @@ RUN apk add --no-cache \
   openjdk17-jre \
   python3 \
   py3-cairo \
-  py3-pillow \
   py3-setuptools \
   ruby-bigdecimal \
   # Required for asciidoctor-epub
@@ -134,19 +133,30 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   "asciidoctor-reducer:${ASCIIDOCTOR_REDUCER_VERSION}" \
   && apk del -r --no-cache .rubymakedepends
 
+# Specific pipx environement variables to ensure binaries (and docs, etc.) are available for all users
+# See https://github.com/pypa/pipx/blob/main/docs/installation.md#installation-options
+ENV PIPX_HOME=/opt/pipx
+ENV PIPX_BIN_DIR=/usr/local/bin
+ENV PIPX_MAN_DIR=/usr/local/share/man
+
 ## Always use the latest dependencies versions available for the current Alpine distribution
 # hadolint ignore=DL3018,DL3013
-RUN apk add --no-cache --virtual .pythonmakedepends \
-  build-base \
-  freetype-dev \
-  python3-dev \
-  py3-pip \
-  && pip3 install --no-cache-dir \
-  actdiag \
-  'blockdiag[pdf]' \
-  nwdiag \
-  seqdiag \
-  && apk del -r --no-cache .pythonmakedepends
+RUN apk add --no-cache \
+    pipx \
+    py3-pip \
+  && apk add --no-cache --virtual .pythonmakedepends \
+    build-base \
+    freetype-dev \
+    python3-dev \
+  && for pipx_app in \
+    actdiag \
+    'blockdiag[pdf]' \
+    nwdiag \
+    seqdiag \
+  ;do pipx install --system-site-packages --pip-args='--no-cache-dir' "${pipx_app}"; \
+  # Pin pillow to 9.5.0 as per https://github.com/asciidoctor/docker-asciidoctor/pull/403#issuecomment-1894323894
+  pipx runpip "$(echo "$pipx_app" | cut -d'[' -f1)" install Pillow==9.5.0; done \
+&& apk del -r --no-cache .pythonmakedepends
 
 COPY --from=a2s-builder /app/a2s /usr/local/bin/
 COPY --from=erd-builder /app/erd-go /usr/local/bin/
