@@ -152,6 +152,7 @@ RUN apk add --no-cache \
     nwdiag \
     seqdiag \
   ;do pipx install --system-site-packages --pip-args='--no-cache-dir' "${pipx_app}"; \
+  # Pin pillow to 9.5.0 as per https://github.com/asciidoctor/docker-asciidoctor/pull/403#issuecomment-1894323894
   pipx runpip "$(echo "$pipx_app" | cut -d'[' -f1)" install Pillow==9.5.0; done \
 && apk del -r --no-cache .pythonmakedepends
 
