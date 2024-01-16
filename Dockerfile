@@ -72,6 +72,8 @@ RUN apk add --no-cache \
   py3-pillow \
   py3-setuptools \
   ruby-bigdecimal \
+  # Required for asciidoctor-epub
+  ruby-ffi \
   ruby-mathematical \
   ruby-rake \
   ttf-liberation \
