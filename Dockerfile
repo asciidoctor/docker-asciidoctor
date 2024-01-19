@@ -166,7 +166,7 @@ COPY --from=erd-builder /app/erd-go /usr/local/bin/
 RUN ln -snf /usr/local/bin/erd-go /usr/local/bin/erd
 
 # Fixes an issue with 2 nokogiri versions breaking asciidoctor-epub3 on arm64
-RUN if [[ ${TARGETARCH} == arm64 ]]; then gem uninstall nokogiri -v '1.15.5'; fi
+RUN if [[ ${TARGETARCH} == arm64 ]]; then gem uninstall nokogiri -v '1.16.0'; fi
 
 WORKDIR /documents
 VOLUME /documents
