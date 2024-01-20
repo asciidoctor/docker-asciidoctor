@@ -7,7 +7,7 @@ else
 GIT_REF = $(GIT_TAG)
 endif
 ARCH = $(shell uname -m)
-LOCAL_TARGET = $(shell if [ $(ARCH) == "aarch64" ] || [ $(ARCH) == "arm64" ]; then echo "linux/arm64"; else echo "linux/amd64"; fi)
+LOCAL_TARGET = $(shell if [ $(ARCH) = "aarch64" ] || [ $(ARCH) = "arm64" ]; then echo "linux/arm64"; else echo "linux/amd64"; fi)
 BUILDER = $(shell if $$(docker buildx use asciidoctor 2> /dev/null) ; then echo "true"; else echo "false"; fi)
 
 PANDOC_VERSION ?= 2.10.1
@@ -38,7 +38,7 @@ deploy: asciidoctor.deploy
 	docker buildx bake $(*) --push --builder=asciidoctor
 
 builder-init:
-	if [ $(BUILDER) == false ]; then docker buildx create --name asciidoctor --driver docker-container --use && docker buildx inspect --bootstrap; fi
+	if [ $(BUILDER) = false ]; then docker buildx create --name asciidoctor --driver docker-container --use && docker buildx inspect --bootstrap; fi
 
 clean:
 	rm -rf "$(CURDIR)/cache"
