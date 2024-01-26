@@ -16,7 +16,7 @@ all: build test README
 all-load: build-load test README
 
 build-load: builder-init asciidoctor-minimal.build-load erd-builder.build-load asciidoctor.build-load
-build: builder-init asciidoctor-minimal.build asciidoctor-minimal.build-load erd-builder.build erd-builder.build-load asciidoctor.build asciidoctor.build-load
+build: build-load asciidoctor-minimal.build erd-builder.build asciidoctor.build
 
 %.build-load:
 	docker buildx bake $(*) --set *.platform=$(LOCAL_TARGET) --load --builder=asciidoctor --print
