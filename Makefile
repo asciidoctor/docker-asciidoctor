@@ -6,16 +6,25 @@ GIT_REF = $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
 else
 GIT_REF = $(GIT_TAG)
 endif
+ARCH = $(shell uname -m)
+LOCAL_TARGET = $(shell if [ $(ARCH) = "aarch64" ] || [ $(ARCH) = "arm64" ]; then echo "linux/arm64"; else echo "linux/amd64"; fi)
+BUILDER = $(shell if $$(docker buildx use asciidoctor 2> /dev/null) ; then echo "true"; else echo "false"; fi)
 
 PANDOC_VERSION ?= 2.10.1
 
 all: build test README
+all-load: build-load test README
 
-build: asciidoctor-minimal.build erd-builder.build asciidoctor.build
+build-load: builder-init asciidoctor-minimal.build-load erd-builder.build-load asciidoctor.build-load
+build: build-load asciidoctor-minimal.build erd-builder.build asciidoctor.build
+
+%.build-load:
+	docker buildx bake $(*) --set *.platform=$(LOCAL_TARGET) --load --builder=asciidoctor --print
+	docker buildx bake $(*) --set *.platform=$(LOCAL_TARGET) --load --builder=asciidoctor
 
 %.build:
-	docker buildx bake $(*) --load --print
-	docker buildx bake $(*) --load
+	docker buildx bake $(*) --builder=asciidoctor --print
+	docker buildx bake $(*) --builder=asciidoctor
 
 test: asciidoctor.test
 
@@ -25,8 +34,11 @@ test: asciidoctor.test
 deploy: asciidoctor.deploy
 
 %.deploy:
-	docker buildx bake $(*) --push --print
-	docker buildx bake $(*) --push
+	docker buildx bake $(*) --push --builder=asciidoctor --print
+	docker buildx bake $(*) --push --builder=asciidoctor
+
+builder-init:
+	if [ $(BUILDER) = false ]; then docker buildx create --name asciidoctor --driver docker-container --use && docker buildx inspect --bootstrap; fi
 
 clean:
 	rm -rf "$(CURDIR)/cache"
@@ -51,4 +63,4 @@ deploy-README: README
 	git add README.adoc README.md && git commit -s -m "Updating README files using 'make README command'" \
 		&& git push origin $(shell git rev-parse --abbrev-ref HEAD) || echo 'No changes to README files'
 
-.PHONY: all build test deploy clean README deploy-README docker-cache
+.PHONY: all build build-load builder-init test deploy clean README deploy-README docker-cache
