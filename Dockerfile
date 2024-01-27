@@ -1,7 +1,7 @@
 # Golang version defined in https://github.com/kaishuu0123/erd-go/blob/${ERD_VERSION}/go.mod#L3
 ARG ERD_GOLANG_BUILDER_TAG=1.15-alpine
 ARG A2S_GOLANG_BUILDER_TAG=1.20-alpine3.18
-ARG alpine_version=3.19.0
+ARG alpine_version=3.19.1
 FROM alpine:${alpine_version} AS base
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -53,6 +53,8 @@ RUN GOBIN=/app go install github.com/asciitosvg/asciitosvg/cmd/a2s@"${A2S_VERSIO
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 FROM main-minimal AS main
 LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
+
+ARG TARGETARCH
 
 ## Always use the latest dependencies versions available for the current Alpine distribution
 # hadolint ignore=DL3018
@@ -162,6 +164,9 @@ COPY --from=a2s-builder /app/a2s /usr/local/bin/
 COPY --from=erd-builder /app/erd-go /usr/local/bin/
 # for backward compatibility
 RUN ln -snf /usr/local/bin/erd-go /usr/local/bin/erd
+
+# Fixes an issue with 2 nokogiri versions breaking asciidoctor-epub3 on arm64
+RUN if [[ ${TARGETARCH} == arm64 ]]; then gem uninstall nokogiri -v '1.16.0'; fi
 
 WORKDIR /documents
 VOLUME /documents
