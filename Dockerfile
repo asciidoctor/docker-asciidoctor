@@ -14,7 +14,7 @@ LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUP
 LABEL org.opencontainers.image.source="https://github.com/asciidoctor/docker-asciidoctor"
 
 ARG asciidoctor_version=2.0.20
-ARG asciidoctor_pdf_version=2.3.11
+ARG asciidoctor_pdf_version=2.3.12
 
 ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_PDF_VERSION=${asciidoctor_pdf_version}
