@@ -86,7 +86,7 @@ RUN apk add --no-cache \
 
 ARG asciidoctor_confluence_version=0.0.2
 ARG asciidoctor_diagram_version=2.2.17
-ARG asciidoctor_epub3_version=2.0.1
+ARG asciidoctor_epub3_version=2.1.0
 ARG asciidoctor_fb2_version=0.7.0
 ARG asciidoctor_mathematical_version=0.3.5
 ARG asciidoctor_revealjs_version=5.1.0
