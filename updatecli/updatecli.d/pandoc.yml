@@ -35,3 +35,13 @@ conditions:
     spec:
       file: Makefile
       matchpattern: "PANDOC_VERSION(\\s\\?=\\s.*)"
+
+targets:
+  updateMakefile:
+    name: "Update the PANDOC_VERSION variable in the Makefile"
+    kind: file
+    spec:
+      file: Makefile
+      matchpattern: "PANDOC_VERSION(\\s\\?=\\s.*)"
+      content: 'PANDOC_VERSION ?= {{ source "latestVersion" }}'
+    scmid: default
