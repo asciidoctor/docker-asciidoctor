@@ -34,4 +34,4 @@ conditions:
     disablesourceinput: true
     spec:
       file: Makefile
-      matchpattern: "PANDOC_VERSION\s\?=.*$"
+      matchpattern: "PANDOC_VERSION\\s\\?=.*$"
