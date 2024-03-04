@@ -29,9 +29,9 @@ sources:
 
 conditions:
   testVersionInMakefile:
-    name: "Does the Makefile have a variable PANDOC_VERSION"
+    name: "Does the Makefile have a PANDOC_VERSION variable?"
     kind: file
     disablesourceinput: true
     spec:
       file: Makefile
-      matchpattern: "(?m:^:PANDOC_VERSION:.*)"
+      matchpattern: "(PANDOC_VERSION:.*)"
