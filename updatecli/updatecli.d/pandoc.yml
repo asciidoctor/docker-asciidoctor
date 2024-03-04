@@ -26,3 +26,12 @@ sources:
         kind: latest
     transformers:
       - trimprefix: "v"
+
+conditions:
+  testVersionInMakefile:
+    name: "Does the Makefile have a variable PANDOC_VERSION"
+    kind: file
+    disablesourceinput: true
+    spec:
+      file: Makefile
+      matchpattern: "(?m:^:PANDOC_VERSION:.*)"
