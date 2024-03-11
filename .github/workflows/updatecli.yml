@@ -13,7 +13,7 @@ on:
 jobs:
   updatecli:
     if: github.repository_owner == 'asciidoctor' || github.event_name != 'schedule'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
