@@ -1,0 +1,57 @@
+---
+name: "Bump Alpine Linux Version"
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ requiredEnv .github.owner }}"
+      repository: "{{ requiredEnv .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  latestVersion:
+    kind: githubrelease
+    name: "Get the latest Pandoc version"
+    spec:
+      owner: "jgm"
+      repository: "pandoc"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionfilter:
+        kind: latest
+    transformers:
+      - trimprefix: "v"
+
+conditions:
+  testVersionInMakefile:
+    name: "Does the Makefile have a PANDOC_VERSION variable?"
+    kind: file
+    disablesourceinput: true
+    spec:
+      file: Makefile
+      matchpattern: "PANDOC_VERSION(\\s\\?=\\s.*)"
+
+targets:
+  updateMakefile:
+    name: "Update the PANDOC_VERSION variable in the Makefile"
+    kind: file
+    spec:
+      file: Makefile
+      matchpattern: "PANDOC_VERSION(\\s\\?=\\s.*)"
+      content: 'PANDOC_VERSION ?= {{ source "latestVersion" }}'
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    scmid: default
+    title: Bump pandoc version to {{ source "latestVersion" }}
+    spec:
+      labels:
+        - dependencies
+        - pandoc
