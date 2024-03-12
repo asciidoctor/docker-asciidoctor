@@ -57,7 +57,7 @@ cache/pandoc-$(PANDOC_VERSION)/bin/pandoc: cache/pandoc-$(PANDOC_VERSION)-linux.
 # This recipe creates README.md from README.adoc
 README: asciidoctor.build cache/pandoc-$(PANDOC_VERSION)/bin/pandoc
 	docker run --rm -t -v $(CURDIR):/documents --entrypoint bash asciidoctor \
-		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-$(PANDOC_VERSION)/bin/pandoc  --atx-headers --wrap=preserve -t gfm -f docbook - > README.md"
+		-c "asciidoctor -b docbook -a leveloffset=+1 -o - README.adoc | /documents/cache/pandoc-$(PANDOC_VERSION)/bin/pandoc --markdown-headings=atx --wrap=preserve -t gfm -f docbook - > README.md"
 
 deploy-README: README
 	git add README.adoc README.md && git commit -s -m "Updating README files using 'make README command'" \
