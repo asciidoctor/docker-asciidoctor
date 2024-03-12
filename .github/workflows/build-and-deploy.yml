@@ -3,18 +3,10 @@ on:
   ## Events from external actor, or from code pushed (includes tags pushed)
   push:
     branches:
-      - main
-      - 'refs/tags/*'
+      - '*'
     tags:
       - '*'
-
   pull_request:
-  ## Events from the GitHub UI (as when publishing a release)
-  # When a release is "released" (draft or released published, no pre-release) - https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#release
-  release:
-    types: [released]
-  # When a tag or branch is created in the GitHub UI
-  create:
 jobs:
   build:
     # In the future it would be good to run the tests on amd64 and arm64
@@ -38,17 +30,17 @@ jobs:
         run: make test
       - name: Generate README
         run: make README
-      #### Deployment Zone: only on main branch
+      #### Deployment Zone: only on main branch (or tags)
       - name: Login to Docker Hub for Deployment
-        if: contains('refs/heads/main', github.ref)
+        if: github.ref_name == 'main' || github.ref_type == 'tag'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Deploy
-        if: contains('refs/heads/main', github.ref)
+        if: github.ref_name == 'main' || github.ref_type == 'tag'
         run: |
-          export IMAGE_VERSION="$(echo ${GITHUB_REF#refs/tags/} | grep -v 'refs/heads')"
+          export IMAGE_VERSION="${{ github.ref_name }}"
           export IMAGE_NAME="asciidoctor/docker-asciidoctor"
           git config --local user.name "${GITHUB_ACTOR}"
           git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com"
