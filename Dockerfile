@@ -92,7 +92,7 @@ ARG asciidoctor_mathematical_version=0.3.5
 ARG asciidoctor_revealjs_version=5.1.0
 ARG kramdown_asciidoc_version=2.1.0
 ARG asciidoctor_bibtex_version=0.9.0
-ARG asciidoctor_kroki_version=0.9.1
+ARG asciidoctor_kroki_version=0.10.0
 ARG asciidoctor_reducer_version=1.0.2
 
 ENV ASCIIDOCTOR_CONFLUENCE_VERSION=${asciidoctor_confluence_version} \
