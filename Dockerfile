@@ -52,6 +52,7 @@ RUN GOBIN=/app go install github.com/asciitosvg/asciitosvg/cmd/a2s@"${A2S_VERSIO
 # Final image
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 FROM main-minimal AS main
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 
 ARG TARGETARCH
@@ -133,7 +134,9 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
   "asciidoctor-kroki:${ASCIIDOCTOR_KROKI_VERSION}" \
   "asciidoctor-reducer:${ASCIIDOCTOR_REDUCER_VERSION}" \
-  && apk del -r --no-cache .rubymakedepends
+  && apk del -r --no-cache .rubymakedepends \
+  # Fixes an issue with 2 nokogiri versions breaking asciidoctor-epub3 on arm64
+  && if [[ ${TARGETARCH} == arm64 ]]; then gem uninstall nokogiri -v '1.16.0'; fi
 
 # Specific pipx environement variables to ensure binaries (and docs, etc.) are available for all users
 # See https://github.com/pypa/pipx/blob/main/docs/installation.md#installation-options
@@ -150,6 +153,7 @@ RUN apk add --no-cache \
     build-base \
     freetype-dev \
     python3-dev \
+    jpeg-dev \
   && for pipx_app in \
     actdiag \
     'blockdiag[pdf]' \
@@ -164,9 +168,6 @@ COPY --from=a2s-builder /app/a2s /usr/local/bin/
 COPY --from=erd-builder /app/erd-go /usr/local/bin/
 # for backward compatibility
 RUN ln -snf /usr/local/bin/erd-go /usr/local/bin/erd
-
-# Fixes an issue with 2 nokogiri versions breaking asciidoctor-epub3 on arm64
-RUN if [[ ${TARGETARCH} == arm64 ]]; then gem uninstall nokogiri -v '1.16.0'; fi
 
 WORKDIR /documents
 VOLUME /documents
