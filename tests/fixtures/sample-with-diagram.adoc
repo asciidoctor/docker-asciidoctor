@@ -239,4 +239,15 @@ http://www.gnuplot.info/
 [gnuplot]
 ....
 plot sin(x)
+
+== Barcode
+
+[codabar]
+----
+A31117013206375A
+----
+
+[qrcode, format="png", xdim=4]
+....
+Hello World!
 ....
