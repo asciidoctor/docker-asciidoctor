@@ -134,6 +134,9 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
   "asciidoctor-kroki:${ASCIIDOCTOR_KROKI_VERSION}" \
   "asciidoctor-reducer:${ASCIIDOCTOR_REDUCER_VERSION}" \
+  barby \
+  rqrcode \
+  chunky_png \
   && apk del -r --no-cache .rubymakedepends \
   # Fixes an issue with 2 nokogiri versions breaking asciidoctor-epub3 on arm64
   && if [[ ${TARGETARCH} == arm64 ]]; then gem uninstall nokogiri -v '1.16.0'; fi
