@@ -221,3 +221,11 @@ drive       1--* play_player
 play        1--* play_player
 player      1--* play_player
 ----
+
+=== Gnuplot
+http://www.gnuplot.info/
+
+[gnuplot]
+....
+plot sin(x)
+....

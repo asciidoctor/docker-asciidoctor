@@ -66,6 +66,7 @@ RUN apk add --no-cache \
   findutils \
   font-bakoma-ttf \
   git \
+  gnuplot \
   graphviz \
   inotify-tools \
   make \
