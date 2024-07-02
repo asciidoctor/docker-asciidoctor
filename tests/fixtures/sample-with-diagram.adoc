@@ -232,4 +232,11 @@ A31117013206375A
 [qrcode, format="png", xdim=4]
 ....
 Hello World!
+
+=== Gnuplot
+http://www.gnuplot.info/
+
+[gnuplot]
+....
+plot sin(x)
 ....
