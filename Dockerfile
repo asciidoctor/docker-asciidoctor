@@ -146,7 +146,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   "chunky_png:${CHUNKY_PNG_VERSION}" \
   && apk del -r --no-cache .rubymakedepends \
   # Fixes an issue with 2 nokogiri versions breaking asciidoctor-epub3 on arm64
-  && if [[ ${TARGETARCH} == arm64 ]]; then gem uninstall nokogiri -v '1.16.0'; fi
+  && if [ "$TARGETARCH" = "arm64" ]; then gem uninstall nokogiri -v '> 1.14'; fi
 
 # Specific pipx environement variables to ensure binaries (and docs, etc.) are available for all users
 # See https://github.com/pypa/pipx/blob/main/docs/installation.md#installation-options
