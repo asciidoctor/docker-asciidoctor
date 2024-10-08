@@ -1,5 +1,5 @@
 ---
-name: "Bump Alpine Linux Version"
+name: "tests: Bump Pandoc Version"
 
 scms:
   default:
@@ -50,7 +50,7 @@ actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump pandoc version to {{ source "latestVersion" }}
+    title: tests: Bump pandoc version to {{ source "latestVersion" }}
     spec:
       labels:
         - dependencies
