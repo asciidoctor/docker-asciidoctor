@@ -79,12 +79,17 @@ RUN apk add --no-cache \
   ruby-ffi \
   ruby-mathematical \
   ruby-rake \
+  texlive \
+  texmf-dist-latexextra \
   ttf-liberation \
   ttf-dejavu \
   tzdata \
   unzip \
   which \
   font-noto-cjk
+
+RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+  pdf2svg
 
 ARG asciidoctor_confluence_version=0.0.2
 ARG asciidoctor_diagram_version=2.3.1
