@@ -101,6 +101,7 @@ ARG kramdown_asciidoc_version=2.1.0
 ARG asciidoctor_bibtex_version=0.9.0
 ARG asciidoctor_kroki_version=0.10.0
 ARG asciidoctor_reducer_version=1.0.2
+ARG asciidoctor_rubyeval_version=1.0.0
 ARG barby_version=0.6.8
 ARG rqrcode_version=2.2.0
 ARG chunky_png_version=1.4.0
@@ -115,6 +116,7 @@ ENV ASCIIDOCTOR_CONFLUENCE_VERSION=${asciidoctor_confluence_version} \
   ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version} \
   ASCIIDOCTOR_KROKI_VERSION=${asciidoctor_kroki_version} \
   ASCIIDOCTOR_REDUCER_VERSION=${asciidoctor_reducer_version} \
+  ASCIIDOCTOR_RUBYEVAL_VERSION=${asciidoctor_rubyeval_version} \
   BARBY_VERSION=${barby_version} \
   RQRCODE_VERSION=${rqrcode_version} \
   CHUNKY_PNG_VERSION=${chunky_png_version}
@@ -133,6 +135,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   "asciidoctor-mathematical:${ASCIIDOCTOR_MATHEMATICAL_VERSION}" \
   asciimath \
   "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
+  "asciidoctor-rubyeval:${ASCIIDOCTOR_RUBYEVAL_VERSION}" \
   coderay \
   epubcheck-ruby:4.2.4.0 \
   haml \
