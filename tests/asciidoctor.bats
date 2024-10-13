@@ -307,3 +307,13 @@ teardown() {
 
   grep 'Mane' ${TMP_GENERATION_DIR}/sample-with-bib.html
 }
+
+@test "We can generate HTML documents with ruby evaluations" {
+  run docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor --trace -D /documents/tmp -r asciidoctor-rubyeval \
+      /documents/fixtures/sample-with-rubyeval.adoc
+
+  [ "${status}" -eq 0 ]
+}

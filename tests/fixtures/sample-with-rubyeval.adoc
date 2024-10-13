@@ -1,0 +1,9 @@
+= Rubyeval
+
+(See https://gitlab.com/defmastership/asciidoctor-rubyeval)
+
+This is just an Asciidoctor inline  macro extension to eval statements with ruby:
+
+:my_str: hello, world !
+
+I am an inline rubyeval::['{my_str}'.upcase]
