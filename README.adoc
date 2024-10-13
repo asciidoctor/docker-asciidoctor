@@ -11,6 +11,7 @@
 :ASCIIDOCTOR_BIBTEX_VERSION: 0.9.0
 :ASCIIDOCTOR_KROKI_VERSION: 0.10.0
 :ASCIIDOCTOR_REDUCER_VERSION: 1.0.2
+:ASCIIDOCTOR_RUBYEVAL_VERSION: 1.0.0
 = Asciidoctor Docker Container
 :source-highlighter: coderay
 
@@ -36,6 +37,7 @@ This Docker image provides:
 * https://github.com/asciidoctor/asciidoctor-bibtex[Asciidoctor Bibtex] {ASCIIDOCTOR_BIBTEX_VERSION}
 * https://github.com/Mogztter/asciidoctor-kroki[Asciidoctor Kroki] {ASCIIDOCTOR_KROKI_VERSION}
 * https://github.com/asciidoctor/asciidoctor-reducer[Asciidoctor Reducer] {ASCIIDOCTOR_REDUCER_VERSION}
+* https://gitlab.com/defmastership/asciidoctor-rubyeval[Asciidoctor Rubyeval] {ASCIIDOCTOR_RUBYEVAL_VERSION}
 
 This image uses Alpine Linux {ALPINE_VERSION} as base image.
 
