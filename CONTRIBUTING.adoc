@@ -1,0 +1,115 @@
+= Contributing to the Asciidoctor Docker Container
+:source-highlighter: coderay
+
+== Requirements
+
+You need the following tools:
+
+* A bash compliant command line
+* link:https://man7.org/linux/man-pages/man1/make.1.html[GNU make]
+* link:https://github.com/sstephenson/bats[Bats] installed and in your bash PATH
+* Docker installed and in your `PATH`
+* link:https://github.com/aquasecurity/trivy[Trivy] CLI in case you want to scan images for vulnerabilities
+
+== How to build and test?
+
+* Bats is used as a test suite runner. Since the ability to build is one way of testing, it is included.
+
+* You just have to run the Bats test suite, from the repository root:
++
+[source,bash]
+----
+make test
+----
+
+=== Include test in your build pipeline or test manually
+
+You can use Bats directly to test the image.
+Optionally, you can specify a custom image name:
+
+[source,bash]
+----
+# If you want to use a custom name for the image, OPTIONAL
+export DOCKER_IMAGE_NAME_TO_TEST=your-image-name
+bats tests/*.bats
+----
+
+=== How to add a dependency?
+
+Adding a dependency/new feature follows this process:
+
+* An issue is usually recommended to explain the rationale of adding this new dependency with:
+** Describing the feature is helps to provide to end users
+** Evaluating the size of this new dependency is a good thing to help maintainers
+** Links to the added project to help maintainer check and understand the underlying project (licensing, lifecycle, etc.)
+
+* Then, a pull request mentioning the issue above is required with changes described below
+
+* If the pull request is approved by the maintainers and merged to the principal branch:
+** An automatic release of the image with the `latest` tag will be published to the DockerHub in the hour following the pull request merge
+** A new release version of the image will be performed by a maintainers in the next hours or days, and automatically published with the same tag on the DockerHub
+
+The pull request is expecting the following mandatory changes:
+
+* The dependency is added in the link:https://github.com/asciidoctor/docker-asciidoctor/blob/main/Dockerfile[`Dockerfile`]
+
+* The dependency version must be pinned in different files:
+** In the link:https://github.com/asciidoctor/docker-asciidoctor/blob/2beff3ac5fef10d1b4c7507f4b84d31e0b479657/Dockerfile#L94-L120[`Dockerfile`] both as a build argument (`ARG`) to allow build time override, and as an environment variable (`ENV`) to provide value to user when running containers
+** In the link:https://github.com/asciidoctor/docker-asciidoctor/blob/main/README.adoc[Asciidoctor formatted README] as a link:https://docs.asciidoctor.org/asciidoc/latest/attributes/document-attributes/[`Asciidcotr Document Attribute]
+** In the link:https://github.com/asciidoctor/docker-asciidoctor/blob/main/tests/asciidoctor.bats[Bats Test Harness] as an environment variable so that any test case can use the value
+
+* One (or many) test case(s) must be added in the link:https://github.com/asciidoctor/docker-asciidoctor/blob/main/tests/asciidoctor.bats[Bats Test Harness]
+** The link:https://github.com/asciidoctor/docker-asciidoctor/tree/main/tests/fixtures[Test Fixtures Directory] may be used to store `.adoc` files to support your test cases
+
+* It is recommended not to update the `README.md` (Markdown file): there is an automated process expected to take care of this step
+
+Once the pull request is merged, you may produces a second pull request to add an link:https://www.updatecli.io/[updatecli] manifest tracking the version of the newly added dependency.
+Of course this is not mandatory and should not block your contribution in any ways: maintainers are the expected fallback if you cannot or do not want to produce this second change.
+
+=== How to bump a dependency?
+
+Dependencies of the image (operating system, packages, Asciidoctor projects, etc.) are tracked using link:https://www.updatecli.io/[updatecli].
+Once a day, a GitHub Action workflow link:https://github.com/asciidoctor/docker-asciidoctor/blob/main/.github/workflows/updatecli.yml[`updatecli.yaml`] is executed and opens pull requests if a new dependency can be bumped.
+
+The list of tracked dependencies can be found in link:https://github.com/asciidoctor/docker-asciidoctor/tree/main/updatecli/updatecli.d[].
+Each YAML file maps to a given dependency and the section `targets` list each file modified on each version bump.
+
+If you are a maintainer of any of these dependencies and want it to be bumped:
+
+* Usual process is to wait 24 hours after you've released your project: the automatic pull request should be created, and approved/merged/released by maintainers
+* If the update is time-bound, you can either:
+** Open the pull request yourself, by running the following `updatecli` command on your machine with your own GitHub token:
++
+[source,bash]
+--
+export UPDATECLI_GITHUB_TOKEN=xxxxx
+updatecli apply --values ./updatecli/values.yaml --config ./updatecli/updatecli.d/<YAML manifest of your dependency>
+--
+
+** Open the pull request yourself by updating the files manually. The list of files can be found in the related `updatecli``related  manifest.
+
+
+=== How to scan for vulnerabilities?
+
+* Trivy scans a docker image looking for software versions containing known vulnerabilities (CVEs).
+It's always a good idea to scan the image to ensure no new issues are introduced.
+
+* Run the following command to replicate the repo's `CVE Scan` pipeline on an image build locally.
+Note the pipeline runs nightly on the latest release version, so it can display issues solved in main branch.
++
+[source,bash]
+----
+trivy image --severity HIGH,CRITICAL asciidoctor:latest
+----
+
+=== Deploy
+
+The goal for deploying is to make the Docker image available with the correct Docker tag in Docker Hub.
+
+As a matter of trust and transparency for the end-users, the image is rebuilt by Docker Hub itself by triggering a build.
+This only works under the hypothesis of a minimalistic variation between the Docker build in the CI, and the Docker build by Docker Hub.
+
+Deploying the image requires setting the following environment variables: `DOCKERHUB_SOURCE_TOKEN` and `DOCKERHUB_TRIGGER_TOKEN`.
+Their values come from a Docker Hub trigger URL: `https://hub.docker.com/api/build/v1/source/${DOCKERHUB_SOURCE_TOKEN}/trigger/${DOCKERHUB_TRIGGER_TOKEN}/call/`.
+
+You might want to set these variables as secret values in your CI to avoid any leaking in the output (as `curl` output for instance).
