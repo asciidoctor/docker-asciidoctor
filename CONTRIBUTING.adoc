@@ -6,7 +6,7 @@
 You need the following tools:
 
 * A bash compliant command line
-* link:http://man7.org/linux/man-pages/man1/make.1.html[GNU make]
+* link:https://man7.org/linux/man-pages/man1/make.1.html[GNU make]
 * link:https://github.com/sstephenson/bats[Bats] installed and in your bash PATH
 * Docker installed and in your `PATH`
 * link:https://github.com/aquasecurity/trivy[Trivy] CLI in case you want to scan images for vulnerabilities
