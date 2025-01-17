@@ -134,7 +134,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   asciimath \
   "asciidoctor-revealjs:${ASCIIDOCTOR_REVEALJS_VERSION}" \
   coderay \
-  epubcheck-ruby:4.2.4.0 \
+  epubcheck-ruby \
   haml \
   "kramdown-asciidoc:${KRAMDOWN_ASCIIDOC_VERSION}" \
   pygments.rb \
