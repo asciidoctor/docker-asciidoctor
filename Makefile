@@ -10,7 +10,7 @@ ARCH = $(shell uname -m)
 LOCAL_TARGET = $(shell if [ $(ARCH) = "aarch64" ] || [ $(ARCH) = "arm64" ]; then echo "linux/arm64"; else echo "linux/amd64"; fi)
 BUILDER = $(shell if $$(docker buildx use asciidoctor 2> /dev/null) ; then echo "true"; else echo "false"; fi)
 
-PANDOC_VERSION ?= 3.6.2
+PANDOC_VERSION ?= 3.6.3
 
 all: build test README
 all-load: build-load test README
