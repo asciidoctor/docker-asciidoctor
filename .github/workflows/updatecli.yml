@@ -26,7 +26,7 @@ jobs:
           echo "owner=$owner" >> $GITHUB_OUTPUT
           echo "repo=$repo" >> $GITHUB_OUTPUT
       - name: Setup Updatecli
-        uses: updatecli/updatecli-action@v2.78.1
+        uses: updatecli/updatecli-action@v2.79.0
 
       ## Ensure that the updatecli configurations are valid without waiting for the daily execution from the workflow "Updatecli"
       - name: Diff
