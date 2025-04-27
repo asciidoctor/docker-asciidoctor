@@ -93,7 +93,7 @@ RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
   pdf2svg
 
 ARG asciidoctor_confluence_version=0.0.2
-ARG asciidoctor_diagram_version=2.3.2
+ARG asciidoctor_diagram_version=3.0.0
 ARG asciidoctor_epub3_version=2.1.3
 ARG asciidoctor_fb2_version=0.8.0
 ARG asciidoctor_mathematical_version=0.3.5
@@ -129,6 +129,10 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   && gem install --no-document \
   "asciidoctor-confluence:${ASCIIDOCTOR_CONFLUENCE_VERSION}" \
   "asciidoctor-diagram:${ASCIIDOCTOR_DIAGRAM_VERSION}" \
+  # TODO: track with updatecli
+  "asciidoctor-diagram-ditaamini:1.0.3" `# Used by asciidoctor-diagram` \
+  # TODO: track with updatecli
+  "asciidoctor-diagram-plantuml:1.2025.2" `# Used by asciidoctor-diagram` \
   "asciidoctor-epub3:${ASCIIDOCTOR_EPUB3_VERSION}" \
   "asciidoctor-fb2:${ASCIIDOCTOR_FB2_VERSION}" \
   "asciidoctor-mathematical:${ASCIIDOCTOR_MATHEMATICAL_VERSION}" \
