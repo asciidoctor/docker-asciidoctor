@@ -1,0 +1,87 @@
+---
+name: Bump Golang Build Version (for A2S and ERD)
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ requiredEnv .github.owner }}"
+      repository: "{{ requiredEnv .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  getCurrentAlpineStrippedVersion:
+    kind: dockerfile
+    name: "Get the current Alpine version with the patch stripped"
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: "ARG"
+        matcher: "alpine_version"
+    transformers:
+      - findsubmatch:
+          pattern: '^(\d*).(\d*)*'
+          captureindex: 0
+  getLatestGolangVersion:
+    kind: golang
+    transformers:
+      - findsubmatch:
+          pattern: '^(\d*).(\d*)*'
+          captureindex: 0
+  latestGolangDockerAlpineVersion:
+    dependson:
+      - getCurrentAlpineStrippedVersion
+      - getLatestGolangVersion
+    kind: shell
+    spec:
+      command: echo "{{ source `getLatestGolangVersion` }}-alpine{{ source `getCurrentAlpineStrippedVersion` }}"
+
+conditions:
+  testDockerImageExists:
+    name: "Does the Docker Image exists on the Docker Hub?"
+    kind: dockerimage
+    sourceid: latestGolangDockerAlpineVersion
+    spec:
+      image: golang
+      # tag come from the source
+      architectures:
+        - amd64
+        - arm64
+
+targets:
+  updateERDGolangBuildInDockerfile:
+    name: "Update ERD golang build image tag in the Dockerfile"
+    kind: dockerfile
+    sourceid: latestGolangDockerAlpineVersion
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: ARG
+        matcher: ERD_GOLANG_BUILDER_TAG
+    scmid: default
+  updateA2SGolangBuildInDockerfile:
+    name: "Update A2S golang build image tag in the Dockerfile"
+    kind: dockerfile
+    sourceid: latestGolangDockerAlpineVersion
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: ARG
+        matcher: A2S_GOLANG_BUILDER_TAG
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    scmid: default
+    title: Bump Golang Build Version (for A2S and ERD) {{ source `latestGolangDockerAlpineVersion` }}
+    spec:
+      labels:
+        - dependencies
+        - golang
+        - erd
+        - a2s

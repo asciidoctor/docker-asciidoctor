@@ -28,7 +28,7 @@ RUN apk add --no-cache ruby \
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Install erd-go (https://github.com/kaishuu0123/erd-go) as replacement for erd (https://github.com/BurntSushi/erd)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-FROM golang:${ERD_GOLANG_BUILDER_TAG} as erd-builder
+FROM golang:${ERD_GOLANG_BUILDER_TAG} AS erd-builder
 ARG ERD_VERSION=v2.0.0
 ## Always use the latest git package
 # go install or go get cannot be used the go.mod syntax of erd-go is not following the Golang semver properties,
@@ -43,7 +43,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Install ASCIIToSVG https://github.com/asciitosvg/asciitosvg
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-FROM golang:${A2S_GOLANG_BUILDER_TAG} as a2s-builder
+FROM golang:${A2S_GOLANG_BUILDER_TAG} AS a2s-builder
 # Expects a git reference as there are no tags in the A2S repository
 ARG A2S_VERSION=ca82a5c
 RUN GOBIN=/app go install github.com/asciitosvg/asciitosvg/cmd/a2s@"${A2S_VERSION}"
@@ -87,9 +87,8 @@ RUN apk add --no-cache \
   tzdata \
   unzip \
   which \
-  font-noto-cjk
-
-RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+  font-noto-cjk \
+  && apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
   pdf2svg
 
 ARG asciidoctor_confluence_version=0.0.2
@@ -165,22 +164,22 @@ ENV PIPX_MAN_DIR=/usr/local/share/man
 ## Always use the latest dependencies versions available for the current Alpine distribution
 # hadolint ignore=DL3018,DL3013
 RUN apk add --no-cache \
-    pipx \
-    py3-pip \
+  pipx \
+  py3-pip \
   && apk add --no-cache --virtual .pythonmakedepends \
-    build-base \
-    freetype-dev \
-    python3-dev \
-    jpeg-dev \
+  build-base \
+  freetype-dev \
+  python3-dev \
+  jpeg-dev \
   && for pipx_app in \
-    actdiag \
-    'blockdiag[pdf]' \
-    nwdiag \
-    seqdiag \
+  actdiag \
+  'blockdiag[pdf]' \
+  nwdiag \
+  seqdiag \
   ;do pipx install --system-site-packages --pip-args='--no-cache-dir' "${pipx_app}"; \
   # Pin pillow to 9.5.0 as per https://github.com/asciidoctor/docker-asciidoctor/pull/403#issuecomment-1894323894
   pipx runpip "$(echo "$pipx_app" | cut -d'[' -f1)" install Pillow==9.5.0; done \
-&& apk del -r --no-cache .pythonmakedepends
+  && apk del -r --no-cache .pythonmakedepends
 
 COPY --from=a2s-builder /app/a2s /usr/local/bin/
 COPY --from=erd-builder /app/erd-go /usr/local/bin/
