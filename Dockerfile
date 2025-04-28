@@ -75,6 +75,7 @@ RUN apk add --no-cache \
   py3-cairo \
   py3-setuptools \
   ruby-bigdecimal \
+  ruby-nokogiri \
   # Required for asciidoctor-epub
   ruby-ffi \
   ruby-mathematical \
@@ -94,7 +95,7 @@ RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
 ARG asciidoctor_confluence_version=0.0.2
 ARG asciidoctor_diagram_version=3.0.0
 ARG asciidoctor_epub3_version=2.1.3
-ARG asciidoctor_fb2_version=0.7.0
+ARG asciidoctor_fb2_version=0.8.0
 ARG asciidoctor_mathematical_version=0.3.5
 ARG asciidoctor_revealjs_version=5.2.0
 ARG kramdown_asciidoc_version=2.1.0
@@ -153,9 +154,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   "barby:${BARBY_VERSION}" \
   "rqrcode:${RQRCODE_VERSION}" \
   "chunky_png:${CHUNKY_PNG_VERSION}" \
-  && apk del -r --no-cache .rubymakedepends \
-  # Fixes an issue with 2 nokogiri versions breaking asciidoctor-epub3 on arm64
-  && if [ "$TARGETARCH" = "arm64" ]; then gem uninstall nokogiri -v '> 1.14'; fi
+  && apk del -r --no-cache .rubymakedepends
 
 # Specific pipx environement variables to ensure binaries (and docs, etc.) are available for all users
 # See https://github.com/pypa/pipx/blob/main/docs/installation.md#installation-options
