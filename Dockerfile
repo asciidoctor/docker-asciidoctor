@@ -179,7 +179,9 @@ RUN apk add --no-cache \
   ;do pipx install --system-site-packages --pip-args='--no-cache-dir' "${pipx_app}"; \
   # Pin pillow to 9.5.0 as per https://github.com/asciidoctor/docker-asciidoctor/pull/403#issuecomment-1894323894
   pipx runpip "$(echo "$pipx_app" | cut -d'[' -f1)" install Pillow==9.5.0; done \
-  && apk del -r --no-cache .pythonmakedepends
+  && apk del -r --no-cache .pythonmakedepends \
+  # Remove broken symlinks
+  && find /usr/bin -xtype l -exec test ! -e {} \; -delete
 
 COPY --from=a2s-builder /app/a2s /usr/local/bin/
 COPY --from=erd-builder /app/erd-go /usr/local/bin/
