@@ -70,7 +70,7 @@ RUN apk add --no-cache \
   graphviz \
   inotify-tools \
   make \
-  openjdk17-jre \
+  openjdk21-jre \
   python3 \
   py3-cairo \
   py3-setuptools \
