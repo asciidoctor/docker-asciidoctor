@@ -147,6 +147,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   thread_safe \
   tilt \
   text-hyphen \
+  rghost \
   "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
   "asciidoctor-kroki:${ASCIIDOCTOR_KROKI_VERSION}" \
   "asciidoctor-reducer:${ASCIIDOCTOR_REDUCER_VERSION}" \

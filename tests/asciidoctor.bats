@@ -124,6 +124,14 @@ teardown() {
       /documents/fixtures/basic-example.adoc
 }
 
+@test "We can generate an optimized PDF document from basic example" {
+  docker run -t --rm \
+    -v "${BATS_TEST_DIRNAME}":/documents/ \
+    "${DOCKER_IMAGE_NAME_TO_TEST}" \
+      asciidoctor-pdf -a optimize=printer -D /documents/tmp -r asciidoctor-mathematical \
+      --failure-level WARN \
+      /documents/fixtures/basic-example.adoc
+}
 @test "We can generate an FB2 document from basic example without errors/warnings" {
 
   docker run -t --rm \
