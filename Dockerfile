@@ -88,6 +88,7 @@ RUN apk add --no-cache \
   unzip \
   which \
   font-noto-cjk \
+  lilypond \
   && apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
   pdf2svg
 
