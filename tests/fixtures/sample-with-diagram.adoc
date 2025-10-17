@@ -266,3 +266,33 @@ https://tikz.net/
 
 \end{tikzpicture}
 ....
+
+=== Lilypond
+lilypond.org
+
+[lilypond]
+....
+\version "2.24.4"
+\new PianoStaff <<
+    \new Staff = "RH"  <<
+      \key cis \major
+      gis'2
+    >>
+    \new Staff = "LH" <<
+      \key cis \major
+      \clef "bass"
+      fis
+    >>
+  >>
+\new PianoStaff <<
+    \new Staff = "RH"  <<
+      \key ces \major
+      ges'2
+    >>
+    \new Staff = "LH" <<
+      \key ces \major
+      \clef "bass"
+      fes
+    >>
+  >>
+....
