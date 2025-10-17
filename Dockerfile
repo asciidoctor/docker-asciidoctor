@@ -1,7 +1,7 @@
 # Golang version defined in https://github.com/kaishuu0123/erd-go/blob/${ERD_VERSION}/go.mod#L3
 ARG ERD_GOLANG_BUILDER_TAG=1.25-alpine3.22
 ARG A2S_GOLANG_BUILDER_TAG=1.25-alpine3.22
-ARG alpine_version=3.22.1
+ARG alpine_version=3.22.2
 FROM alpine:${alpine_version} AS base
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -13,7 +13,7 @@ FROM base AS main-minimal
 LABEL maintainers="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
 LABEL org.opencontainers.image.source="https://github.com/asciidoctor/docker-asciidoctor"
 
-ARG asciidoctor_version=2.0.23
+ARG asciidoctor_version=2.0.24
 ARG asciidoctor_pdf_version=2.3.21
 
 ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
