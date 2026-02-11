@@ -1,5 +1,5 @@
 # Golang version defined in https://github.com/kaishuu0123/erd-go/blob/${ERD_VERSION}/go.mod#L3
-ARG ERD_GOLANG_BUILDER_TAG=1.25-alpine3.23
+ARG ERD_GOLANG_BUILDER_TAG=1.26-alpine3.23
 ARG A2S_GOLANG_BUILDER_TAG=1.26-alpine3.23
 ARG alpine_version=3.23.2
 FROM alpine:${alpine_version} AS base
