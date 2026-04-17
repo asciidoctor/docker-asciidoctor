@@ -132,7 +132,7 @@ RUN apk add --no-cache --virtual .rubymakedepends \
   # TODO: track with updatecli
   "asciidoctor-diagram-ditaamini:1.0.3" `# Used by asciidoctor-diagram` \
   # TODO: track with updatecli
-  "asciidoctor-diagram-plantuml:1.2025.2" `# Used by asciidoctor-diagram` \
+  "asciidoctor-diagram-plantuml:1.2026.2" `# Used by asciidoctor-diagram` \
   "asciidoctor-epub3:${ASCIIDOCTOR_EPUB3_VERSION}" \
   "asciidoctor-fb2:${ASCIIDOCTOR_FB2_VERSION}" \
   "asciidoctor-mathematical:${ASCIIDOCTOR_MATHEMATICAL_VERSION}" \
