@@ -15,55 +15,55 @@ template: |
 
 categories:
   - title: '✨ New Features/ Enhancements'
-    labels:
-      - 'feature'
-      - 'enhancement'
-      - 'feat'
-      - 'improvement'
+    when:
+      labels:
+        - 'feature'
+        - 'enhancement'
+        - 'feat'
+        - 'improvement'
   - title: '🐛 Bug Fixes'
-    labels:
-      - 'fix'
-      - 'bugfix'
-      - 'bug'
+    when:
+      labels:
+        - 'fix'
+        - 'bugfix'
+        - 'bug'
   - title: '📝 Documentation'
-    labels:
-      - 'documentation'
-      - 'doc'
-      - 'docs'
+    when:
+      labels:
+        - 'documentation'
+        - 'doc'
+        - 'docs'
   - title: '🧩 Dependencies'
-    labels:
-      - 'dependencies'
-      - 'dependency'
+    when:
+      labels:
+        - 'dependencies'
+        - 'dependency'
   - title: '💚 Chores'
-    labels:
-      - 'chores'
-      - 'chore'
-exclude-labels:
-  - 'skip-changelog'
-version-resolver:
-  major:
-    labels:
-      - 'major'
-      - 'breaking'
-  minor:
-    labels:
-      - 'minor'
-      - 'feature'
-      - 'enhancement'
-      - 'feat'
-      - 'improvement'
-      - 'dependencies'
-      - 'dependency'
-  patch:
-    labels:
-      - 'documentation'
-      - 'doc'
-      - 'docs'
-      - 'patch'
-      - 'fix'
-      - 'bugfix'
-      - 'bug'
-      - 'chore'
-      - 'chores'
-  default: patch
+    when:
+      labels:
+        - 'chores'
+        - 'chore'
+  - type: 'pre-exclude'
+    when:
+      labels:
+        - 'skip-changelog'
+  - type: 'version-resolver'
+    semver-increment: 'major'
+    when:
+      labels:
+        - 'major'
+        - 'breaking'
+  - type: 'version-resolver'
+    semver-increment: 'patch'
+    when:
+      labels:
+        - 'documentation'
+        - 'doc'
+        - 'docs'
+        - 'patch'
+        - 'fix'
+        - 'bugfix'
+        - 'bug'
+        - 'chore'
+        - 'chores'
 ...
