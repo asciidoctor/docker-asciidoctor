@@ -10,6 +10,8 @@ on:
   pull_request:
   ## When run manually for validation purpose, or "retrying a failed build"
   workflow_dispatch:
+# Only allow 1 updatecli build at a time to avoid orphaned updatecli branches
+concurrency: "updatecli"
 jobs:
   updatecli:
     if: github.repository_owner == 'asciidoctor' || github.event_name != 'schedule'
@@ -27,12 +29,11 @@ jobs:
           echo "repo=$repo" >> $GITHUB_OUTPUT
       - name: Setup Updatecli
         uses: updatecli/updatecli-action@v3.6.0
-
       ## Ensure that the updatecli configurations are valid without waiting for the daily execution from the workflow "Updatecli"
       - name: Diff
         ## Check the updatecli syntax on each code change
-        if: github.event_name != 'schedule'
-        run: updatecli diff --config ./updatecli/updatecli.d --values ./updatecli/values.yaml
+        if: github.event_name != 'schedule' && github.ref != 'refs/heads/main'
+        run: updatecli pipeline diff --config ./updatecli/updatecli.d --values ./updatecli/values.yaml
         env:
           ## Use GITHUB_TOKEN for diff as any external contributor will have one allowed to read GitHub API
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
