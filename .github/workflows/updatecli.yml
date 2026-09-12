@@ -40,12 +40,13 @@ jobs:
           REPO_OWNER: ${{steps.get-repo-infos.outputs.owner}}
       ## When on principal branch, generate a temporary token to allow starting/modifying workflows
       # Not using a PAT to avoid depending on a GitHub account
-      - uses: tibdex/github-app-token@v2.1
+      - name: Generate token
         id: generate_token
         if: github.ref == 'refs/heads/main'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
         with:
-          app_id: ${{ secrets.UPDATECLIBOT_APP_ID }}
-          private_key: ${{ secrets.UPDATECLIBOT_APP_PRIVKEY }}
+          client-id: ${{ secrets.UPDATECLIBOT_APP_ID }}
+          private-key: ${{ secrets.UPDATECLIBOT_APP_PRIVKEY }}
       - name: Apply
         if: github.ref == 'refs/heads/main'
         run: updatecli apply --config ./updatecli/updatecli.d --values ./updatecli/values.yaml
